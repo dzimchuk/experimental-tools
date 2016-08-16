@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace ExperimentalTools.Tests
+namespace ExperimentalTools.Tests.Infrastructure
 {
     internal class TestWorkspace : Workspace
     {

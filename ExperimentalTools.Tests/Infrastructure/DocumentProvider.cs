@@ -2,16 +2,16 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 
-namespace ExperimentalTools.Tests
+namespace ExperimentalTools.Tests.Infrastructure
 {
-    internal class DocumentProvider
+    internal static class DocumentProvider
     {
         private static readonly MetadataReference[] MetadataReferences = new[]
         {
             MetadataReference.CreateFromFile(typeof(object).Assembly.Location)
         };
 
-        public Document GetDocument(string sourceText)
+        public static Document GetDocument(string sourceText)
         {
             var projectId = ProjectId.CreateNewId();
             var documentId = DocumentId.CreateNewId(projectId);
