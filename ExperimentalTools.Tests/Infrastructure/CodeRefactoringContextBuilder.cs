@@ -10,9 +10,9 @@ namespace ExperimentalTools.Tests.Infrastructure
     {
         private const string textSpanStart = "@:";
         private const string textSpanEnd = ":@";
-        private static readonly Regex textSpanExpression = 
-            new Regex($"{textSpanStart}(?<textSpanContent>.+){textSpanEnd}", RegexOptions.Compiled | RegexOptions.Singleline);
-
+        private static readonly Regex textSpanExpression =
+            new Regex($"{textSpanStart}(?<textSpanContent>.*){textSpanEnd}", RegexOptions.Compiled | RegexOptions.Singleline);
+        
         public static CodeRefactoringContext Build(string sourceText, CodeRefactoringActionAcceptor acceptor)
         {
             var document = DocumentProvider.GetDocument(NormalizeSource(sourceText));
@@ -23,7 +23,7 @@ namespace ExperimentalTools.Tests.Infrastructure
         {
             var match = MatchInput(sourceText);
             var textSpanContent = match.Groups["textSpanContent"].Value;
-            var start = sourceText.IndexOf(textSpanContent) - textSpanStart.Length;
+            var start = sourceText.IndexOf(match.Value);
             return new TextSpan(start, textSpanContent.Length);
         }
 

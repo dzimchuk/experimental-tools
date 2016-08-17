@@ -169,10 +169,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocumentProvider.cs" />
+    <Compile Include="Infrastructure\CodeRefactoringActionAcceptor.cs" />
+    <Compile Include="Infrastructure\CodeRefactoringContextBuilder.cs" />
+    <Compile Include="Infrastructure\DocumentProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Refactorings\InitializeFieldFromConstructorParameterTests.cs" />
-    <Compile Include="TestWorkspace.cs" />
+    <Compile Include="Infrastructure\TestWorkspace.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExperimentalTools\ExperimentalTools.csproj">

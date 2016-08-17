@@ -13,5 +13,7 @@ namespace ExperimentalTools.Tests.Infrastructure
         {
             OnSolutionAdded(solutionInfo);
         }
+
+        public override bool CanApplyChange(ApplyChangesKind feature) => true;
     }
 }
