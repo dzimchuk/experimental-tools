@@ -1,5 +1,6 @@
 ﻿using ExperimentalTools.Refactorings;
 using ExperimentalTools.Tests.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -53,6 +54,160 @@ namespace HelloWorld
         public TestService(int index)
         {
             this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "With comments inside constructor body",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(int @::@index)
+        {// comment1
+            // comment2
+        }   // comment3
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private readonly int index;
+
+        public TestService(int index)
+        {// comment1
+            this.index = index;
+            // comment2
+        }   // comment3
+    }
+}"
+                },
+                new object[]
+                {
+                    "With existing statement in constructor body",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private readonly string name;
+        public TestService(string name, int @::@index)
+        {
+            this.name = name;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private readonly string name;
+        private readonly int index;
+
+        public TestService(string name, int index)
+        {
+            this.name = name;
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "When already initializing a field/property in another class",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class Dummy
+    {
+        public int Prop { get; set; }
+    }
+
+    class TestService
+    {
+        public TestService(int @::@index)
+        {
+            var d = new Dummy();
+            d.Prop = index;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class Dummy
+    {
+        public int Prop { get; set; }
+    }
+
+    class TestService
+    {
+        private readonly int index;
+
+        public TestService(int index)
+        {
+            var d = new Dummy();
+            d.Prop = index;
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Custom types",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    interface IDummy
+    {
+        void Action();
+    }
+
+    class TestService
+    {
+        public TestService(IDummy @::@dummy)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    interface IDummy
+    {
+        void Action();
+    }
+
+    class TestService
+    {
+        private readonly IDummy dummy;
+
+        public TestService(IDummy dummy)
+        {
+            this.dummy = dummy;
         }
     }
 }"
@@ -118,6 +273,42 @@ namespace HelloWorld
     {
         public void Test(int @::@index)
         {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field already initialized",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int m_index;
+        public TestService(int @::@index)
+        {
+            m_index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field already initialized (complex right expression)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int index;
+        public TestService(int @::@index)
+        {
+            this.index = index * 2;
         }
     }
 }"
