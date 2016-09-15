@@ -1,6 +1,6 @@
-﻿using ExperimentalTools.Refactorings;
+﻿using ExperimentalTools.Components;
+using ExperimentalTools.Refactorings;
 using ExperimentalTools.Tests.Infrastructure;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -15,7 +15,7 @@ namespace ExperimentalTools.Tests.Refactorings
             var acceptor = new CodeRefactoringActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
-            var provider = new InitializeFieldFromConstructorParameter();
+            var provider = new InitializeFieldFromConstructorParameter(new SimpleNameGenerator());
             await provider.ComputeRefactoringsAsync(context);
 
             Assert.True(acceptor.HasAction);
@@ -211,6 +211,39 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Field with the same name already exists",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public int index;
+        public TestService(int @::@index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public int index;
+        private readonly int index1;
+
+        public TestService(int index)
+        {
+            this.index1 = index;
+        }
+    }
+}"
                 }
             };
 
@@ -220,7 +253,7 @@ namespace HelloWorld
             var acceptor = new CodeRefactoringActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
-            var provider = new InitializeFieldFromConstructorParameter();
+            var provider = new InitializeFieldFromConstructorParameter(new SimpleNameGenerator());
             await provider.ComputeRefactoringsAsync(context);
 
             Assert.False(acceptor.HasAction);

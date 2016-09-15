@@ -9,12 +9,21 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using Microsoft.CodeAnalysis.Formatting;
+using ExperimentalTools.Localization;
 
 namespace ExperimentalTools.Refactorings
 {
     [ExportCodeRefactoringProvider(LanguageNames.CSharp, Name = nameof(InitializeFieldFromConstructorParameter)), Shared]
     internal class InitializeFieldFromConstructorParameter : CodeRefactoringProvider
     {
+        private readonly INameGenerator nameGenerator;
+        
+        [ImportingConstructor]
+        public InitializeFieldFromConstructorParameter(INameGenerator nameGenerator)
+        {
+            this.nameGenerator = nameGenerator;
+        }
+
         public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)
         {
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
@@ -37,7 +46,7 @@ namespace ExperimentalTools.Refactorings
                 return;
             }
 
-            var action = CodeAction.Create("Initialize field", 
+            var action = CodeAction.Create(Resources.AddInitializedField, 
                 cancellationToken => InitializeFieldAsync(context.Document, root, parameter, constructor, cancellationToken));
             context.RegisterRefactoring(action);
         }
@@ -55,21 +64,24 @@ namespace ExperimentalTools.Refactorings
             }
 
             var model = await document.GetSemanticModelAsync(cancellationToken);
-            var currentType = model.GetDeclaredSymbol(constructor.Parent) as INamedTypeSymbol;
+            var currentType = model.GetDeclaredSymbol(constructor.Parent, cancellationToken) as INamedTypeSymbol;
 
             return assignments.Any(assignment =>
             {
-                var targetType = model.GetSymbolInfo(assignment.Left).Symbol?.ContainingType;
+                var targetType = model.GetSymbolInfo(assignment.Left, cancellationToken).Symbol?.ContainingType;
                 return currentType == targetType;
             });
         }
 
-        private Task<Document> InitializeFieldAsync(Document document, SyntaxNode root, 
-            ParameterSyntax parameter, ConstructorDeclarationSyntax constructor, 
+        private async Task<Document> InitializeFieldAsync(Document document, SyntaxNode root,
+            ParameterSyntax parameter, ConstructorDeclarationSyntax constructor,
             CancellationToken cancellationToken)
         {
-            var field = CreateFieldDeclaration(parameter);
-            var assignment = CreateAssignmentStatement(parameter);
+            var fieldType = parameter.Type;
+            var fieldName = await nameGenerator.GetNewMemberNameAsync((ClassDeclarationSyntax)constructor.Parent, parameter.Identifier.ValueText, document, cancellationToken);
+
+            var field = CreateFieldDeclaration(fieldType, fieldName);
+            var assignment = CreateThisAssignmentStatement(fieldName, parameter.Identifier.ValueText);
 
             var trackedRoot = root.TrackNodes(constructor);
             var newRoot = trackedRoot.InsertNodesBefore(trackedRoot.GetCurrentNode(constructor), SingletonList(field));
@@ -80,10 +92,10 @@ namespace ExperimentalTools.Refactorings
 
             newRoot = newRoot.ReplaceNode(constructorBody, newConstructorBody);
 
-            return Task.FromResult(document.WithSyntaxRoot(newRoot));
+            return document.WithSyntaxRoot(newRoot);
         }
 
-        private static ExpressionStatementSyntax CreateAssignmentStatement(ParameterSyntax parameter)
+        private static ExpressionStatementSyntax CreateThisAssignmentStatement(string leftIdentifier, string rightIdentifier)
         {
             return ExpressionStatement(
                                 AssignmentExpression(
@@ -91,18 +103,18 @@ namespace ExperimentalTools.Refactorings
                                     MemberAccessExpression(
                                         SyntaxKind.SimpleMemberAccessExpression,
                                         ThisExpression(),
-                                        IdentifierName(parameter.Identifier.ValueText)),
-                                    IdentifierName(parameter.Identifier.ValueText)));
+                                        IdentifierName(leftIdentifier)),
+                                    IdentifierName(rightIdentifier)));
         }
 
-        private static FieldDeclarationSyntax CreateFieldDeclaration(ParameterSyntax parameter)
+        private static FieldDeclarationSyntax CreateFieldDeclaration(TypeSyntax fieldType, string fieldName)
         {
             return FieldDeclaration(
-                            VariableDeclaration(parameter.Type)
+                        VariableDeclaration(fieldType)
                             .WithVariables(
-                                SingletonSeparatedList<VariableDeclaratorSyntax>(
+                                SingletonSeparatedList(
                                     VariableDeclarator(
-                                        Identifier(parameter.Identifier.ValueText)))))
+                                        Identifier(fieldName)))))
                         .WithModifiers(
                             TokenList(
                                 new[]{
