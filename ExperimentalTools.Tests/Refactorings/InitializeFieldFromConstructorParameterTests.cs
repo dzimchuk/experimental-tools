@@ -345,6 +345,22 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Non-empty span",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(int @:i:@ndex)
+        {
+        }
+    }
+}"
                 }
             };
     }

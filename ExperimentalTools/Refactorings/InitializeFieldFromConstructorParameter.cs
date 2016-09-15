@@ -26,6 +26,16 @@ namespace ExperimentalTools.Refactorings
 
         public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)
         {
+            if (context.Document.Project.Solution.Workspace.Kind == WorkspaceKind.MiscellaneousFiles)
+            {
+                return;
+            }
+
+            if (!context.Span.IsEmpty)
+            {
+                return;
+            }
+
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
             var node = root.FindNode(context.Span);
             
