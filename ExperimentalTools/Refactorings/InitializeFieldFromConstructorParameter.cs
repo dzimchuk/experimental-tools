@@ -88,7 +88,7 @@ namespace ExperimentalTools.Refactorings
             CancellationToken cancellationToken)
         {
             var fieldType = parameter.Type;
-            var fieldName = await nameGenerator.GetNewMemberNameAsync((ClassDeclarationSyntax)constructor.Parent, parameter.Identifier.ValueText, document, cancellationToken);
+            var fieldName = await nameGenerator.GetNewMemberNameAsync(constructor.Parent as ClassDeclarationSyntax, parameter.Identifier.ValueText, document, cancellationToken);
 
             var field = CreateFieldDeclaration(fieldType, fieldName);
             var assignment = CreateThisAssignmentStatement(fieldName, parameter.Identifier.ValueText);

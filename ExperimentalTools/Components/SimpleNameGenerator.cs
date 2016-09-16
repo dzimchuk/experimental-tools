@@ -12,6 +12,11 @@ namespace ExperimentalTools.Components
     {
         public async Task<string> GetNewMemberNameAsync(TypeDeclarationSyntax declaredTypeSyntax, string proposedName, Document document, CancellationToken cancellationToken)
         {
+            if (declaredTypeSyntax == null)
+            {
+                return proposedName;
+            }
+
             var model = await document.GetSemanticModelAsync(cancellationToken);
             var declaredType = model.GetDeclaredSymbol(declaredTypeSyntax, cancellationToken) as INamedTypeSymbol;
 
