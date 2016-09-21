@@ -18,7 +18,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 - Initialize field from constructor parameter
 
 ### Initialize field from constructor parameter
-Ctrl+. on the constructor parameter and choose *Add initialized field*.
+Ctrl+. on a constructor parameter and choose *Add initialized field*.
 
 ![Initialize field from constructor parameter](art/InitializeFieldFromConstructor.png)
 

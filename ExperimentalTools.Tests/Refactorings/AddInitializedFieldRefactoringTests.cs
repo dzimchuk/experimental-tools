@@ -7,7 +7,7 @@ using Xunit;
 
 namespace ExperimentalTools.Tests.Refactorings
 {
-    public class InitializeFieldFromConstructorParameterTests
+    public class AddInitializedFieldRefactoringTests
     {
         [Theory, MemberData("HasActionTestData")]
         public async Task HasActionTest(string test, string input, string expectedOutput)
@@ -15,13 +15,13 @@ namespace ExperimentalTools.Tests.Refactorings
             var acceptor = new CodeRefactoringActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
-            var provider = new InitializeFieldFromConstructorParameter(new SimpleNameGenerator());
+            var provider = new AddInitializedFieldRefactoring(new SimpleNameGenerator());
             await provider.ComputeRefactoringsAsync(context);
 
             Assert.True(acceptor.HasAction);
 
             var result = await acceptor.GetResultAsync(context);
-            Assert.Equal(expectedOutput, result);
+            Assert.Equal(expectedOutput.HomogenizeLineEndings(), result.HomogenizeLineEndings());
         }
 
         public static IEnumerable<object[]> HasActionTestData =>
@@ -253,7 +253,7 @@ namespace HelloWorld
             var acceptor = new CodeRefactoringActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
-            var provider = new InitializeFieldFromConstructorParameter(new SimpleNameGenerator());
+            var provider = new AddInitializedFieldRefactoring(new SimpleNameGenerator());
             await provider.ComputeRefactoringsAsync(context);
 
             Assert.False(acceptor.HasAction);

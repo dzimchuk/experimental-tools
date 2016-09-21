@@ -13,13 +13,13 @@ using ExperimentalTools.Localization;
 
 namespace ExperimentalTools.Refactorings
 {
-    [ExportCodeRefactoringProvider(LanguageNames.CSharp, Name = nameof(InitializeFieldFromConstructorParameter)), Shared]
-    internal class InitializeFieldFromConstructorParameter : CodeRefactoringProvider
+    [ExportCodeRefactoringProvider(LanguageNames.CSharp, Name = nameof(AddInitializedFieldRefactoring)), Shared]
+    internal class AddInitializedFieldRefactoring : CodeRefactoringProvider
     {
         private readonly INameGenerator nameGenerator;
         
         [ImportingConstructor]
-        public InitializeFieldFromConstructorParameter(INameGenerator nameGenerator)
+        public AddInitializedFieldRefactoring(INameGenerator nameGenerator)
         {
             this.nameGenerator = nameGenerator;
         }

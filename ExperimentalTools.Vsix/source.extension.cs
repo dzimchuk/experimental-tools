@@ -8,7 +8,7 @@ namespace ExperimentalTools.Vsix
     static class Vsix
     {
         public const string Id = "f2ba275d-a5ca-4bf9-b8ef-2e580cb13cd3";
-        public const string Name = "Experimental Tools for C#";
+        public const string Name = "Experimental Tools";
         public const string Description = "A bunch of quality refactorings and code fixes that are going to improve your C# development experience in Visual Studio and remove some common pain.";
         public const string Language = "en-US";
         public const string Version = "0.1.0";

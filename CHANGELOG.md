@@ -1,6 +1,13 @@
 # Road map
 
-- [ ] Add a constructor parameter
+- [ ] Locate in Solution Explorer (Alt+Shift+L)
+- [ ] Change access modifier
+- [ ] Settings page (ability to enable/disable individual features)
+- [ ] Update file name to match type name
+- [ ] Update namespace to match file path
+- [ ] Move type to file
+- [ ] Add/remove braces
+- [ ] Quick GUID generation (nguid)
 
 Features that have a checkmark are complete and available for
 download in the
