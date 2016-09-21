@@ -91,7 +91,10 @@ namespace ExperimentalTools.Refactorings
             var fieldName = await nameGenerator.GetNewMemberNameAsync(constructor.Parent as ClassDeclarationSyntax, parameter.Identifier.ValueText, document, cancellationToken);
 
             var field = CreateFieldDeclaration(fieldType, fieldName);
-            var assignment = CreateThisAssignmentStatement(fieldName, parameter.Identifier.ValueText);
+            var assignment = fieldName == parameter.Identifier.ValueText
+                ? CreateThisAssignmentStatement(fieldName, parameter.Identifier.ValueText)
+                : CreateAssignmentStatement(fieldName, parameter.Identifier.ValueText);
+
 
             var trackedRoot = root.TrackNodes(constructor);
             var newRoot = trackedRoot.InsertNodesBefore(trackedRoot.GetCurrentNode(constructor), SingletonList(field));
@@ -114,6 +117,15 @@ namespace ExperimentalTools.Refactorings
                                         SyntaxKind.SimpleMemberAccessExpression,
                                         ThisExpression(),
                                         IdentifierName(leftIdentifier)),
+                                    IdentifierName(rightIdentifier)));
+        }
+
+        private static ExpressionStatementSyntax CreateAssignmentStatement(string leftIdentifier, string rightIdentifier)
+        {
+            return ExpressionStatement(
+                                AssignmentExpression(
+                                    SyntaxKind.SimpleAssignmentExpression,
+                                    IdentifierName(leftIdentifier),
                                     IdentifierName(rightIdentifier)));
         }
 

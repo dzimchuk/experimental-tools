@@ -240,7 +240,7 @@ namespace HelloWorld
 
         public TestService(int index)
         {
-            this.index1 = index;
+            index1 = index;
         }
     }
 }"
