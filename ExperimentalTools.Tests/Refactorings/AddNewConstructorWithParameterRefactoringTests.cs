@@ -1,9 +1,6 @@
 ﻿using ExperimentalTools.Refactorings;
 using ExperimentalTools.Tests.Infrastructure;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -84,6 +81,94 @@ namespace HelloWorld
         {
             this.index = index;
         }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Place new constructor below field group",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+        private string name;
+
+        public string Name { get { return name; } }
+
+        private int i;
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int index;
+        private string name;
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+
+        public string Name { get { return name; } }
+
+        private int i;
+    }
+}"
+                },
+                new object[]
+                {
+                    "Place new constructor near existing constructors",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+        private string name;
+
+        public string Name { get { return name; } }
+
+        public TestService(string name)
+        {
+            this.name = name;
+        }
+
+        private int i;
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int index;
+        private string name;
+
+        public string Name { get { return name; } }
+
+        public TestService(string name)
+        {
+            this.name = name;
+        }
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+
+        private int i;
     }
 }"
                 }

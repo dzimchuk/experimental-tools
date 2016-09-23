@@ -113,8 +113,43 @@ namespace ExperimentalTools.Refactorings
             var assignment = CreateThisAssignmentStatement(fieldName, fieldName);
             newConstructor = newConstructor.WithBody(newConstructor.Body.AddStatements(assignment));
 
-            var newRoot = root.InsertNodesAfter(fieldDeclaration, SingletonList(newConstructor));
+            var newRoot = root.InsertNodesAfter(FindInsertionPoint(fieldDeclaration), SingletonList(newConstructor));
             return Task.FromResult(document.WithSyntaxRoot(newRoot));
+        }
+
+        private static SyntaxNode FindInsertionPoint(FieldDeclarationSyntax fieldDeclaration)
+        {
+            var typeDeclaration = fieldDeclaration.GetParentTypeDeclaration();
+            var existingConstructor = typeDeclaration.DescendantNodes().OfType<ConstructorDeclarationSyntax>().FirstOrDefault();
+
+            return existingConstructor ?? FindInsertionPointBelowFieldGroup(fieldDeclaration);
+        }
+
+        private static SyntaxNode FindInsertionPointBelowFieldGroup(FieldDeclarationSyntax fieldDeclaration)
+        {
+            SyntaxNode insertionPoint = fieldDeclaration;
+            var typeDeclaration = fieldDeclaration.GetParentTypeDeclaration();
+
+            var tracking = true;
+            foreach (var node in typeDeclaration.ChildNodes())
+            {
+                if (tracking)
+                {
+                    if (node is FieldDeclarationSyntax)
+                    {
+                        insertionPoint = node;
+                        continue;
+                    }
+
+                    break;
+                }
+                else if (node == fieldDeclaration)
+                {
+                    tracking = true;
+                }
+            }
+
+            return insertionPoint;
         }
     }
 }
