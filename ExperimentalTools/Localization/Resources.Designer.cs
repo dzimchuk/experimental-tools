@@ -62,6 +62,15 @@ namespace ExperimentalTools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add constructor and initialize field.
+        /// </summary>
+        internal static string AddConstructorAndInitializeField {
+            get {
+                return ResourceManager.GetString("AddConstructorAndInitializeField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add initialized field.
         /// </summary>
         internal static string AddInitializedField {

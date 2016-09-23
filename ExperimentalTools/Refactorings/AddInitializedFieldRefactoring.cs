@@ -8,8 +8,10 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using static ExperimentalTools.SyntaxFactory;
 using Microsoft.CodeAnalysis.Formatting;
 using ExperimentalTools.Localization;
+using Microsoft.CodeAnalysis.Text;
 
 namespace ExperimentalTools.Refactorings
 {
@@ -40,9 +42,16 @@ namespace ExperimentalTools.Refactorings
             var node = root.FindNode(context.Span);
             
             var parameter = node as ParameterSyntax;
-            if (parameter == null)
+            if (parameter == null && context.Span.Start > 0)
             {
-                return;
+                var span = new TextSpan(context.Span.Start - 1, 0);
+                node = root.FindNode(span);
+
+                parameter = node as ParameterSyntax;
+                if (parameter == null)
+                {
+                    return;
+                }
             }
 
             var constructor = parameter.Ancestors().OfType<ConstructorDeclarationSyntax>().FirstOrDefault();
@@ -106,42 +115,6 @@ namespace ExperimentalTools.Refactorings
             newRoot = newRoot.ReplaceNode(constructorBody, newConstructorBody);
 
             return document.WithSyntaxRoot(newRoot);
-        }
-
-        private static ExpressionStatementSyntax CreateThisAssignmentStatement(string leftIdentifier, string rightIdentifier)
-        {
-            return ExpressionStatement(
-                                AssignmentExpression(
-                                    SyntaxKind.SimpleAssignmentExpression,
-                                    MemberAccessExpression(
-                                        SyntaxKind.SimpleMemberAccessExpression,
-                                        ThisExpression(),
-                                        IdentifierName(leftIdentifier)),
-                                    IdentifierName(rightIdentifier)));
-        }
-
-        private static ExpressionStatementSyntax CreateAssignmentStatement(string leftIdentifier, string rightIdentifier)
-        {
-            return ExpressionStatement(
-                                AssignmentExpression(
-                                    SyntaxKind.SimpleAssignmentExpression,
-                                    IdentifierName(leftIdentifier),
-                                    IdentifierName(rightIdentifier)));
-        }
-
-        private static FieldDeclarationSyntax CreateFieldDeclaration(TypeSyntax fieldType, string fieldName)
-        {
-            return FieldDeclaration(
-                        VariableDeclaration(fieldType)
-                            .WithVariables(
-                                SingletonSeparatedList(
-                                    VariableDeclarator(
-                                        Identifier(fieldName)))))
-                        .WithModifiers(
-                            TokenList(
-                                new[]{
-                                    Token(SyntaxKind.PrivateKeyword),
-                                    Token(SyntaxKind.ReadOnlyKeyword)}));
         }
     }
 }

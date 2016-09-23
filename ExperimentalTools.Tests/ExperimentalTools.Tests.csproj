@@ -114,8 +114,10 @@
     <Compile Include="Infrastructure\CodeRefactoringContextBuilder.cs" />
     <Compile Include="Infrastructure\DocumentProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Refactorings\AddConstructorParameterRefactoringTests.cs" />
     <Compile Include="Refactorings\AddInitializedFieldRefactoringTests.cs" />
     <Compile Include="Infrastructure\TestWorkspace.cs" />
+    <Compile Include="Refactorings\AddNewConstructorWithParameterRefactoringTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExperimentalTools\ExperimentalTools.csproj">

@@ -29,7 +29,7 @@ namespace ExperimentalTools.Tests.Refactorings
             {
                 new object[]
                 {
-                    "Inside parameter name",
+                    "Inside parameter name (1)",
                     @"
 using System;
 
@@ -54,6 +54,68 @@ namespace HelloWorld
         public TestService(int index)
         {
             this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Inside parameter name (2)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(string name, int index@::@)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private readonly int index;
+
+        public TestService(string name, int index)
+        {
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Inside parameter name (3)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(string name@::@, int index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private readonly string name;
+
+        public TestService(string name, int index)
+        {
+            this.name = name;
         }
     }
 }"
