@@ -16,11 +16,25 @@ See the [change log](CHANGELOG.md) for changes and road map.
 ## Features
 
 - Initialize field from constructor parameter
+- Add constructor and initialize field
+- Initialize field in existing constructor
 
 ### Initialize field from constructor parameter
 Ctrl+. on a constructor parameter and choose *Add initialized field*.
 
 ![Initialize field from constructor parameter](art/InitializeFieldFromConstructor.png)
+
+### Add constructor and initialize field
+
+Ctrl+. on a field and choose *Add constructor and initialize field*.
+
+![Add constructor and initialize field](art/AddConstructorAndInitializeField.png)
+
+### Initialize field in existing constructor
+
+Ctrl+. on a field and choose *Initialize field in existing constructor*.
+
+![Initialize field in existing constructor](art/InitializeFieldInExistingConstructor.png)
 
 ## Contribute
 Check out the [contribution guidelines](CONTRIBUTING.md)

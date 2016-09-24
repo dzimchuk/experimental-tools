@@ -20,5 +20,9 @@ on the official Visual Studio extension gallery.
 
 ## 0.1
 
+**2016-09-24**
+
 - [x] Initial release
 - [x] Initialize field from constructor parameter
+- [x] Add constructor and initialize field
+- [x] Initialize field in existing constructor
