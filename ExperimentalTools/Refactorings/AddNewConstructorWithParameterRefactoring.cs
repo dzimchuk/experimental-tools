@@ -9,6 +9,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static ExperimentalTools.SyntaxFactory;
 using ExperimentalTools.Localization;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace ExperimentalTools.Refactorings
 {
@@ -81,13 +82,26 @@ namespace ExperimentalTools.Refactorings
 
             foreach (var constructor in constructors)
             {
+                if (!constructor.ParameterList.Parameters.Any())
+                {
+                    continue;
+                }
+
                 var assignments = constructor.DescendantNodes().OfType<AssignmentExpressionSyntax>().ToList();
                 foreach (var assignment in assignments)
                 {
                     var leftSymbol = model.GetSymbolInfo(assignment.Left, cancellationToken).Symbol;
                     if (leftSymbol != null && leftSymbol == fieldSymbol)
                     {
-                        return true;
+                        var rightSymbol = model.GetSymbolInfo(assignment.Right, cancellationToken).Symbol;
+                        foreach (var parameter in constructor.ParameterList.Parameters)
+                        {
+                            var parameterSymbol = model.GetDeclaredSymbol(parameter, cancellationToken);
+                            if (rightSymbol == parameterSymbol)
+                            {
+                                return true;
+                            }
+                        }
                     }
                 }
             }
@@ -112,9 +126,37 @@ namespace ExperimentalTools.Refactorings
 
             var assignment = CreateThisAssignmentStatement(fieldName, fieldName);
             newConstructor = newConstructor.WithBody(newConstructor.Body.AddStatements(assignment));
+            newConstructor = InitializeStructFields(fieldDeclaration, typeDeclaration, newConstructor);
 
             var newRoot = root.InsertNodesAfter(FindInsertionPoint(fieldDeclaration), SingletonList(newConstructor));
             return Task.FromResult(document.WithSyntaxRoot(newRoot));
+        }
+
+        private static ConstructorDeclarationSyntax InitializeStructFields(FieldDeclarationSyntax fieldDeclaration, TypeDeclarationSyntax typeDeclaration, ConstructorDeclarationSyntax newConstructor)
+        {
+            if (typeDeclaration is StructDeclarationSyntax)
+            {
+                var assignments = new List<ExpressionStatementSyntax>();
+                var otherFields = typeDeclaration.DescendantNodes().OfType<FieldDeclarationSyntax>()
+                    .Where(field => field != fieldDeclaration).ToList();
+                foreach (var field in otherFields)
+                {
+                    var variableDeclaration = field.DescendantNodes().OfType<VariableDeclarationSyntax>().FirstOrDefault();
+                    var variableDeclarator = variableDeclaration?.DescendantNodes().OfType<VariableDeclaratorSyntax>().FirstOrDefault();
+                    if (variableDeclarator != null)
+                    {
+                        assignments.Add(
+                            CreateDefaultAssignmentStatement(variableDeclarator.Identifier.ValueText, variableDeclaration.Type));
+                    }
+                }
+
+                if (assignments.Any())
+                {
+                    newConstructor = newConstructor.WithBody(newConstructor.Body.AddStatements(assignments.ToArray()));
+                }
+            }
+
+            return newConstructor;
         }
 
         private static SyntaxNode FindInsertionPoint(FieldDeclarationSyntax fieldDeclaration)

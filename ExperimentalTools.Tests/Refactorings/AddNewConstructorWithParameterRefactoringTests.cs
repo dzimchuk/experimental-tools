@@ -171,6 +171,121 @@ namespace HelloWorld
         private int i;
     }
 }"
+                },
+                new object[]
+                {
+                    "Field initialized from another parameterless constructor",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+
+        public TestService()
+        {
+            this.index = 2;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int index;
+
+        public TestService()
+        {
+            this.index = 2;
+        }
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field initialized from another constructor with other parameters",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class Test { public int Prop { get { return 2; } } }
+    class TestService
+    {
+        private int @::@index;
+
+        public TestService(Test test)
+        {
+            this.index = test.Prop;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class Test { public int Prop { get { return 2; } } }
+    class TestService
+    {
+        private int index;
+
+        public TestService(Test test)
+        {
+            this.index = test.Prop;
+        }
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Struct",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    struct Test
+    {
+        private readonly int @::@index;
+        public string name;
+        public int count;
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    struct Test
+    {
+        private readonly int index;
+        public string name;
+        public int count;
+
+        public Test(int index)
+        {
+            this.index = index;
+            name = default(string);
+            count = default(int);
+        }
+    }
+}"
                 }
             };
 
@@ -261,6 +376,7 @@ namespace HelloWorld
     }
 }"
                 }
+                
             };
     }
 }

@@ -23,6 +23,13 @@ namespace ExperimentalTools
                         IdentifierName(leftIdentifier),
                         IdentifierName(rightIdentifier)));
 
+        public static ExpressionStatementSyntax CreateDefaultAssignmentStatement(string leftIdentifier, TypeSyntax type) =>
+            ExpressionStatement(
+                    AssignmentExpression(
+                        SyntaxKind.SimpleAssignmentExpression,
+                        IdentifierName(leftIdentifier),
+                        DefaultExpression(type)));
+
         public static FieldDeclarationSyntax CreateFieldDeclaration(TypeSyntax fieldType, string fieldName) => 
             FieldDeclaration(
                 VariableDeclaration(fieldType)

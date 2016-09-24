@@ -18,6 +18,7 @@ namespace ExperimentalTools.Refactorings
     {
         private readonly INameGenerator nameGenerator;
 
+        [ImportingConstructor]
         public AddConstructorParameterRefactoring(INameGenerator nameGenerator)
         {
             this.nameGenerator = nameGenerator;
@@ -108,6 +109,7 @@ namespace ExperimentalTools.Refactorings
 
             return false;
         }
+
         private Task<Document> InitializeFieldInConstructorsAsync(Document document, SyntaxNode root, 
             FieldDeclarationSyntax fieldDeclaration, IEnumerable<ConstructorDeclarationSyntax> constructors)
         {

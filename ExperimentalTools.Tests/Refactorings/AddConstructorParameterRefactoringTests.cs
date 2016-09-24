@@ -190,6 +190,45 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Field already initialized in a parameterless constructor",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@m_index;
+
+        public TestService()
+        {
+            m_index = 2;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field initialized from another constructor with other parameters",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class Test { public int Prop { get { return 2; } } }
+    class TestService
+    {
+        private int @::@index;
+
+        public TestService(Test test)
+        {
+            this.index = test.Prop;
+        }
+    }
+}"
                 }
             };
     }
