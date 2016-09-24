@@ -4,7 +4,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/idvryqpirxbe39gt?svg=true)](https://ci.appveyor.com/project/dzimchuk/experimental-tools)
 
 <!-- Update the VS Gallery link after you upload the VSIX-->
-Download this extension from the [VS Gallery](https://visualstudiogallery.msdn.microsoft.com/[GuidFromGallery])
+Download this extension from the [VS Gallery](https://visualstudiogallery.msdn.microsoft.com/8ea7527b-98c9-4571-a43d-0b4851a010c3)
 or get the [CI build](http://vsixgallery.com/extension/f2ba275d-a5ca-4bf9-b8ef-2e580cb13cd3/).
 
 ---------------------------------------
