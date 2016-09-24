@@ -123,4 +123,10 @@
   <data name="AddInitializedField" xml:space="preserve">
     <value>Add initialized field</value>
   </data>
+  <data name="InitializeFieldInExistingConstructor" xml:space="preserve">
+    <value>Initialize field in existing constructor</value>
+  </data>
+  <data name="InitializeFieldInExistingConstructors" xml:space="preserve">
+    <value>Initialize field in existing constructors</value>
+  </data>
 </root>

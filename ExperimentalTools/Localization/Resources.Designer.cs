@@ -78,5 +78,23 @@ namespace ExperimentalTools.Localization {
                 return ResourceManager.GetString("AddInitializedField", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initialize field in existing constructor.
+        /// </summary>
+        internal static string InitializeFieldInExistingConstructor {
+            get {
+                return ResourceManager.GetString("InitializeFieldInExistingConstructor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initialize field in existing constructors.
+        /// </summary>
+        internal static string InitializeFieldInExistingConstructors {
+            get {
+                return ResourceManager.GetString("InitializeFieldInExistingConstructors", resourceCulture);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ExperimentalTools.Refactorings;
+﻿using ExperimentalTools.Components;
+using ExperimentalTools.Refactorings;
 using ExperimentalTools.Tests.Infrastructure;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,58 +9,100 @@ namespace ExperimentalTools.Tests.Refactorings
 {
     public class AddConstructorParameterRefactoringTests
     {
-//        [Theory, MemberData("HasActionTestData")]
-//        public async Task HasActionTest(string test, string input, string expectedOutput)
-//        {
-//            var acceptor = new CodeRefactoringActionAcceptor();
-//            var context = CodeRefactoringContextBuilder.Build(input, acceptor);
+        [Theory, MemberData("HasActionTestData")]
+        public async Task HasActionTest(string test, string input, string expectedOutput)
+        {
+            var acceptor = new CodeRefactoringActionAcceptor();
+            var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
-//            var provider = new AddConstructorParameterRefactoring();
-//            await provider.ComputeRefactoringsAsync(context);
+            var provider = new AddConstructorParameterRefactoring(new SimpleNameGenerator());
+            await provider.ComputeRefactoringsAsync(context);
 
-//            Assert.True(acceptor.HasAction);
+            Assert.True(acceptor.HasAction);
 
-//            var result = await acceptor.GetResultAsync(context);
-//            Assert.Equal(expectedOutput.HomogenizeLineEndings(), result.HomogenizeLineEndings());
-//        }
+            var result = await acceptor.GetResultAsync(context);
+            Assert.Equal(expectedOutput.HomogenizeLineEndings(), result.HomogenizeLineEndings());
+        }
 
-//        public static IEnumerable<object[]> HasActionTestData =>
-//            new[]
-//            {
-//                new object[]
-//                {
-//                    "Constructor exists",
-//                    @"
-//using System;
+        public static IEnumerable<object[]> HasActionTestData =>
+            new[]
+            {
+                new object[]
+                {
+                    "Constructor(s) exists",
+                    @"
+using System;
 
-//namespace HelloWorld
-//{
-//    class TestService
-//    {
-//        private readonly int @::@index;
+namespace HelloWorld
+{
+    class TestService
+    {
+        private readonly int @::@index;
 
-//        public TestService()
-//        {
-//        }
-//    }
-//}",
-//                    @"
-//using System;
+        public TestService()
+        {
+        }
 
-//namespace HelloWorld
-//{
-//    class TestService
-//    {
-//        private readonly int index;
+        public TestService(string name)
+        {
+        }
+    }
+}",
+                    @"
+using System;
 
-//        public TestService(int index)
-//        {
-//            this.index = index;
-//        }
-//    }
-//}"
-//                }
-//            };
+namespace HelloWorld
+{
+    class TestService
+    {
+        private readonly int index;
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+
+        public TestService(string name, int index)
+        {
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Parameter with the same name exists",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+
+        public TestService(string index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int index;
+
+        public TestService(string index, int index1)
+        {
+            this.index = index1;
+        }
+    }
+}"
+                }
+            };
 
         [Theory, MemberData("NoActionTestData")]
         public async Task NoActionTest(string test, string input)
@@ -67,7 +110,7 @@ namespace ExperimentalTools.Tests.Refactorings
             var acceptor = new CodeRefactoringActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
-            var provider = new AddConstructorParameterRefactoring();
+            var provider = new AddConstructorParameterRefactoring(new SimpleNameGenerator());
             await provider.ComputeRefactoringsAsync(context);
 
             Assert.False(acceptor.HasAction);
@@ -78,7 +121,7 @@ namespace ExperimentalTools.Tests.Refactorings
             {
                 new object[]
                 {
-                    "Outside field name (1)",
+                    "Outside field name",
                     @"
 using System;
 
@@ -87,20 +130,6 @@ namespace HelloWorld
     class TestService
     {
         private readonly i@::@nt index;
-    }
-}"
-                },
-                new object[]
-                {
-                    "Outside field name (2)",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        private readonly int index;@::@
     }
 }"
                 },
@@ -120,7 +149,7 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Field already initialized",
+                    "Field already initialized (single constructor)",
                     @"
 using System;
 
@@ -128,8 +157,8 @@ namespace HelloWorld
 {
     class TestService
     {
-        private int m_index;
-        public TestService(int @::@index)
+        private int @::@m_index;
+        public TestService(int index)
         {
             m_index = index;
         }
@@ -138,7 +167,7 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Field already initialized (complex right expression)",
+                    "Field already initialized (multiple constructors)",
                     @"
 using System;
 
@@ -146,10 +175,18 @@ namespace HelloWorld
 {
     class TestService
     {
-        private int index;
-        public TestService(int @::@index)
+        private int @::@m_index;
+        private readonly string name;
+
+        public TestService(string name)
         {
-            this.index = index * 2;
+            this.name = name;
+        }
+
+        public TestService(string name, int index)
+        {
+            this.name = name;
+            m_index = index;
         }
     }
 }"

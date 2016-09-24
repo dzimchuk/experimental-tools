@@ -35,5 +35,18 @@ namespace ExperimentalTools.Components
 
             return proposedName;
         }
+
+        public string GetNewParameterName(ParameterListSyntax parameterList, string proposedName)
+        {
+            var reservedNames = parameterList.Parameters.Select(parameter => parameter.Identifier.ValueText).ToList();
+            var name = proposedName;
+            var index = 1;
+            while (reservedNames.Contains(name))
+            {
+                name = $"{name}{index++}";
+            }
+
+            return name;
+        }
     }
 }
