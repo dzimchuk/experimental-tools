@@ -286,6 +286,47 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Constructor with multipe paramters (but no assignment) exists",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private string name;
+        private int @::@index;
+
+        public TestService(string name, int index)
+        {
+            this.name = name;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private string name;
+        private int index;
+
+        public TestService(string name, int index)
+        {
+            this.name = name;
+        }
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
                 }
             };
 
@@ -375,8 +416,24 @@ namespace HelloWorld
         }
     }
 }"
-                }
-                
+                },
+                new object[]
+                {
+                    "A constructor with the single parameter as the field already exists",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@m_index;
+        public TestService(int index)
+        {
+        }
+    }
+}"
+                },
             };
     }
 }

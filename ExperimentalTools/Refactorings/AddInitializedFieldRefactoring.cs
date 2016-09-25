@@ -100,7 +100,7 @@ namespace ExperimentalTools.Refactorings
             var fieldName = await nameGenerator.GetNewMemberNameAsync(constructor.Parent as ClassDeclarationSyntax, parameter.Identifier.ValueText, document, cancellationToken);
 
             var field = CreateFieldDeclaration(fieldType, fieldName);
-            var assignment = fieldName == parameter.Identifier.ValueText
+            var assignment = constructor.ParameterList.Parameters.Any(p => p.Identifier.ValueText == fieldName)
                 ? CreateThisAssignmentStatement(fieldName, parameter.Identifier.ValueText)
                 : CreateAssignmentStatement(fieldName, parameter.Identifier.ValueText);
 

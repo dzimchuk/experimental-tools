@@ -64,6 +64,11 @@ namespace ExperimentalTools.Refactorings
                 return;
             }
 
+            if (await CheckIfConstructorWithSingleParameterExistsAsync(context.Document, variableDeclarator, typeDeclaration, context.CancellationToken))
+            {
+                return;
+            }
+
             context.RegisterRefactoring(
                 CodeAction.Create(Resources.AddConstructorAndInitializeField, token => AddConstructorAsync(context.Document, root, fieldDeclaration)));
         }
@@ -103,6 +108,31 @@ namespace ExperimentalTools.Refactorings
                             }
                         }
                     }
+                }
+            }
+
+            return false;
+        }
+
+        private static async Task<bool> CheckIfConstructorWithSingleParameterExistsAsync(Document document, VariableDeclaratorSyntax variableDeclarator,
+            TypeDeclarationSyntax typeDeclaration, CancellationToken cancellationToken)
+        {
+            var constructors = typeDeclaration.DescendantNodes().OfType<ConstructorDeclarationSyntax>()
+                .Where(constructor => constructor.ParameterList.Parameters.Count == 1).ToList();
+            if (!constructors.Any())
+            {
+                return false;
+            }
+
+            var model = await document.GetSemanticModelAsync(cancellationToken);
+            var fieldSymbol = model.GetDeclaredSymbol(variableDeclarator, cancellationToken) as IFieldSymbol;
+
+            foreach (var constructor in constructors)
+            {
+                var parameterSymbol = model.GetDeclaredSymbol(constructor.ParameterList.Parameters[0], cancellationToken) as IParameterSymbol;
+                if (fieldSymbol?.Type == parameterSymbol?.Type)
+                {
+                    return true;
                 }
             }
 

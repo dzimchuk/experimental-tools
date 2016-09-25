@@ -83,7 +83,8 @@ namespace ExperimentalTools.Refactorings
                 ? Resources.InitializeFieldInExistingConstructors
                 : Resources.InitializeFieldInExistingConstructor;
             var action = CodeAction.Create(actionTitle, 
-                token => InitializeFieldInConstructorsAsync(context.Document, root, fieldDeclaration, constructors));
+                token => InitializeFieldInConstructorsAsync(context.Document, root, fieldDeclaration, 
+                    constructors, token));
             context.RegisterRefactoring(action);
         }
 
@@ -110,30 +111,61 @@ namespace ExperimentalTools.Refactorings
             return false;
         }
 
-        private Task<Document> InitializeFieldInConstructorsAsync(Document document, SyntaxNode root, 
-            FieldDeclarationSyntax fieldDeclaration, IEnumerable<ConstructorDeclarationSyntax> constructors)
+        private async Task<Document> InitializeFieldInConstructorsAsync(Document document, SyntaxNode root,
+            FieldDeclarationSyntax fieldDeclaration, IEnumerable<ConstructorDeclarationSyntax> constructors,
+            CancellationToken cancellationToken)
         {
             var variableDeclaration = fieldDeclaration.DescendantNodes().OfType<VariableDeclarationSyntax>().FirstOrDefault();
             var variableDeclarator = variableDeclaration.DescendantNodes().OfType<VariableDeclaratorSyntax>().FirstOrDefault();
             var fieldName = variableDeclarator.Identifier.ValueText;
 
+            var model = await document.GetSemanticModelAsync(cancellationToken);
+            var fieldSymbol = model.GetDeclaredSymbol(variableDeclarator, cancellationToken) as IFieldSymbol;
+
             var trackedRoot = root.TrackNodes(constructors);
             foreach (var constructor in constructors)
             {
                 var currentConstructor = trackedRoot.GetCurrentNode(constructor);
-                var parameterName = nameGenerator.GetNewParameterName(currentConstructor.ParameterList, fieldName);
+                var newConstructor = currentConstructor;
 
-                var newConstructor = currentConstructor.WithParameterList(currentConstructor.ParameterList.AddParameters(
+                string parameterName;
+                var existingParameter = FindExistingParameter(model, fieldSymbol, constructor, cancellationToken);
+                if (existingParameter != null)
+                {
+                    parameterName = existingParameter.Identifier.ValueText;
+                }
+                else
+                {
+                    parameterName = nameGenerator.GetNewParameterName(currentConstructor.ParameterList, fieldName);
+                    newConstructor = currentConstructor.WithParameterList(currentConstructor.ParameterList.AddParameters(
                     Parameter(Identifier(parameterName))
                         .WithType(variableDeclaration.Type)));
+                }
 
-                var assignment = CreateThisAssignmentStatement(fieldName, parameterName);
+                var assignment = newConstructor.ParameterList.Parameters.Any(p => p.Identifier.ValueText == fieldName)
+                    ? CreateThisAssignmentStatement(fieldName, parameterName)
+                    : CreateAssignmentStatement(fieldName, parameterName);
                 newConstructor = newConstructor.WithBody(newConstructor.Body.AddStatements(assignment));
 
                 trackedRoot = trackedRoot.ReplaceNode(currentConstructor, newConstructor);
             }
 
-            return Task.FromResult(document.WithSyntaxRoot(trackedRoot));
+            return document.WithSyntaxRoot(trackedRoot);
+        }
+
+        private static ParameterSyntax FindExistingParameter(SemanticModel model, IFieldSymbol fieldSymbol,
+            ConstructorDeclarationSyntax constructor, CancellationToken cancellationToken)
+        {
+            foreach (var parameter in constructor.ParameterList.Parameters)
+            {
+                var parameterSymbol = model.GetDeclaredSymbol(parameter, cancellationToken) as IParameterSymbol;
+                if (fieldSymbol != null && parameterSymbol != null && fieldSymbol.Type == parameterSymbol.Type)
+                {
+                    return parameter;
+                }
+            }
+
+            return null;
         }
     }
 }

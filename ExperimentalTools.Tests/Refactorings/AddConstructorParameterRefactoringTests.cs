@@ -101,6 +101,39 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Parameter with the same type exists",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+
+        public TestService(int p)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int index;
+
+        public TestService(int p)
+        {
+            index = p;
+        }
+    }
+}"
                 }
             };
 

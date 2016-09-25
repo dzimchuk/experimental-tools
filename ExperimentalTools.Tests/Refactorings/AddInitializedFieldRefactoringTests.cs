@@ -276,7 +276,7 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Field with the same name already exists",
+                    "Field with the same name already exists (1)",
                     @"
 using System;
 
@@ -303,6 +303,39 @@ namespace HelloWorld
         public TestService(int index)
         {
             index1 = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field with the same name already exists (2)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public int index;
+        public TestService(int @::@index, string index1)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public int index;
+        private readonly int index1;
+
+        public TestService(int index, string index1)
+        {
+            this.index1 = index;
         }
     }
 }"
