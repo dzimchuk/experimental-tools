@@ -339,6 +339,37 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Readonly field with the same type and name already exists",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public readonly int index;
+        public TestService(int @::@index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public readonly int index;
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
                 }
             };
 

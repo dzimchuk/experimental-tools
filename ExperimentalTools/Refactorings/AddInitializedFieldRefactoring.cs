@@ -96,25 +96,55 @@ namespace ExperimentalTools.Refactorings
             ParameterSyntax parameter, ConstructorDeclarationSyntax constructor,
             CancellationToken cancellationToken)
         {
-            var fieldType = parameter.Type;
-            var fieldName = await nameGenerator.GetNewMemberNameAsync(constructor.Parent as ClassDeclarationSyntax, parameter.Identifier.ValueText, document, cancellationToken);
+            string fieldName;
+            var trackedRoot = root.TrackNodes(constructor);
 
-            var field = CreateFieldDeclaration(fieldType, fieldName);
+            var model = await document.GetSemanticModelAsync(cancellationToken);
+            var existingField = FindExistingField(model, parameter, constructor.Parent as TypeDeclarationSyntax, cancellationToken);
+            if (existingField != null)
+            {
+                fieldName = existingField.Name;
+            }
+            else
+            {
+                fieldName = await nameGenerator.GetNewMemberNameAsync(constructor.Parent as TypeDeclarationSyntax, parameter.Identifier.ValueText, document, cancellationToken);
+                var field = CreateFieldDeclaration(parameter.Type, fieldName);
+
+                trackedRoot = trackedRoot.InsertNodesBefore(trackedRoot.GetCurrentNode(constructor), SingletonList(field));
+            }
+                        
             var assignment = constructor.ParameterList.Parameters.Any(p => p.Identifier.ValueText == fieldName)
                 ? CreateThisAssignmentStatement(fieldName, parameter.Identifier.ValueText)
                 : CreateAssignmentStatement(fieldName, parameter.Identifier.ValueText);
-
-
-            var trackedRoot = root.TrackNodes(constructor);
-            var newRoot = trackedRoot.InsertNodesBefore(trackedRoot.GetCurrentNode(constructor), SingletonList(field));
-
-            var constructorBody = newRoot.GetCurrentNode(constructor).Body;
+            
+            var constructorBody = trackedRoot.GetCurrentNode(constructor).Body;
             var newConstructorBody = constructorBody.AddStatements(assignment)
                 .WithAdditionalAnnotations(Formatter.Annotation);
 
-            newRoot = newRoot.ReplaceNode(constructorBody, newConstructorBody);
+            trackedRoot = trackedRoot.ReplaceNode(constructorBody, newConstructorBody);
 
-            return document.WithSyntaxRoot(newRoot);
+            return document.WithSyntaxRoot(trackedRoot);
+        }
+
+        private static IFieldSymbol FindExistingField(SemanticModel model, ParameterSyntax parameter,
+            TypeDeclarationSyntax typeDeclaration, CancellationToken cancellationToken)
+        {
+            var parameterSymbol = model.GetDeclaredSymbol(parameter, cancellationToken) as IParameterSymbol;
+
+            var declaredTypeSymbol = model.GetDeclaredSymbol(typeDeclaration, cancellationToken) as INamedTypeSymbol;
+            var fields = declaredTypeSymbol.GetMembers(parameter.Identifier.ValueText);
+            foreach (var field in fields)
+            {
+                var fieldSymbol = field as IFieldSymbol;
+                if (fieldSymbol != null && 
+                    fieldSymbol.Type == parameterSymbol.Type &&
+                    fieldSymbol.IsReadOnly)
+                {
+                    return fieldSymbol;
+                }
+            }
+
+            return null;
         }
     }
 }
