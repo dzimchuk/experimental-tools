@@ -16,6 +16,14 @@ namespace ExperimentalTools.Refactorings
     [ExportCodeRefactoringProvider(LanguageNames.CSharp, Name = nameof(AddNewConstructorWithParameterRefactoring)), Shared]
     internal class AddNewConstructorWithParameterRefactoring : CodeRefactoringProvider
     {
+        private readonly INameGenerator nameGenerator;
+
+        [ImportingConstructor]
+        public AddNewConstructorWithParameterRefactoring(INameGenerator nameGenerator)
+        {
+            this.nameGenerator = nameGenerator;
+        }
+
         public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)
         {
             if (context.Document.Project.Solution.Workspace.Kind == WorkspaceKind.MiscellaneousFiles)
@@ -59,12 +67,13 @@ namespace ExperimentalTools.Refactorings
                 return;
             }
 
-            if (await CheckIfAlreadyInitializedAsync(context.Document, variableDeclarator, typeDeclaration, context.CancellationToken))
+            var model = await context.Document.GetSemanticModelAsync(context.CancellationToken);
+            if (model.IsConstant(variableDeclarator, context.CancellationToken))
             {
                 return;
             }
-
-            if (await CheckIfConstructorWithSingleParameterExistsAsync(context.Document, variableDeclarator, typeDeclaration, context.CancellationToken))
+            
+            if (CheckIfConstructorWithSingleParameterExists(model, variableDeclarator, typeDeclaration, context.CancellationToken))
             {
                 return;
             }
@@ -73,48 +82,7 @@ namespace ExperimentalTools.Refactorings
                 CodeAction.Create(Resources.AddConstructorAndInitializeField, token => AddConstructorAsync(context.Document, root, fieldDeclaration)));
         }
 
-        private static async Task<bool> CheckIfAlreadyInitializedAsync(Document document, VariableDeclaratorSyntax variableDeclarator,
-            TypeDeclarationSyntax typeDeclaration, CancellationToken cancellationToken)
-        {
-            var constructors = typeDeclaration.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToList();
-            if (!constructors.Any())
-            {
-                return false;
-            }
-
-            var model = await document.GetSemanticModelAsync(cancellationToken);
-            var fieldSymbol = model.GetDeclaredSymbol(variableDeclarator, cancellationToken);
-
-            foreach (var constructor in constructors)
-            {
-                if (!constructor.ParameterList.Parameters.Any())
-                {
-                    continue;
-                }
-
-                var assignments = constructor.DescendantNodes().OfType<AssignmentExpressionSyntax>().ToList();
-                foreach (var assignment in assignments)
-                {
-                    var leftSymbol = model.GetSymbolInfo(assignment.Left, cancellationToken).Symbol;
-                    if (leftSymbol != null && leftSymbol == fieldSymbol)
-                    {
-                        var rightSymbol = model.GetSymbolInfo(assignment.Right, cancellationToken).Symbol;
-                        foreach (var parameter in constructor.ParameterList.Parameters)
-                        {
-                            var parameterSymbol = model.GetDeclaredSymbol(parameter, cancellationToken);
-                            if (rightSymbol == parameterSymbol)
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        private static async Task<bool> CheckIfConstructorWithSingleParameterExistsAsync(Document document, VariableDeclaratorSyntax variableDeclarator,
+        private static bool CheckIfConstructorWithSingleParameterExists(SemanticModel model, VariableDeclaratorSyntax variableDeclarator,
             TypeDeclarationSyntax typeDeclaration, CancellationToken cancellationToken)
         {
             var constructors = typeDeclaration.DescendantNodes().OfType<ConstructorDeclarationSyntax>()
@@ -124,13 +92,13 @@ namespace ExperimentalTools.Refactorings
                 return false;
             }
 
-            var model = await document.GetSemanticModelAsync(cancellationToken);
             var fieldSymbol = model.GetDeclaredSymbol(variableDeclarator, cancellationToken) as IFieldSymbol;
 
             foreach (var constructor in constructors)
             {
                 var parameterSymbol = model.GetDeclaredSymbol(constructor.ParameterList.Parameters[0], cancellationToken) as IParameterSymbol;
-                if (fieldSymbol?.Type == parameterSymbol?.Type)
+                if (fieldSymbol != null && parameterSymbol != null &&
+                    fieldSymbol.Type == parameterSymbol.Type)
                 {
                     return true;
                 }
@@ -139,7 +107,7 @@ namespace ExperimentalTools.Refactorings
             return false;
         }
 
-        private static Task<Document> AddConstructorAsync(Document document, SyntaxNode root, FieldDeclarationSyntax fieldDeclaration)
+        private Task<Document> AddConstructorAsync(Document document, SyntaxNode root, FieldDeclarationSyntax fieldDeclaration)
         {
             var variableDeclaration = fieldDeclaration.DescendantNodes().OfType<VariableDeclarationSyntax>().FirstOrDefault();
             var variableDeclarator = variableDeclaration.DescendantNodes().OfType<VariableDeclaratorSyntax>().FirstOrDefault();
@@ -148,13 +116,17 @@ namespace ExperimentalTools.Refactorings
             var typeDeclaration = fieldDeclaration.GetParentTypeDeclaration();
 
             var newConstructor = CreateEmptyConstructor(typeDeclaration.Identifier.ValueText);
+            var parameterName = nameGenerator.GetNewParameterName(newConstructor.ParameterList, fieldName);
+
             newConstructor = newConstructor.WithParameterList(
                 ParameterList(
                     SingletonSeparatedList(
-                        Parameter(Identifier(fieldName))
+                        Parameter(Identifier(parameterName))
                         .WithType(variableDeclaration.Type))));
 
-            var assignment = CreateThisAssignmentStatement(fieldName, fieldName);
+            var assignment = newConstructor.ParameterList.Parameters.Any(p => p.Identifier.ValueText == fieldName)
+                    ? CreateThisAssignmentStatement(fieldName, parameterName)
+                    : CreateAssignmentStatement(fieldName, parameterName);
             newConstructor = newConstructor.WithBody(newConstructor.Body.AddStatements(assignment));
             newConstructor = InitializeStructFields(fieldDeclaration, typeDeclaration, newConstructor);
 
@@ -192,7 +164,7 @@ namespace ExperimentalTools.Refactorings
         private static SyntaxNode FindInsertionPoint(FieldDeclarationSyntax fieldDeclaration)
         {
             var typeDeclaration = fieldDeclaration.GetParentTypeDeclaration();
-            var existingConstructor = typeDeclaration.DescendantNodes().OfType<ConstructorDeclarationSyntax>().FirstOrDefault();
+            var existingConstructor = typeDeclaration.DescendantNodes().OfType<ConstructorDeclarationSyntax>().LastOrDefault();
 
             return existingConstructor ?? FindInsertionPointBelowFieldGroup(fieldDeclaration);
         }

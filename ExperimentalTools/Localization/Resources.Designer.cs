@@ -80,6 +80,15 @@ namespace ExperimentalTools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initialize existing field.
+        /// </summary>
+        internal static string InitializeExistingField {
+            get {
+                return ResourceManager.GetString("InitializeExistingField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initialize field in existing constructor.
         /// </summary>
         internal static string InitializeFieldInExistingConstructor {

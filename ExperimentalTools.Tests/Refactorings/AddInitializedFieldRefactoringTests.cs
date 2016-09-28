@@ -370,6 +370,87 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Placement test 1",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private string name;
+
+        public TestService()
+        {
+        }
+
+        public TestService(int @::@index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private string name;
+        private readonly int index;
+
+        public TestService()
+        {
+        }
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Placement test 2",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService()
+        {
+        }
+
+        public TestService(int @::@index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private readonly int index;
+
+        public TestService()
+        {
+        }
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
                 }
             };
 

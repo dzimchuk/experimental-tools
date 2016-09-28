@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Composition;
+using System.Text.RegularExpressions;
 
 namespace ExperimentalTools.Components
 {
@@ -39,7 +40,7 @@ namespace ExperimentalTools.Components
         public string GetNewParameterName(ParameterListSyntax parameterList, string proposedName)
         {
             var reservedNames = parameterList.Parameters.Select(parameter => parameter.Identifier.ValueText).ToList();
-            var name = proposedName;
+            var name = StripPrefix(proposedName);
             var index = 1;
             while (reservedNames.Contains(name))
             {
@@ -47,6 +48,13 @@ namespace ExperimentalTools.Components
             }
 
             return name;
+        }
+
+        private static readonly Regex prefixExpression = new Regex(@"^.{0,1}_(?<name>.+)$");
+        private static string StripPrefix(string input)
+        {
+            var m = prefixExpression.Match(input);
+            return m.Success ? m.Groups["name"].Value : input;
         }
     }
 }

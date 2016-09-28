@@ -59,18 +59,21 @@ namespace ExperimentalTools.Refactorings
             {
                 return;
             }
-            
-            if (await CheckIfAlreadyInitializedAsync(context.Document, parameter, constructor, context.CancellationToken))
+
+            var model = await context.Document.GetSemanticModelAsync(context.CancellationToken);
+            if (CheckIfAlreadyInitialized(model, parameter, constructor, context.CancellationToken))
             {
                 return;
             }
 
-            var action = CodeAction.Create(Resources.AddInitializedField, 
+            var existingField = FindExistingField(model, parameter, parameter.GetParentTypeDeclaration(), context.CancellationToken);
+            
+            var action = CodeAction.Create(existingField != null ? Resources.InitializeExistingField : Resources.AddInitializedField, 
                 cancellationToken => InitializeFieldAsync(context.Document, root, parameter, constructor, cancellationToken));
             context.RegisterRefactoring(action);
         }
 
-        private static async Task<bool> CheckIfAlreadyInitializedAsync(Document document, ParameterSyntax parameter,
+        private static bool CheckIfAlreadyInitialized(SemanticModel model, ParameterSyntax parameter,
             ConstructorDeclarationSyntax constructor, CancellationToken cancellationToken)
         {
             var parameterName = parameter.Identifier.ValueText;
@@ -82,7 +85,6 @@ namespace ExperimentalTools.Refactorings
                 return false;
             }
 
-            var model = await document.GetSemanticModelAsync(cancellationToken);
             var currentType = model.GetDeclaredSymbol(constructor.Parent, cancellationToken) as INamedTypeSymbol;
 
             return assignments.Any(assignment =>
@@ -97,7 +99,8 @@ namespace ExperimentalTools.Refactorings
             CancellationToken cancellationToken)
         {
             string fieldName;
-            var trackedRoot = root.TrackNodes(constructor);
+            var typeDeclaration = constructor.GetParentTypeDeclaration();
+            var trackedRoot = root.TrackNodes(constructor, typeDeclaration);
 
             var model = await document.GetSemanticModelAsync(cancellationToken);
             var existingField = FindExistingField(model, parameter, constructor.Parent as TypeDeclarationSyntax, cancellationToken);
@@ -109,8 +112,17 @@ namespace ExperimentalTools.Refactorings
             {
                 fieldName = await nameGenerator.GetNewMemberNameAsync(constructor.Parent as TypeDeclarationSyntax, parameter.Identifier.ValueText, document, cancellationToken);
                 var field = CreateFieldDeclaration(parameter.Type, fieldName);
-
-                trackedRoot = trackedRoot.InsertNodesBefore(trackedRoot.GetCurrentNode(constructor), SingletonList(field));
+                                
+                var insertionPoint = FindInsertionPointBelowFieldGroup(trackedRoot.GetCurrentNode(typeDeclaration));
+                if (insertionPoint != null)
+                {
+                    trackedRoot = trackedRoot.InsertNodesAfter(insertionPoint, SingletonList(field));
+                }
+                else
+                {
+                    insertionPoint = trackedRoot.GetCurrentNode(typeDeclaration).ChildNodes().First();
+                    trackedRoot = trackedRoot.InsertNodesBefore(insertionPoint, SingletonList(field));
+                }
             }
                         
             var assignment = constructor.ParameterList.Parameters.Any(p => p.Identifier.ValueText == fieldName)
@@ -145,6 +157,33 @@ namespace ExperimentalTools.Refactorings
             }
 
             return null;
+        }
+
+        private static SyntaxNode FindInsertionPointBelowFieldGroup(TypeDeclarationSyntax typeDeclaration)
+        {
+            SyntaxNode insertionPoint = null;
+
+            var tracking = false;
+            foreach (var node in typeDeclaration.ChildNodes())
+            {
+                if (tracking)
+                {
+                    if (node is FieldDeclarationSyntax)
+                    {
+                        insertionPoint = node;
+                        continue;
+                    }
+
+                    break;
+                }
+                else if (node is FieldDeclarationSyntax)
+                {
+                    insertionPoint = node;
+                    tracking = true;
+                }
+            }
+
+            return insertionPoint;
         }
     }
 }

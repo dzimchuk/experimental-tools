@@ -1,4 +1,5 @@
-﻿using ExperimentalTools.Refactorings;
+﻿using ExperimentalTools.Components;
+using ExperimentalTools.Refactorings;
 using ExperimentalTools.Tests.Infrastructure;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace ExperimentalTools.Tests.Refactorings
             var acceptor = new CodeRefactoringActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
-            var provider = new AddNewConstructorWithParameterRefactoring();
+            var provider = new AddNewConstructorWithParameterRefactoring(new SimpleNameGenerator());
             await provider.ComputeRefactoringsAsync(context);
 
             Assert.True(acceptor.HasAction);
@@ -327,7 +328,60 @@ namespace HelloWorld
         }
     }
 }"
-                }
+                },
+                new object[]
+                {
+                    "Field already initialized (multiple constructors, but not any with a single parameter)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@m_index;
+        private readonly string name;
+
+        public TestService(string name)
+        {
+            this.name = name;
+        }
+
+        public TestService(string name, int index)
+        {
+            this.name = name;
+            m_index = index;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int m_index;
+        private readonly string name;
+
+        public TestService(string name)
+        {
+            this.name = name;
+        }
+
+        public TestService(string name, int index)
+        {
+            this.name = name;
+            m_index = index;
+        }
+
+        public TestService(int index)
+        {
+            m_index = index;
+        }
+    }
+}"
+                },
             };
 
         [Theory, MemberData("NoActionTestData")]
@@ -336,7 +390,7 @@ namespace HelloWorld
             var acceptor = new CodeRefactoringActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
-            var provider = new AddNewConstructorWithParameterRefactoring();
+            var provider = new AddNewConstructorWithParameterRefactoring(new SimpleNameGenerator());
             await provider.ComputeRefactoringsAsync(context);
 
             Assert.False(acceptor.HasAction);
@@ -375,7 +429,7 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Field already initialized (single constructor)",
+                    "Field already initialized (single constructor, single parameter)",
                     @"
 using System;
 
@@ -393,7 +447,7 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Field already initialized (multiple constructors)",
+                    "Field already initialized (multiple constructors, including one with a single parameter)",
                     @"
 using System;
 
@@ -414,12 +468,17 @@ namespace HelloWorld
             this.name = name;
             m_index = index;
         }
+
+        public TestService(int index)
+        {
+            m_index = index;
+        }
     }
 }"
                 },
                 new object[]
                 {
-                    "A constructor with the single parameter as the field already exists",
+                    "A constructor with the single parameter of the same type as the field exists",
                     @"
 using System;
 
@@ -434,6 +493,20 @@ namespace HelloWorld
     }
 }"
                 },
+                new object[]
+                {
+                    "Field is a constant",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private const int @::@index = 1;
+    }
+}"
+                }
             };
     }
 }

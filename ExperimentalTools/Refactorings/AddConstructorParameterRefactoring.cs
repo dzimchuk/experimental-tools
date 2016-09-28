@@ -73,8 +73,15 @@ namespace ExperimentalTools.Refactorings
                 return;
             }
 
-            if (await CheckIfAlreadyInitializedAsync(context.Document, variableDeclarator, typeDeclaration, 
-                constructors, context.CancellationToken))
+            var model = await context.Document.GetSemanticModelAsync(context.CancellationToken);
+            if (model.IsConstant(variableDeclarator, context.CancellationToken))
+            {
+                return;
+            }
+
+            constructors = FilterConstructors(model, variableDeclarator, typeDeclaration,
+                constructors, context.CancellationToken);
+            if (!constructors.Any())
             {
                 return;
             }
@@ -88,27 +95,34 @@ namespace ExperimentalTools.Refactorings
             context.RegisterRefactoring(action);
         }
 
-        private static async Task<bool> CheckIfAlreadyInitializedAsync(Document document, VariableDeclaratorSyntax variableDeclarator,
+        private static List<ConstructorDeclarationSyntax> FilterConstructors(SemanticModel model, VariableDeclaratorSyntax variableDeclarator,
             TypeDeclarationSyntax typeDeclaration, IEnumerable<ConstructorDeclarationSyntax> constructors,
             CancellationToken cancellationToken)
         {
-            var model = await document.GetSemanticModelAsync(cancellationToken);
+            var result = new List<ConstructorDeclarationSyntax>();
             var fieldSymbol = model.GetDeclaredSymbol(variableDeclarator, cancellationToken);
 
             foreach (var constructor in constructors)
             {
+                var skip = false;
                 var assignments = constructor.DescendantNodes().OfType<AssignmentExpressionSyntax>().ToList();
                 foreach (var assignment in assignments)
                 {
                     var leftSymbol = model.GetSymbolInfo(assignment.Left, cancellationToken).Symbol;
                     if (leftSymbol != null && leftSymbol == fieldSymbol)
                     {
-                        return true;
+                        skip = true;
+                        break;
                     }
+                }
+
+                if (!skip)
+                {
+                    result.Add(constructor);
                 }
             }
 
-            return false;
+            return result;
         }
 
         private async Task<Document> InitializeFieldInConstructorsAsync(Document document, SyntaxNode root,

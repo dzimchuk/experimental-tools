@@ -71,6 +71,55 @@ namespace HelloWorld
                 },
                 new object[]
                 {
+                    "Field already initialized in one constructor (multiple constructors)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@m_index;
+        private readonly string name;
+
+        public TestService(string name)
+        {
+            this.name = name;
+        }
+
+        public TestService(string name, int index)
+        {
+            this.name = name;
+            m_index = index;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int m_index;
+        private readonly string name;
+
+        public TestService(string name, int index)
+        {
+            this.name = name;
+            m_index = index;
+        }
+
+        public TestService(string name, int index)
+        {
+            this.name = name;
+            m_index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
                     "Parameter with the same name exists",
                     @"
 using System;
@@ -200,32 +249,6 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Field already initialized (multiple constructors)",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        private int @::@m_index;
-        private readonly string name;
-
-        public TestService(string name)
-        {
-            this.name = name;
-        }
-
-        public TestService(string name, int index)
-        {
-            this.name = name;
-            m_index = index;
-        }
-    }
-}"
-                },
-                new object[]
-                {
                     "Field already initialized in a parameterless constructor",
                     @"
 using System;
@@ -259,6 +282,24 @@ namespace HelloWorld
         public TestService(Test test)
         {
             this.index = test.Prop;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field is a constant",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private const int @::@index = 1;
+
+        public TestService()
+        {
         }
     }
 }"
