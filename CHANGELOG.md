@@ -1,6 +1,7 @@
 # Road map
 
 - [ ] Locate in Solution Explorer (Alt+Shift+L)
+- [ ] Propose to inline a variable at the usage location
 - [ ] Change access modifier
 - [ ] Settings page (ability to enable/disable individual features)
 - [ ] Update file name to match type name

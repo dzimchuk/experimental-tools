@@ -183,6 +183,43 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Parameter with the same type exists but initializes something else",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+        private int p;
+
+        public TestService(int p)
+        {
+            this.p = p;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int index;
+        private int p;
+
+        public TestService(int p, int index)
+        {
+            this.p = p;
+            this.index = index;
+        }
+    }
+}"
                 }
             };
 

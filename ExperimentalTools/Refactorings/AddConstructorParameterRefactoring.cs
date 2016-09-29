@@ -175,6 +175,16 @@ namespace ExperimentalTools.Refactorings
                 var parameterSymbol = model.GetDeclaredSymbol(parameter, cancellationToken) as IParameterSymbol;
                 if (fieldSymbol != null && parameterSymbol != null && fieldSymbol.Type == parameterSymbol.Type)
                 {
+                    var assignments = constructor.DescendantNodes().OfType<AssignmentExpressionSyntax>().ToList();
+                    foreach (var assignment in assignments)
+                    {
+                        var rightSymbol = model.GetSymbolInfo(assignment.Right, cancellationToken).Symbol;
+                        if (rightSymbol != null && rightSymbol == parameterSymbol)
+                        {
+                            return null;
+                        }
+                    }
+
                     return parameter;
                 }
             }

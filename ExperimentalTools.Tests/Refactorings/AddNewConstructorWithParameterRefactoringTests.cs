@@ -331,7 +331,7 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Field already initialized (multiple constructors, but not any with a single parameter)",
+                    "Field already initialized (multiple constructors, but not any with a single vacant parameter of the same type)",
                     @"
 using System;
 
@@ -381,7 +381,7 @@ namespace HelloWorld
         }
     }
 }"
-                },
+                }
             };
 
         [Theory, MemberData("NoActionTestData")]
