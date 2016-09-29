@@ -1,13 +1,19 @@
 # Road map
 
-- [ ] Locate in Solution Explorer (Alt+Shift+L)
-- [ ] Propose to inline a variable at the usage location
 - [ ] Change access modifier
+- [ ] Move type to file
 - [ ] Settings page (ability to enable/disable individual features)
 - [ ] Update file name to match type name
 - [ ] Update namespace to match file path
-- [ ] Move type to file
 - [ ] Add/remove braces
+- [ ] This is constructor (when copied from another one)
+- [ ] Add to interface (on a method; VS currently has one on a type)
+- [ ] Method can be made static
+- [ ] Class can be made static
+- [ ] Member can be made private
+- [ ] Member can be removed
+- [ ] Field can be made readonly
+- [ ] Locate in Solution Explorer (Alt+Shift+L)
 - [ ] Quick GUID generation (nguid)
 
 Features that have a checkmark are complete and available for
