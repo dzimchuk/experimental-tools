@@ -13,7 +13,7 @@ namespace ExperimentalTools.Tests.Infrastructure
         private static readonly Regex textSpanExpression =
             new Regex($"{textSpanStart}(?<textSpanContent>.*){textSpanEnd}", RegexOptions.Compiled | RegexOptions.Singleline);
         
-        public static CodeRefactoringContext Build(string sourceText, CodeRefactoringActionAcceptor acceptor)
+        public static CodeRefactoringContext Build(string sourceText, ICodeActionAcceptor acceptor)
         {
             var document = DocumentProvider.GetDocument(NormalizeSource(sourceText));
             return new CodeRefactoringContext(document, GetTextSpan(sourceText), acceptor.Accept, CancellationToken.None);

@@ -105,5 +105,32 @@ namespace ExperimentalTools.Localization {
                 return ResourceManager.GetString("InitializeFieldInExistingConstructors", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To internal (explicit).
+        /// </summary>
+        internal static string ToInternalExplicit {
+            get {
+                return ResourceManager.GetString("ToInternalExplicit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To internal (implicit).
+        /// </summary>
+        internal static string ToInternalImplcit {
+            get {
+                return ResourceManager.GetString("ToInternalImplcit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To public.
+        /// </summary>
+        internal static string ToPublic {
+            get {
+                return ResourceManager.GetString("ToPublic", resourceCulture);
+            }
+        }
     }
 }

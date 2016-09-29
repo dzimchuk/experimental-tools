@@ -132,4 +132,13 @@
   <data name="InitializeFieldInExistingConstructors" xml:space="preserve">
     <value>Initialize field in existing constructors</value>
   </data>
+  <data name="ToInternalExplicit" xml:space="preserve">
+    <value>To internal (explicit)</value>
+  </data>
+  <data name="ToInternalImplcit" xml:space="preserve">
+    <value>To internal (implicit)</value>
+  </data>
+  <data name="ToPublic" xml:space="preserve">
+    <value>To public</value>
+  </data>
 </root>

@@ -1,6 +1,7 @@
 ﻿using ExperimentalTools.Components;
 using ExperimentalTools.Refactorings;
 using ExperimentalTools.Tests.Infrastructure;
+using ExperimentalTools.Tests.Infrastructure.ActionAcceptors;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -12,7 +13,7 @@ namespace ExperimentalTools.Tests.Refactorings
         [Theory, MemberData("HasActionTestData")]
         public async Task HasActionTest(string test, string input, string expectedOutput)
         {
-            var acceptor = new CodeRefactoringActionAcceptor();
+            var acceptor = new SingleCodeActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
             var provider = new AddInitializedFieldRefactoring(new SimpleNameGenerator());
@@ -457,7 +458,7 @@ namespace HelloWorld
         [Theory, MemberData("NoActionTestData")]
         public async Task NoActionTest(string test, string input)
         {
-            var acceptor = new CodeRefactoringActionAcceptor();
+            var acceptor = new SingleCodeActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
             var provider = new AddInitializedFieldRefactoring(new SimpleNameGenerator());
