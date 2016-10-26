@@ -13,7 +13,7 @@ using Microsoft.CodeAnalysis.Formatting;
 using ExperimentalTools.Localization;
 using Microsoft.CodeAnalysis.Text;
 
-namespace ExperimentalTools.Refactorings
+namespace ExperimentalTools.Features.Constructor
 {
     [ExportCodeRefactoringProvider(LanguageNames.CSharp, Name = nameof(AddInitializedFieldRefactoring)), Shared]
     internal class AddInitializedFieldRefactoring : CodeRefactoringProvider

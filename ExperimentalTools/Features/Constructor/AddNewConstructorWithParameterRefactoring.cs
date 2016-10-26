@@ -11,7 +11,7 @@ using ExperimentalTools.Localization;
 using System.Threading;
 using System.Collections.Generic;
 
-namespace ExperimentalTools.Refactorings
+namespace ExperimentalTools.Features.Constructor
 {
     [ExportCodeRefactoringProvider(LanguageNames.CSharp, Name = nameof(AddNewConstructorWithParameterRefactoring)), Shared]
     internal class AddNewConstructorWithParameterRefactoring : CodeRefactoringProvider
@@ -174,7 +174,7 @@ namespace ExperimentalTools.Refactorings
             SyntaxNode insertionPoint = fieldDeclaration;
             var typeDeclaration = fieldDeclaration.GetParentTypeDeclaration();
 
-            var tracking = true;
+            var tracking = false;
             foreach (var node in typeDeclaration.ChildNodes())
             {
                 if (tracking)

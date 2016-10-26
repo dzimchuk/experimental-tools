@@ -1,12 +1,12 @@
 ﻿using ExperimentalTools.Components;
-using ExperimentalTools.Refactorings;
+using ExperimentalTools.Features.Constructor;
 using ExperimentalTools.Tests.Infrastructure;
 using ExperimentalTools.Tests.Infrastructure.ActionAcceptors;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ExperimentalTools.Tests.Refactorings
+namespace ExperimentalTools.Tests.Features.Constructor
 {
     public class AddInitializedFieldRefactoringTests
     {

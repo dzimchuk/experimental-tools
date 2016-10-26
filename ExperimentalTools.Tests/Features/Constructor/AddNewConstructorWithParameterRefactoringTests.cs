@@ -1,12 +1,12 @@
 ﻿using ExperimentalTools.Components;
-using ExperimentalTools.Refactorings;
+using ExperimentalTools.Features.Constructor;
 using ExperimentalTools.Tests.Infrastructure;
 using ExperimentalTools.Tests.Infrastructure.ActionAcceptors;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ExperimentalTools.Tests.Refactorings
+namespace ExperimentalTools.Tests.Features.Constructor
 {
     public class AddNewConstructorWithParameterRefactoringTests
     {
@@ -122,6 +122,51 @@ namespace HelloWorld
         public string Name { get { return name; } }
 
         private int i;
+    }
+}"
+                },
+                new object[]
+                {
+                    "Place new constructor below field group (when implementing interface)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    interface IAction
+    {
+        void Act();
+    }
+
+    class TestService : IAction
+    {
+        private int @::@index;
+        private string name;
+
+        public void Act() {}
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    interface IAction
+    {
+        void Act();
+    }
+
+    class TestService : IAction
+    {
+        private int index;
+        private string name;
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+
+        public void Act() {}
     }
 }"
                 },

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static ExperimentalTools.SyntaxFactory;
 
-namespace ExperimentalTools.Refactorings
+namespace ExperimentalTools.Features.Constructor
 {
     [ExportCodeRefactoringProvider(LanguageNames.CSharp, Name = nameof(AddConstructorParameterRefactoring)), Shared]
     internal class AddConstructorParameterRefactoring : CodeRefactoringProvider
