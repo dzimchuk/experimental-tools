@@ -33,6 +33,24 @@ namespace ExperimentalTools
                 return classDeclaration.WithModifiers(modifiers);
             }
 
+            var structDeclaration = typeDeclaration as StructDeclarationSyntax;
+            if (structDeclaration != null)
+            {
+                return structDeclaration.WithModifiers(modifiers);
+            }
+
+            var interfaceDeclaration = typeDeclaration as InterfaceDeclarationSyntax;
+            if (interfaceDeclaration != null)
+            {
+                return interfaceDeclaration.WithModifiers(modifiers);
+            }
+
+            var enumDeclaration = typeDeclaration as EnumDeclarationSyntax;
+            if (enumDeclaration != null)
+            {
+                return enumDeclaration.WithModifiers(modifiers);
+            }
+
             return typeDeclaration;
         }
     }

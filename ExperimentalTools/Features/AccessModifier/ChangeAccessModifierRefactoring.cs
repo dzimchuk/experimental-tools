@@ -35,13 +35,7 @@ namespace ExperimentalTools.Features.AccessModifier
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
             var node = root.FindNode(context.Span);
 
-            IEnumerable<CodeAction> actions = null;
-
-            var typeDeclaration = node as ClassDeclarationSyntax;
-            if (typeDeclaration != null)
-            {
-                actions = topLevelTypeRecipe.Apply(context.Document, root, typeDeclaration);
-            }
+            var actions = CalculateActions(context.Document, root, node);
 
             if (actions != null && actions.Any())
             {
@@ -51,5 +45,19 @@ namespace ExperimentalTools.Features.AccessModifier
                 }
             }
         }
+
+        private IEnumerable<CodeAction> CalculateActions(Document document, SyntaxNode root, SyntaxNode node)
+        {
+            var typeDeclaration = node as BaseTypeDeclarationSyntax;
+            if (typeDeclaration != null && IsTopLevel(typeDeclaration))
+            {
+                return topLevelTypeRecipe.Apply(document, root, typeDeclaration);
+            }
+
+            return null;
+        }
+
+        private bool IsTopLevel(BaseTypeDeclarationSyntax typeDeclaration) => 
+            !typeDeclaration.Ancestors().OfType<BaseTypeDeclarationSyntax>().Any();
     }
 }

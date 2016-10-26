@@ -5,7 +5,7 @@ using Xunit;
 
 namespace ExperimentalTools.Tests.Features.AccessModifier
 {
-    public class TopLevelClassTests
+    public class TopLevelStructTests
     {
         [Theory, MemberData("TestData")]
         public async Task Test(string test, string actionTitle, string input, string expectedResult)
@@ -18,7 +18,7 @@ namespace ExperimentalTools.Tests.Features.AccessModifier
                 Assert.Equal(expectedResult.HomogenizeLineEndings(), result.HomogenizeLineEndings());
             });
         }
-                
+
         public static IEnumerable<object[]> TestData =>
             new[]
             {
@@ -29,14 +29,14 @@ namespace ExperimentalTools.Tests.Features.AccessModifier
                     @"
 namespace HelloWorld
 {
-    @::@class Test
+    @::@struct Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    internal class Test
+    internal struct Test
     {
     }
 }"
@@ -48,14 +48,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@class Test
+    @::@struct Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    public class Test
+    public struct Test
     {
     }
 }"
@@ -67,14 +67,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@public class Test
+    @::@public struct Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    internal class Test
+    internal struct Test
     {
     }
 }"
@@ -86,14 +86,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    internal @::@class Test
+    internal @::@struct Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    public class Test
+    public struct Test
     {
     }
 }"
@@ -105,14 +105,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    private static @::@public class Test
+    private @::@public struct Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    internal static class Test
+    internal struct Test
     {
     }
 }"
@@ -124,14 +124,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    private static @::@public class Test
+    private @::@public struct Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    public static class Test
+    public struct Test
     {
     }
 }"
@@ -143,14 +143,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@public class Test
+    @::@public struct Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    class Test
+    struct Test
     {
     }
 }"
@@ -162,14 +162,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@internal class Test
+    @::@internal struct Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    class Test
+    struct Test
     {
     }
 }"
@@ -181,14 +181,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    internal protected static class Test@::@
+    internal protected struct Test@::@
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    static class Test
+    struct Test
     {
     }
 }"

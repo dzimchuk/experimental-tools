@@ -110,6 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
+    <Compile Include="Features\AccessModifier\TestRunner.cs" />
+    <Compile Include="Features\AccessModifier\TopLevelEnumTests.cs" />
+    <Compile Include="Features\AccessModifier\TopLevelInterfaceTests.cs" />
+    <Compile Include="Features\AccessModifier\TopLevelStructTests.cs" />
     <Compile Include="Infrastructure\ActionAcceptors\MultipleCodeActionsAcceptor.cs" />
     <Compile Include="Infrastructure\ICodeActionAcceptor.cs" />
     <Compile Include="Infrastructure\ActionAcceptors\SingleCodeActionAcceptor.cs" />

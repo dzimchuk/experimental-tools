@@ -5,7 +5,7 @@ using Xunit;
 
 namespace ExperimentalTools.Tests.Features.AccessModifier
 {
-    public class TopLevelClassTests
+    public class TopLevelInterfaceTests
     {
         [Theory, MemberData("TestData")]
         public async Task Test(string test, string actionTitle, string input, string expectedResult)
@@ -18,7 +18,7 @@ namespace ExperimentalTools.Tests.Features.AccessModifier
                 Assert.Equal(expectedResult.HomogenizeLineEndings(), result.HomogenizeLineEndings());
             });
         }
-                
+
         public static IEnumerable<object[]> TestData =>
             new[]
             {
@@ -29,14 +29,14 @@ namespace ExperimentalTools.Tests.Features.AccessModifier
                     @"
 namespace HelloWorld
 {
-    @::@class Test
+    @::@interface Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    internal class Test
+    internal interface Test
     {
     }
 }"
@@ -48,14 +48,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@class Test
+    @::@interface Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    public class Test
+    public interface Test
     {
     }
 }"
@@ -67,14 +67,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@public class Test
+    @::@public interface Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    internal class Test
+    internal interface Test
     {
     }
 }"
@@ -86,14 +86,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    internal @::@class Test
+    internal @::@interface Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    public class Test
+    public interface Test
     {
     }
 }"
@@ -105,14 +105,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    private static @::@public class Test
+    private @::@public interface Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    internal static class Test
+    internal interface Test
     {
     }
 }"
@@ -124,14 +124,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    private static @::@public class Test
+    private @::@public interface Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    public static class Test
+    public interface Test
     {
     }
 }"
@@ -143,14 +143,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@public class Test
+    @::@public interface Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    class Test
+    interface Test
     {
     }
 }"
@@ -162,14 +162,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@internal class Test
+    @::@internal interface Test
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    class Test
+    interface Test
     {
     }
 }"
@@ -181,14 +181,14 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    internal protected static class Test@::@
+    internal protected interface Test@::@
     {
     }
 }",
                     @"
 namespace HelloWorld
 {
-    static class Test
+    interface Test
     {
     }
 }"
