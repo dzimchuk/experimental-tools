@@ -118,9 +118,9 @@ namespace ExperimentalTools.Localization {
         /// <summary>
         ///   Looks up a localized string similar to To internal (implicit).
         /// </summary>
-        internal static string ToInternalImplcit {
+        internal static string ToInternalImplicit {
             get {
-                return ResourceManager.GetString("ToInternalImplcit", resourceCulture);
+                return ResourceManager.GetString("ToInternalImplicit", resourceCulture);
             }
         }
         

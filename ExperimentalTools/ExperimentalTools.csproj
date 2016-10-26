@@ -34,6 +34,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Components\SimpleNameGenerator.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToInternalExplicit.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToPublic.cs" />
+    <Compile Include="Features\AccessModifier\ITypeActionProvider.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToInternalImplicit.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeActionProvider.cs" />
+    <Compile Include="Features\AccessModifier\ITypeRecipe.cs" />
+    <Compile Include="Features\AccessModifier\Recipes\TopLevelTypeRecipe.cs" />
     <Compile Include="INameGenerator.cs" />
     <Compile Include="Localization\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -44,7 +51,7 @@
     <Compile Include="Refactorings\AddConstructorParameterRefactoring.cs" />
     <Compile Include="Refactorings\AddInitializedFieldRefactoring.cs" />
     <Compile Include="Refactorings\AddNewConstructorWithParameterRefactoring.cs" />
-    <Compile Include="Refactorings\ChangeAccessModifierRefactoring.cs" />
+    <Compile Include="Features\AccessModifier\ChangeAccessModifierRefactoring.cs" />
     <Compile Include="SemanticExtensions.cs" />
     <Compile Include="SyntaxExtensions.cs" />
     <Compile Include="SyntaxFactory.cs" />

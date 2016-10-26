@@ -135,7 +135,7 @@
   <data name="ToInternalExplicit" xml:space="preserve">
     <value>To internal (explicit)</value>
   </data>
-  <data name="ToInternalImplcit" xml:space="preserve">
+  <data name="ToInternalImplicit" xml:space="preserve">
     <value>To internal (implicit)</value>
   </data>
   <data name="ToPublic" xml:space="preserve">

@@ -120,7 +120,7 @@
     <Compile Include="Refactorings\AddInitializedFieldRefactoringTests.cs" />
     <Compile Include="Infrastructure\TestWorkspace.cs" />
     <Compile Include="Refactorings\AddNewConstructorWithParameterRefactoringTests.cs" />
-    <Compile Include="Refactorings\ChangeAccessModifierRefactoringTests.cs" />
+    <Compile Include="Features\AccessModifier\TopLevelClassTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExperimentalTools\ExperimentalTools.csproj">
