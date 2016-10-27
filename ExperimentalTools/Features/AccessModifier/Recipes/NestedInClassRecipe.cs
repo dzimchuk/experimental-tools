@@ -1,28 +1,28 @@
 ﻿using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using ExperimentalTools.Features.AccessModifier.Actions;
 using System.Composition;
-using System.Linq;
+using ExperimentalTools.Features.AccessModifier.Actions;
 
 namespace ExperimentalTools.Features.AccessModifier.Recipes
 {
     [Export(typeof(ITypeRecipe))]
-    internal class TopLevelTypeRecipe : TypeRecipe
+    internal class NestedInClassRecipe : TypeRecipe
     {
         private static readonly IEnumerable<ITypeActionProvider> actionProviders = new List<ITypeActionProvider>
         {
-            new TypeToInternalExplicit(),
-            new TypeToInternalImplicit(),
-            new TypeToPublic()
+            new TypeToPrivateExplicit(),
+            new TypeToPrivateImplicit(),
+            new TypeToPublic(),
+            new TypeToInternal(),
+            new TypeToProtected(),
+            new TypeToProtectedInternal()
         };
 
-        public TopLevelTypeRecipe() : base(actionProviders)
+        public NestedInClassRecipe() : base(actionProviders)
         {
         }
 
         public override bool CanHandle(BaseTypeDeclarationSyntax typeDeclaration) => 
-            !typeDeclaration.Ancestors().OfType<BaseTypeDeclarationSyntax>().Any();
+            typeDeclaration.Parent is ClassDeclarationSyntax;
     }
 }

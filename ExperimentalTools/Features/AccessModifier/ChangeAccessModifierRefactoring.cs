@@ -12,12 +12,11 @@ namespace ExperimentalTools.Features.AccessModifier
     [ExportCodeRefactoringProvider(LanguageNames.CSharp, Name = nameof(ChangeAccessModifierRefactoring)), Shared]
     internal class ChangeAccessModifierRefactoring : CodeRefactoringProvider
     {
-        private readonly ITypeRecipe topLevelTypeRecipe;
-
-        [ImportingConstructor]
-        public ChangeAccessModifierRefactoring(ITypeRecipe topLevelTypeRecipe)
+        private readonly ITypeRecipe[] recipes;
+        
+        public ChangeAccessModifierRefactoring([ImportMany]ITypeRecipe[] recipes)
         {
-            this.topLevelTypeRecipe = topLevelTypeRecipe;
+            this.recipes = recipes;
         }
 
         public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)
@@ -49,15 +48,16 @@ namespace ExperimentalTools.Features.AccessModifier
         private IEnumerable<CodeAction> CalculateActions(Document document, SyntaxNode root, SyntaxNode node)
         {
             var typeDeclaration = node as BaseTypeDeclarationSyntax;
-            if (typeDeclaration != null && IsTopLevel(typeDeclaration))
+            if (typeDeclaration != null)
             {
-                return topLevelTypeRecipe.Apply(document, root, typeDeclaration);
+                var recipe = recipes.FirstOrDefault(r => r.CanHandle(typeDeclaration));
+                if (recipe != null)
+                {
+                    return recipe.Apply(document, root, typeDeclaration); 
+                }
             }
 
             return null;
         }
-
-        private bool IsTopLevel(BaseTypeDeclarationSyntax typeDeclaration) => 
-            !typeDeclaration.Ancestors().OfType<BaseTypeDeclarationSyntax>().Any();
     }
 }

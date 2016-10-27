@@ -34,13 +34,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Components\SimpleNameGenerator.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToInternal.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToPrivateExplicit.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToPrivateImplicit.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToInternalExplicit.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToProtected.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToProtectedInternal.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToPublic.cs" />
     <Compile Include="Features\AccessModifier\ITypeActionProvider.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToInternalImplicit.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeActionProvider.cs" />
     <Compile Include="Features\AccessModifier\ITypeRecipe.cs" />
+    <Compile Include="Features\AccessModifier\Recipes\NestedInClassRecipe.cs" />
     <Compile Include="Features\AccessModifier\Recipes\TopLevelTypeRecipe.cs" />
+    <Compile Include="Features\AccessModifier\Recipes\TypeRecipe.cs" />
     <Compile Include="INameGenerator.cs" />
     <Compile Include="Localization\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -7,6 +7,7 @@ namespace ExperimentalTools.Features.AccessModifier
 {
     public interface ITypeRecipe
     {
+        bool CanHandle(BaseTypeDeclarationSyntax typeDeclaration);
         IEnumerable<CodeAction> Apply(Document document, SyntaxNode root, BaseTypeDeclarationSyntax typeDeclaration);
     }
 }
