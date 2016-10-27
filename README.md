@@ -23,7 +23,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 ### Initialize field from constructor parameter
 Ctrl+. on a constructor parameter and choose *Add initialized field*.
 
-![Initialize field from constructor parameter](art/InitializeFieldFromConstructor.png)
+![Initialize field from constructor parameter](art/InitializeFieldFromConstructor_HR.png)
 
 ### Add constructor and initialize field
 
