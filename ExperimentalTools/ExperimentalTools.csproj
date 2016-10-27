@@ -46,6 +46,7 @@
     <Compile Include="Features\AccessModifier\Actions\TypeActionProvider.cs" />
     <Compile Include="Features\AccessModifier\ITypeRecipe.cs" />
     <Compile Include="Features\AccessModifier\Recipes\NestedInClassRecipe.cs" />
+    <Compile Include="Features\AccessModifier\Recipes\NestedInStructRecipe.cs" />
     <Compile Include="Features\AccessModifier\Recipes\TopLevelTypeRecipe.cs" />
     <Compile Include="Features\AccessModifier\Recipes\TypeRecipe.cs" />
     <Compile Include="INameGenerator.cs" />

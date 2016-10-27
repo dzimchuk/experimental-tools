@@ -15,7 +15,12 @@ namespace ExperimentalTools.Tests.Features.AccessModifier
             var acceptor = new MultipleCodeActionsAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
-            var provider = new ChangeAccessModifierRefactoring(new ITypeRecipe[] { new TopLevelTypeRecipe(), new NestedInClassRecipe() });
+            var provider = new ChangeAccessModifierRefactoring(new ITypeRecipe[] 
+            {
+                new TopLevelTypeRecipe(),
+                new NestedInClassRecipe(),
+                new NestedInStructRecipe()
+            });
             await provider.ComputeRefactoringsAsync(context);
 
             await verifyAsync(acceptor, context);

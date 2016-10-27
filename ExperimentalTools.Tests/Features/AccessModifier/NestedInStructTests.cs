@@ -5,7 +5,7 @@ using Xunit;
 
 namespace ExperimentalTools.Tests.Features.AccessModifier
 {
-    public class TopLevelClassTests
+    public class NestedInStructTests
     {
         [Theory, MemberData("HasActionTestData")]
         public async Task HasActionTest(string test, string actionTitle, string input, string expectedResult)
@@ -18,178 +18,107 @@ namespace ExperimentalTools.Tests.Features.AccessModifier
                 Assert.Equal(expectedResult.HomogenizeLineEndings(), result.HomogenizeLineEndings());
             });
         }
-                
+
         public static IEnumerable<object[]> HasActionTestData =>
             new[]
             {
                 new object[]
                 {
-                    "Implicit to InternalExplicit",
-                    Resources.ToInternalExplicit,
+                    "To PrivateExplicit",
+                    Resources.ToPrivateExplicit,
                     @"
 namespace HelloWorld
 {
-    @::@class Test
+    struct Test
     {
+        @::@class Nested
+        {
+        }
     }
 }",
                     @"
 namespace HelloWorld
 {
-    internal class Test
+    struct Test
     {
+        private class Nested
+        {
+        }
     }
 }"
                 },
                 new object[]
                 {
-                    "Implicit to Public",
+                    "To PrivateImplicit",
+                    Resources.ToPrivateImplicit,
+                    @"
+namespace HelloWorld
+{
+    struct Test
+    {
+        @::@public class Nested
+        {
+        }
+    }
+}",
+                    @"
+namespace HelloWorld
+{
+    struct Test
+    {
+        class Nested
+        {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "To Public",
                     Resources.ToPublic,
                     @"
 namespace HelloWorld
 {
-    @::@class Test
+    struct Test
     {
+        @::@class Nested
+        {
+        }
     }
 }",
                     @"
 namespace HelloWorld
 {
-    public class Test
+    struct Test
     {
+        public class Nested
+        {
+        }
     }
 }"
                 },
                 new object[]
                 {
-                    "Public to InternalExplicit",
-                    Resources.ToInternalExplicit,
+                    "To Internal",
+                    Resources.ToInternal,
                     @"
 namespace HelloWorld
 {
-    @::@public class Test
+    struct Test
     {
+        @::@class Nested
+        {
+        }
     }
 }",
                     @"
 namespace HelloWorld
 {
-    internal class Test
+    struct Test
     {
-    }
-}"
-                },
-                new object[]
-                {
-                    "Internal to Public",
-                    Resources.ToPublic,
-                    @"
-namespace HelloWorld
-{
-    internal @::@class Test
-    {
-    }
-}",
-                    @"
-namespace HelloWorld
-{
-    public class Test
-    {
-    }
-}"
-                },
-                new object[]
-                {
-                    "Multiple modifiers to InternalExplicit",
-                    Resources.ToInternalExplicit,
-                    @"
-namespace HelloWorld
-{
-    private static @::@public class Test
-    {
-    }
-}",
-                    @"
-namespace HelloWorld
-{
-    internal static class Test
-    {
-    }
-}"
-                },
-                new object[]
-                {
-                    "Multiple modifiers to Public",
-                    Resources.ToPublic,
-                    @"
-namespace HelloWorld
-{
-    private static @::@public class Test
-    {
-    }
-}",
-                    @"
-namespace HelloWorld
-{
-    public static class Test
-    {
-    }
-}"
-                },
-                new object[]
-                {
-                    "Public to InternalImplicit",
-                    Resources.ToInternalImplicit,
-                    @"
-namespace HelloWorld
-{
-    @::@public class Test
-    {
-    }
-}",
-                    @"
-namespace HelloWorld
-{
-    class Test
-    {
-    }
-}"
-                },
-                new object[]
-                {
-                    "Internal to InternalImplicit",
-                    Resources.ToInternalImplicit,
-                    @"
-namespace HelloWorld
-{
-    @::@internal class Test
-    {
-    }
-}",
-                    @"
-namespace HelloWorld
-{
-    class Test
-    {
-    }
-}"
-                },
-                new object[]
-                {
-                    "Multiple modifiers to InternalImplicit",
-                    Resources.ToInternalImplicit,
-                    @"
-namespace HelloWorld
-{
-    internal protected static class Test@::@
-    {
-    }
-}",
-                    @"
-namespace HelloWorld
-{
-    static class Test
-    {
+        internal class Nested
+        {
+        }
     }
 }"
                 }
@@ -210,25 +139,31 @@ namespace HelloWorld
             {
                 new object[]
                 {
-                    "To InternalExplicit",
-                    Resources.ToInternalExplicit,
+                    "To PrivateExplicit",
+                    Resources.ToPrivateExplicit,
                     @"
 namespace HelloWorld
 {
-    @::@internal class Test
+    struct Test
     {
+        @::@private class Nested
+        {
+        }
     }
 }"
                 },
                 new object[]
                 {
-                    "To InternalImplicit",
-                    Resources.ToInternalImplicit,
+                    "To PrivateImplicit",
+                    Resources.ToPrivateImplicit,
                     @"
 namespace HelloWorld
 {
-    @::@class Test
+    struct Test
     {
+        @::@class Nested
+        {
+        }
     }
 }"
                 },
@@ -239,8 +174,11 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@public class Test
+    struct Test
     {
+        @::@public class Nested
+        {
+        }
     }
 }"
                 },
@@ -251,8 +189,11 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@class Test
+    struct Test
     {
+        @::@class Nested
+        {
+        }
     }
 }"
                 },
@@ -263,8 +204,11 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@class Test
+    struct Test
     {
+        @::@class Nested
+        {
+        }
     }
 }"
                 },
@@ -275,8 +219,11 @@ namespace HelloWorld
                     @"
 namespace HelloWorld
 {
-    @::@class Test
+    struct Test
     {
+        @::@internal class Nested
+        {
+        }
     }
 }"
                 }

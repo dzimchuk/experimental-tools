@@ -14,6 +14,7 @@ namespace ExperimentalTools.Features.AccessModifier
     {
         private readonly ITypeRecipe[] recipes;
         
+        [ImportingConstructor]
         public ChangeAccessModifierRefactoring([ImportMany]ITypeRecipe[] recipes)
         {
             this.recipes = recipes;
