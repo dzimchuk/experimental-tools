@@ -23,7 +23,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 ### Initialize field from constructor parameter
 Ctrl+. on a constructor parameter and choose *Add initialized field*.
 
-![Initialize field from constructor parameter](art/InitializeFieldFromConstructor_HR.png)
+![Initialize field from constructor parameter](art/InitializeFieldFromConstructor.png)
 
 ### Add constructor and initialize field
 
@@ -39,9 +39,9 @@ Ctrl+. on a field and choose *Initialize field in existing constructor*.
 
 ### Change access modifier on type declarations
 
-Ctrl+. on a type declaration (either top level or nested) and choose an option.
+Ctrl+. on a type declaration (either top level or nested) and choose one of proposed options.
 
-![Change access modifier on type declarations](art/InitializeFieldInExistingConstructor.png)
+![Change access modifier on type declarations](art/ChangeTypeAccessModifier.png)
 
 ## Contribute
 Check out the [contribution guidelines](CONTRIBUTING.md)
