@@ -132,4 +132,28 @@
   <data name="InitializeFieldInExistingConstructors" xml:space="preserve">
     <value>Initialize field in existing constructors</value>
   </data>
+  <data name="ToInternal" xml:space="preserve">
+    <value>To internal</value>
+  </data>
+  <data name="ToInternalExplicit" xml:space="preserve">
+    <value>To internal (explicit)</value>
+  </data>
+  <data name="ToInternalImplicit" xml:space="preserve">
+    <value>To internal (implicit)</value>
+  </data>
+  <data name="ToPrivateExplicit" xml:space="preserve">
+    <value>To private (explicit)</value>
+  </data>
+  <data name="ToPrivateImplicit" xml:space="preserve">
+    <value>To private (implicit)</value>
+  </data>
+  <data name="ToProtected" xml:space="preserve">
+    <value>To protected</value>
+  </data>
+  <data name="ToProtectedInternal" xml:space="preserve">
+    <value>To protected internal</value>
+  </data>
+  <data name="ToPublic" xml:space="preserve">
+    <value>To public</value>
+  </data>
 </root>

@@ -1,18 +1,19 @@
 ﻿using ExperimentalTools.Components;
-using ExperimentalTools.Refactorings;
+using ExperimentalTools.Features.Constructor;
 using ExperimentalTools.Tests.Infrastructure;
+using ExperimentalTools.Tests.Infrastructure.ActionAcceptors;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ExperimentalTools.Tests.Refactorings
+namespace ExperimentalTools.Tests.Features.Constructor
 {
     public class AddConstructorParameterRefactoringTests
     {
         [Theory, MemberData("HasActionTestData")]
         public async Task HasActionTest(string test, string input, string expectedOutput)
         {
-            var acceptor = new CodeRefactoringActionAcceptor();
+            var acceptor = new SingleCodeActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
             var provider = new AddConstructorParameterRefactoring(new SimpleNameGenerator());
@@ -226,7 +227,7 @@ namespace HelloWorld
         [Theory, MemberData("NoActionTestData")]
         public async Task NoActionTest(string test, string input)
         {
-            var acceptor = new CodeRefactoringActionAcceptor();
+            var acceptor = new SingleCodeActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
             var provider = new AddConstructorParameterRefactoring(new SimpleNameGenerator());

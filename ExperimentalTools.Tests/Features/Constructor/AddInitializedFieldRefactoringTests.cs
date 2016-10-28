@@ -1,21 +1,22 @@
 ﻿using ExperimentalTools.Components;
-using ExperimentalTools.Refactorings;
+using ExperimentalTools.Features.Constructor;
 using ExperimentalTools.Tests.Infrastructure;
+using ExperimentalTools.Tests.Infrastructure.ActionAcceptors;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ExperimentalTools.Tests.Refactorings
+namespace ExperimentalTools.Tests.Features.Constructor
 {
-    public class AddNewConstructorWithParameterRefactoringTests
+    public class AddInitializedFieldRefactoringTests
     {
         [Theory, MemberData("HasActionTestData")]
         public async Task HasActionTest(string test, string input, string expectedOutput)
         {
-            var acceptor = new CodeRefactoringActionAcceptor();
+            var acceptor = new SingleCodeActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
-            var provider = new AddNewConstructorWithParameterRefactoring(new SimpleNameGenerator());
+            var provider = new AddInitializedFieldRefactoring(new SimpleNameGenerator());
             await provider.ComputeRefactoringsAsync(context);
 
             Assert.True(acceptor.HasAction);
@@ -29,7 +30,7 @@ namespace ExperimentalTools.Tests.Refactorings
             {
                 new object[]
                 {
-                    "Constructor does not exist",
+                    "Inside parameter name (1)",
                     @"
 using System;
 
@@ -37,7 +38,9 @@ namespace HelloWorld
 {
     class TestService
     {
-        private readonly int @::@index;
+        public TestService(int @::@index)
+        {
+        }
     }
 }",
                     @"
@@ -58,7 +61,7 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Constructor does not exist (at the end of declarator)",
+                    "Inside parameter name (2)",
                     @"
 using System;
 
@@ -66,7 +69,72 @@ namespace HelloWorld
 {
     class TestService
     {
-        private readonly int index@::@;
+        public TestService(string name, int index@::@)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private readonly int index;
+
+        public TestService(string name, int index)
+        {
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Inside parameter name (3)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(string name@::@, int index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private readonly string name;
+
+        public TestService(string name, int index)
+        {
+            this.name = name;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "With comments inside constructor body",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(int @::@index)
+        {// comment1
+            // comment2
+        }   // comment3
     }
 }",
                     @"
@@ -79,15 +147,16 @@ namespace HelloWorld
         private readonly int index;
 
         public TestService(int index)
-        {
+        {// comment1
             this.index = index;
-        }
+            // comment2
+        }   // comment3
     }
 }"
                 },
                 new object[]
                 {
-                    "Place new constructor below field group",
+                    "With existing statement in constructor body",
                     @"
 using System;
 
@@ -95,12 +164,11 @@ namespace HelloWorld
 {
     class TestService
     {
-        private int @::@index;
-        private string name;
-
-        public string Name { get { return name; } }
-
-        private int i;
+        private readonly string name;
+        public TestService(string name, int @::@index)
+        {
+            this.name = name;
+        }
     }
 }",
                     @"
@@ -110,23 +178,106 @@ namespace HelloWorld
 {
     class TestService
     {
-        private int index;
-        private string name;
+        private readonly string name;
+        private readonly int index;
 
-        public TestService(int index)
+        public TestService(string name, int index)
         {
+            this.name = name;
             this.index = index;
         }
-
-        public string Name { get { return name; } }
-
-        private int i;
     }
 }"
                 },
                 new object[]
                 {
-                    "Place new constructor near existing constructors",
+                    "When already initializing a field/property in another class",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class Dummy
+    {
+        public int Prop { get; set; }
+    }
+
+    class TestService
+    {
+        public TestService(int @::@index)
+        {
+            var d = new Dummy();
+            d.Prop = index;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class Dummy
+    {
+        public int Prop { get; set; }
+    }
+
+    class TestService
+    {
+        private readonly int index;
+
+        public TestService(int index)
+        {
+            var d = new Dummy();
+            d.Prop = index;
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Custom types",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    interface IDummy
+    {
+        void Action();
+    }
+
+    class TestService
+    {
+        public TestService(IDummy @::@dummy)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    interface IDummy
+    {
+        void Action();
+    }
+
+    class TestService
+    {
+        private readonly IDummy dummy;
+
+        public TestService(IDummy dummy)
+        {
+            this.dummy = dummy;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field with the same name already exists (1)",
                     @"
 using System;
 
@@ -134,17 +285,10 @@ namespace HelloWorld
 {
     class TestService
     {
-        private int @::@index;
-        private string name;
-
-        public string Name { get { return name; } }
-
-        public TestService(string name)
+        public int index;
+        public TestService(int @::@index)
         {
-            this.name = name;
         }
-
-        private int i;
     }
 }",
                     @"
@@ -154,28 +298,19 @@ namespace HelloWorld
 {
     class TestService
     {
-        private int index;
-        private string name;
-
-        public string Name { get { return name; } }
-
-        public TestService(string name)
-        {
-            this.name = name;
-        }
+        public int index;
+        private readonly int index1;
 
         public TestService(int index)
         {
-            this.index = index;
+            index1 = index;
         }
-
-        private int i;
     }
 }"
                 },
                 new object[]
                 {
-                    "Field initialized from another parameterless constructor",
+                    "Field with the same name already exists (2)",
                     @"
 using System;
 
@@ -183,11 +318,78 @@ namespace HelloWorld
 {
     class TestService
     {
-        private int @::@index;
+        public int index;
+        public TestService(int @::@index, string index1)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public int index;
+        private readonly int index1;
+
+        public TestService(int index, string index1)
+        {
+            this.index1 = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Readonly field with the same type and name already exists",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public readonly int index;
+        public TestService(int @::@index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public readonly int index;
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Placement test 1",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private string name;
 
         public TestService()
         {
-            this.index = 2;
+        }
+
+        public TestService(int @::@index)
+        {
         }
     }
 }",
@@ -198,11 +400,11 @@ namespace HelloWorld
 {
     class TestService
     {
-        private int index;
+        private string name;
+        private readonly int index;
 
         public TestService()
         {
-            this.index = 2;
         }
 
         public TestService(int index)
@@ -214,20 +416,20 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Field initialized from another constructor with other parameters",
+                    "Placement test 2",
                     @"
 using System;
 
 namespace HelloWorld
 {
-    class Test { public int Prop { get { return 2; } } }
     class TestService
     {
-        private int @::@index;
-
-        public TestService(Test test)
+        public TestService()
         {
-            this.index = test.Prop;
+        }
+
+        public TestService(int @::@index)
+        {
         }
     }
 }",
@@ -236,148 +438,17 @@ using System;
 
 namespace HelloWorld
 {
-    class Test { public int Prop { get { return 2; } } }
     class TestService
-    {
-        private int index;
-
-        public TestService(Test test)
-        {
-            this.index = test.Prop;
-        }
-
-        public TestService(int index)
-        {
-            this.index = index;
-        }
-    }
-}"
-                },
-                new object[]
-                {
-                    "Struct",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    struct Test
-    {
-        private readonly int @::@index;
-        public string name;
-        public int count;
-    }
-}",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    struct Test
     {
         private readonly int index;
-        public string name;
-        public int count;
 
-        public Test(int index)
+        public TestService()
         {
-            this.index = index;
-            name = default(string);
-            count = default(int);
-        }
-    }
-}"
-                },
-                new object[]
-                {
-                    "Constructor with multipe paramters (but no assignment) exists",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        private string name;
-        private int @::@index;
-
-        public TestService(string name, int index)
-        {
-            this.name = name;
-        }
-    }
-}",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        private string name;
-        private int index;
-
-        public TestService(string name, int index)
-        {
-            this.name = name;
         }
 
         public TestService(int index)
         {
             this.index = index;
-        }
-    }
-}"
-                },
-                new object[]
-                {
-                    "Field already initialized (multiple constructors, but not any with a single vacant parameter of the same type)",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        private int @::@m_index;
-        private readonly string name;
-
-        public TestService(string name)
-        {
-            this.name = name;
-        }
-
-        public TestService(string name, int index)
-        {
-            this.name = name;
-            m_index = index;
-        }
-    }
-}",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        private int m_index;
-        private readonly string name;
-
-        public TestService(string name)
-        {
-            this.name = name;
-        }
-
-        public TestService(string name, int index)
-        {
-            this.name = name;
-            m_index = index;
-        }
-
-        public TestService(int index)
-        {
-            m_index = index;
         }
     }
 }"
@@ -387,10 +458,10 @@ namespace HelloWorld
         [Theory, MemberData("NoActionTestData")]
         public async Task NoActionTest(string test, string input)
         {
-            var acceptor = new CodeRefactoringActionAcceptor();
+            var acceptor = new SingleCodeActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor);
 
-            var provider = new AddNewConstructorWithParameterRefactoring(new SimpleNameGenerator());
+            var provider = new AddInitializedFieldRefactoring(new SimpleNameGenerator());
             await provider.ComputeRefactoringsAsync(context);
 
             Assert.False(acceptor.HasAction);
@@ -401,7 +472,7 @@ namespace HelloWorld
             {
                 new object[]
                 {
-                    "Outside field name",
+                    "Inside constructor name",
                     @"
 using System;
 
@@ -409,7 +480,77 @@ namespace HelloWorld
 {
     class TestService
     {
-        private readonly i@::@nt index;
+        public Test@::@Service(int index)
+        {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Inside parameter type",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(i@::@nt index)
+        {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Method parameter",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void Test(int @::@index)
+        {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field already initialized",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int m_index;
+        public TestService(int @::@index)
+        {
+            m_index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field already initialized (complex right expression)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int index;
+        public TestService(int @::@index)
+        {
+            this.index = index * 2;
+        }
     }
 }"
                 },
@@ -423,87 +564,9 @@ namespace HelloWorld
 {
     class TestService
     {
-        private readonly int in@:d:@ex;
-    }
-}"
-                },
-                new object[]
-                {
-                    "Field already initialized (single constructor, single parameter)",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        private int @::@m_index;
-        public TestService(int index)
-        {
-            m_index = index;
-        }
-    }
-}"
-                },
-                new object[]
-                {
-                    "Field already initialized (multiple constructors, including one with a single parameter)",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        private int @::@m_index;
-        private readonly string name;
-
-        public TestService(string name)
-        {
-            this.name = name;
-        }
-
-        public TestService(string name, int index)
-        {
-            this.name = name;
-            m_index = index;
-        }
-
-        public TestService(int index)
-        {
-            m_index = index;
-        }
-    }
-}"
-                },
-                new object[]
-                {
-                    "A constructor with the single parameter of the same type as the field exists",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        private int @::@m_index;
-        public TestService(int index)
+        public TestService(int @:i:@ndex)
         {
         }
-    }
-}"
-                },
-                new object[]
-                {
-                    "Field is a constant",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        private const int @::@index = 1;
     }
 }"
                 }

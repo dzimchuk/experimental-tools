@@ -1,7 +1,5 @@
 # Road map
 
-- [ ] Change access modifier
-- [ ] Move type to file
 - [ ] Settings page (ability to enable/disable individual features)
 - [ ] Update file name to match type name
 - [ ] Update namespace to match file path
@@ -24,6 +22,13 @@ download in the
 
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
+
+## 0.2
+
+**2016-10-27**
+
+- [x] Change access modifier on type declarations
+- [x] Fixed a bunch of issues
 
 ## 0.1
 

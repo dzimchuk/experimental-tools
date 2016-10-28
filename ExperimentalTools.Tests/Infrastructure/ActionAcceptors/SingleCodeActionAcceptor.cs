@@ -3,9 +3,9 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ExperimentalTools.Tests.Infrastructure
+namespace ExperimentalTools.Tests.Infrastructure.ActionAcceptors
 {
-    internal class CodeRefactoringActionAcceptor
+    internal class SingleCodeActionAcceptor : ICodeActionAcceptor
     {
         private CodeAction action;
 

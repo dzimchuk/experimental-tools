@@ -34,6 +34,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Components\SimpleNameGenerator.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToInternal.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToPrivateExplicit.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToPrivateImplicit.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToInternalExplicit.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToProtected.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToProtectedInternal.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToPublic.cs" />
+    <Compile Include="Features\AccessModifier\ITypeActionProvider.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeToInternalImplicit.cs" />
+    <Compile Include="Features\AccessModifier\Actions\TypeActionProvider.cs" />
+    <Compile Include="Features\AccessModifier\ITypeRecipe.cs" />
+    <Compile Include="Features\AccessModifier\Recipes\NestedInClassRecipe.cs" />
+    <Compile Include="Features\AccessModifier\Recipes\NestedInStructRecipe.cs" />
+    <Compile Include="Features\AccessModifier\Recipes\TopLevelTypeRecipe.cs" />
+    <Compile Include="Features\AccessModifier\Recipes\TypeRecipe.cs" />
     <Compile Include="INameGenerator.cs" />
     <Compile Include="Localization\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -41,9 +56,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Refactorings\AddConstructorParameterRefactoring.cs" />
-    <Compile Include="Refactorings\AddInitializedFieldRefactoring.cs" />
-    <Compile Include="Refactorings\AddNewConstructorWithParameterRefactoring.cs" />
+    <Compile Include="Features\Constructor\AddConstructorParameterRefactoring.cs" />
+    <Compile Include="Features\Constructor\AddInitializedFieldRefactoring.cs" />
+    <Compile Include="Features\Constructor\AddNewConstructorWithParameterRefactoring.cs" />
+    <Compile Include="Features\AccessModifier\ChangeAccessModifierRefactoring.cs" />
     <Compile Include="SemanticExtensions.cs" />
     <Compile Include="SyntaxExtensions.cs" />
     <Compile Include="SyntaxFactory.cs" />

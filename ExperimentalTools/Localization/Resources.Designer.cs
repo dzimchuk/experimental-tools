@@ -105,5 +105,77 @@ namespace ExperimentalTools.Localization {
                 return ResourceManager.GetString("InitializeFieldInExistingConstructors", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To internal.
+        /// </summary>
+        internal static string ToInternal {
+            get {
+                return ResourceManager.GetString("ToInternal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To internal (explicit).
+        /// </summary>
+        internal static string ToInternalExplicit {
+            get {
+                return ResourceManager.GetString("ToInternalExplicit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To internal (implicit).
+        /// </summary>
+        internal static string ToInternalImplicit {
+            get {
+                return ResourceManager.GetString("ToInternalImplicit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To private (explicit).
+        /// </summary>
+        internal static string ToPrivateExplicit {
+            get {
+                return ResourceManager.GetString("ToPrivateExplicit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To private (implicit).
+        /// </summary>
+        internal static string ToPrivateImplicit {
+            get {
+                return ResourceManager.GetString("ToPrivateImplicit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To protected.
+        /// </summary>
+        internal static string ToProtected {
+            get {
+                return ResourceManager.GetString("ToProtected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To protected internal.
+        /// </summary>
+        internal static string ToProtectedInternal {
+            get {
+                return ResourceManager.GetString("ToProtectedInternal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To public.
+        /// </summary>
+        internal static string ToPublic {
+            get {
+                return ResourceManager.GetString("ToPublic", resourceCulture);
+            }
+        }
     }
 }

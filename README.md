@@ -18,6 +18,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 - Initialize field from constructor parameter
 - Add constructor and initialize field
 - Initialize field in existing constructor
+- Change access modifier on type declarations
 
 ### Initialize field from constructor parameter
 Ctrl+. on a constructor parameter and choose *Add initialized field*.
@@ -35,6 +36,12 @@ Ctrl+. on a field and choose *Add constructor and initialize field*.
 Ctrl+. on a field and choose *Initialize field in existing constructor*.
 
 ![Initialize field in existing constructor](art/InitializeFieldInExistingConstructor.png)
+
+### Change access modifier on type declarations
+
+Ctrl+. on a type declaration (either top level or nested) and choose one of proposed options.
+
+![Change access modifier on type declarations](art/ChangeTypeAccessModifier.png)
 
 ## Contribute
 Check out the [contribution guidelines](CONTRIBUTING.md)
