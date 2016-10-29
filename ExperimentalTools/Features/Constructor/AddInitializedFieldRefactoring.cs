@@ -54,6 +54,11 @@ namespace ExperimentalTools.Features.Constructor
                 }
             }
 
+            if (parameter == null)
+            {
+                return;
+            }
+
             var constructor = parameter.Ancestors().OfType<ConstructorDeclarationSyntax>().FirstOrDefault();
             if (constructor == null)
             {
