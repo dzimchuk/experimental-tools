@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Composition;
 using System.Text.RegularExpressions;
 
-namespace ExperimentalTools.Components
+namespace ExperimentalTools.Services
 {
     [Export(typeof(INameGenerator))]
     internal class SimpleNameGenerator : INameGenerator

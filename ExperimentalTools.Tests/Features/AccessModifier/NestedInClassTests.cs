@@ -175,13 +175,13 @@ namespace HelloWorld
             };
 
         [Theory, MemberData("NoActionTestData")]
-        public async Task NoActionTest(string test, string actionTitle, string input)
+        public Task NoActionTest(string test, string actionTitle, string input)
         {
-            await TestRunner.RunAsync(input, (acceptor, context) =>
-            {
-                Assert.False(acceptor.HasAction(actionTitle));
-                return Task.FromResult(0);
-            });
+            return TestRunner.RunAsync(input, (acceptor, context) =>
+             {
+                 Assert.False(acceptor.HasAction(actionTitle));
+                 return Task.FromResult(0);
+             });
         }
 
         public static IEnumerable<object[]> NoActionTestData =>

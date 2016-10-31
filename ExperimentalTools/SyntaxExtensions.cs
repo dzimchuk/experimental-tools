@@ -53,5 +53,8 @@ namespace ExperimentalTools
 
             return typeDeclaration;
         }
+
+        public static bool IsTopLevelType(this BaseTypeDeclarationSyntax typeDeclaration) =>
+            !typeDeclaration.Ancestors().OfType<BaseTypeDeclarationSyntax>().Any();
     }
 }

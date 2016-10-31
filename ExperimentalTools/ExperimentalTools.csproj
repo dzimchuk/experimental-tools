@@ -33,7 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Components\SimpleNameGenerator.cs" />
+    <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzer.cs" />
+    <Compile Include="IGeneratedCodeRecognitionService.cs" />
+    <Compile Include="Services\GeneratedCodeRecognitionService.cs" />
+    <Compile Include="Services\SimpleNameGenerator.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToInternal.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToPrivateExplicit.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToPrivateImplicit.cs" />
