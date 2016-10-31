@@ -123,6 +123,9 @@
   <data name="AddInitializedField" xml:space="preserve">
     <value>Add initialized field</value>
   </data>
+  <data name="CategoryNaming" xml:space="preserve">
+    <value>Naming</value>
+  </data>
   <data name="InitializeExistingField" xml:space="preserve">
     <value>Initialize existing field</value>
   </data>
@@ -155,5 +158,11 @@
   </data>
   <data name="ToPublic" xml:space="preserve">
     <value>To public</value>
+  </data>
+  <data name="TypeAndDocumentNameAnalyzerMessageFormat" xml:space="preserve">
+    <value>Type name '{0}' does not match file name</value>
+  </data>
+  <data name="TypeAndDocumentNameAnalyzerTitle" xml:space="preserve">
+    <value>Type name does not match file name</value>
   </data>
 </root>

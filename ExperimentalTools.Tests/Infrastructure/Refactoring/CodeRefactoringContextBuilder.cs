@@ -4,7 +4,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace ExperimentalTools.Tests.Infrastructure
+namespace ExperimentalTools.Tests.Infrastructure.Refactoring
 {
     internal class CodeRefactoringContextBuilder
     {

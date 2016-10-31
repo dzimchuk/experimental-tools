@@ -1,29 +1,21 @@
 ﻿using ExperimentalTools.Services;
 using ExperimentalTools.Features.Constructor;
-using ExperimentalTools.Tests.Infrastructure;
-using ExperimentalTools.Tests.Infrastructure.ActionAcceptors;
+using ExperimentalTools.Tests.Infrastructure.Refactoring;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using Microsoft.CodeAnalysis.CodeRefactorings;
 
 namespace ExperimentalTools.Tests.Features.Constructor
 {
-    public class AddConstructorParameterRefactoringTests
+    public class AddConstructorParameterRefactoringTests : RefactoringTest
     {
+        protected override CodeRefactoringProvider Provider => 
+            new AddConstructorParameterRefactoring(new SimpleNameGenerator());
+
         [Theory, MemberData("HasActionTestData")]
-        public async Task HasActionTest(string test, string input, string expectedOutput)
-        {
-            var acceptor = new SingleCodeActionAcceptor();
-            var context = CodeRefactoringContextBuilder.Build(input, acceptor);
-
-            var provider = new AddConstructorParameterRefactoring(new SimpleNameGenerator());
-            await provider.ComputeRefactoringsAsync(context);
-
-            Assert.True(acceptor.HasAction);
-
-            var result = await acceptor.GetResultAsync(context);
-            Assert.Equal(expectedOutput.HomogenizeLineEndings(), result.HomogenizeLineEndings());
-        }
+        public Task HasActionTest(string test, string input, string expectedOutput) => 
+            RunSingleActionTestAsync(input, expectedOutput);
 
         public static IEnumerable<object[]> HasActionTestData =>
             new[]
@@ -225,16 +217,8 @@ namespace HelloWorld
             };
 
         [Theory, MemberData("NoActionTestData")]
-        public async Task NoActionTest(string test, string input)
-        {
-            var acceptor = new SingleCodeActionAcceptor();
-            var context = CodeRefactoringContextBuilder.Build(input, acceptor);
-
-            var provider = new AddConstructorParameterRefactoring(new SimpleNameGenerator());
-            await provider.ComputeRefactoringsAsync(context);
-
-            Assert.False(acceptor.HasAction);
-        }
+        public Task NoActionTest(string test, string input) => 
+            RunNoActionTestAsync(input);
 
         public static IEnumerable<object[]> NoActionTestData =>
             new[]

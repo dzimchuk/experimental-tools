@@ -112,19 +112,24 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Features\AccessModifier\NestedInClassTests.cs" />
     <Compile Include="Features\AccessModifier\NestedInStructTests.cs" />
-    <Compile Include="Features\AccessModifier\TestRunner.cs" />
+    <Compile Include="Features\AccessModifier\AccessModifierTest.cs" />
     <Compile Include="Features\AccessModifier\TopLevelEnumTests.cs" />
     <Compile Include="Features\AccessModifier\TopLevelInterfaceTests.cs" />
     <Compile Include="Features\AccessModifier\TopLevelStructTests.cs" />
     <Compile Include="Infrastructure\ActionAcceptors\MultipleCodeActionsAcceptor.cs" />
+    <Compile Include="Infrastructure\Diagnostics\DiagnosticResult.cs" />
+    <Compile Include="Infrastructure\Diagnostics\DiagnosticResultLocation.cs" />
+    <Compile Include="Infrastructure\Diagnostics\DiagnosticRunner.cs" />
+    <Compile Include="Infrastructure\Diagnostics\DiagnosticTest.cs" />
+    <Compile Include="Infrastructure\Diagnostics\DiagnosticVerifier.cs" />
     <Compile Include="Infrastructure\ICodeActionAcceptor.cs" />
     <Compile Include="Infrastructure\ActionAcceptors\SingleCodeActionAcceptor.cs" />
-    <Compile Include="Infrastructure\CodeRefactoringContextBuilder.cs" />
+    <Compile Include="Infrastructure\Refactoring\CodeRefactoringContextBuilder.cs" />
     <Compile Include="Infrastructure\DocumentProvider.cs" />
+    <Compile Include="Infrastructure\Refactoring\RefactoringTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Features\Constructor\AddConstructorParameterRefactoringTests.cs" />
     <Compile Include="Features\Constructor\AddInitializedFieldRefactoringTests.cs" />
-    <Compile Include="Infrastructure\TestWorkspace.cs" />
     <Compile Include="Features\Constructor\AddNewConstructorWithParameterRefactoringTests.cs" />
     <Compile Include="Features\AccessModifier\TopLevelClassTests.cs" />
   </ItemGroup>

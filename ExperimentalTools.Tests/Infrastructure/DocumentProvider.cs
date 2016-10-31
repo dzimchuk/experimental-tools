@@ -1,56 +1,60 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
+using System;
+using System.Linq;
 
 namespace ExperimentalTools.Tests.Infrastructure
 {
     internal static class DocumentProvider
     {
-        private static readonly MetadataReference[] MetadataReferences = new[]
+        private static readonly MetadataReference CorlibReference = MetadataReference.CreateFromFile(typeof(object).Assembly.Location);
+        private static readonly MetadataReference SystemCoreReference = MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location);
+        private static readonly MetadataReference CSharpSymbolsReference = MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location);
+        private static readonly MetadataReference CodeAnalysisReference = MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location);
+
+        private const string DefaultFilePathPrefix = "Test";
+        private const string CSharpDefaultFileExt = "cs";
+        private const string TestProjectName = "TestProject";
+
+        public static Document[] GetDocuments(string[] sources)
         {
-            MetadataReference.CreateFromFile(typeof(object).Assembly.Location)
-        };
+            var project = CreateProject(sources);
+            var documents = project.Documents.ToArray();
 
-        public static Document GetDocument(string sourceText)
+            if (sources.Length != documents.Length)
+            {
+                throw new Exception("Amount of sources did not match amount of Documents created");
+            }
+
+            return documents;
+        }
+
+        public static Document GetDocument(string source) => 
+            CreateProject(new[] { source }).Documents.First();
+
+        private static Project CreateProject(string[] sources)
         {
-            var projectId = ProjectId.CreateNewId();
-            var documentId = DocumentId.CreateNewId(projectId);
+            var projectId = ProjectId.CreateNewId(debugName: TestProjectName);
 
-            var documentInfo = DocumentInfo.Create(documentId, "test.cs", null, SourceCodeKind.Regular,
-                TextLoader.From(TextAndVersion.Create(SourceText.From(sourceText), VersionStamp.Create())));
+            var solution = new AdhocWorkspace()
+                .CurrentSolution
+                .AddProject(projectId, TestProjectName, TestProjectName, LanguageNames.CSharp)
+                .AddMetadataReference(projectId, CorlibReference)
+                .AddMetadataReference(projectId, SystemCoreReference)
+                .AddMetadataReference(projectId, CSharpSymbolsReference)
+                .AddMetadataReference(projectId, CodeAnalysisReference);
 
-            var projectInfo = ProjectInfo.Create(
-                projectId,
-                VersionStamp.Create(),
-                "Test",
-                "Test",
-                LanguageNames.CSharp,
-                null,
-                null,
-                new CSharpCompilationOptions(
-                    OutputKind.DynamicallyLinkedLibrary,
-                    false,
-                    "",
-                    "",
-                    "Script",
-                    null,
-                    OptimizationLevel.Debug,
-                    false,
-                    true
-                ),
-                new CSharpParseOptions(),
-                new[] { documentInfo },
-                null,
-                MetadataReferences
-            );
+            var count = 0;
+            foreach (var source in sources)
+            {
+                var newFileName = DefaultFilePathPrefix + count + "." + CSharpDefaultFileExt;
+                var documentId = DocumentId.CreateNewId(projectId, debugName: newFileName);
+                solution = solution.AddDocument(documentId, newFileName, SourceText.From(source));
+                count++;
+            }
 
-            var solutionInfo = SolutionInfo.Create(SolutionId.CreateNewId(), VersionStamp.Create(), null,
-                new[] { projectInfo });
-
-            var workspace = new TestWorkspace();
-            workspace.Open(solutionInfo);
-
-            return workspace.CurrentSolution.GetProject(projectId).GetDocument(documentId);
+            return solution.GetProject(projectId);
         }
     }
 }
