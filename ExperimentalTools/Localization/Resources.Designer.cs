@@ -116,6 +116,15 @@ namespace ExperimentalTools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rename &apos;{0}&apos; to &apos;{1}&apos;.
+        /// </summary>
+        internal static string RenameAToB {
+            get {
+                return ResourceManager.GetString("RenameAToB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To internal.
         /// </summary>
         internal static string ToInternal {

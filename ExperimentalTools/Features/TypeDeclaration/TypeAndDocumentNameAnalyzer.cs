@@ -52,11 +52,10 @@ namespace ExperimentalTools.Features.TypeDeclaration
             }
 
             var documentName = symbol.DeclaringSyntaxReferences[0].SyntaxTree.FilePath;
-            var m = documentNameExpression.Match(documentName);
-            if (m.Success)
+            var suitableDocumentName = NameHelper.GetSuitableDocumentName(documentName);
+            if (suitableDocumentName != null)
             {
-                var documentNameWithoutExtension = m.Groups["name"].Value;
-                if (!documentNameWithoutExtension.Equals(symbol.Name, StringComparison.OrdinalIgnoreCase))
+                if (!suitableDocumentName.Equals(symbol.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(Rule, symbol.Locations[0], symbol.Name));
                 }

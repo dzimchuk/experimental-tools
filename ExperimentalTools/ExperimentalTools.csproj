@@ -34,7 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DiagnosticCodes.cs" />
+    <Compile Include="Features\TypeDeclaration\NameHelper.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzer.cs" />
+    <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameCodeFix.cs" />
     <Compile Include="IGeneratedCodeRecognitionService.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="Services\GeneratedCodeRecognitionService.cs" />

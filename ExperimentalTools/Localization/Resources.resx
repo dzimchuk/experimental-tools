@@ -135,6 +135,9 @@
   <data name="InitializeFieldInExistingConstructors" xml:space="preserve">
     <value>Initialize field in existing constructors</value>
   </data>
+  <data name="RenameAToB" xml:space="preserve">
+    <value>Rename '{0}' to '{1}'</value>
+  </data>
   <data name="ToInternal" xml:space="preserve">
     <value>To internal</value>
   </data>
