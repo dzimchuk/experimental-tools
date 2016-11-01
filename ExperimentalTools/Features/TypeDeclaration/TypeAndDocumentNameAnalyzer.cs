@@ -3,7 +3,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System.Composition;
 using ExperimentalTools.Localization;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -14,21 +13,14 @@ namespace ExperimentalTools.Features.TypeDeclaration
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class TypeAndDocumentNameAnalyzer : DiagnosticAnalyzer
     {
-        internal static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.TypeAndDocumentNameAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
-        internal static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.TypeAndDocumentNameAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.TypeAndDocumentNameAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.TypeAndDocumentNameAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
         
-        internal static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticCodes.TypeAndDocumentNameAnalyzer, Title, MessageFormat, Resources.CategoryNaming, DiagnosticSeverity.Info, true);
-        internal static DiagnosticDescriptor NoFixRule = new DiagnosticDescriptor(DiagnosticCodes.TypeAndDocumentNameAnalyzerNoFix, Title, MessageFormat, Resources.CategoryNaming, DiagnosticSeverity.Info, true);
+        private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticCodes.TypeAndDocumentNameAnalyzer, Title, MessageFormat, Resources.CategoryNaming, DiagnosticSeverity.Warning, true);
 
-        private readonly IGeneratedCodeRecognitionService generatedCodeRecognitionService;
+        private readonly IGeneratedCodeRecognitionService generatedCodeRecognitionService = ServiceLocator.GetService<IGeneratedCodeRecognitionService>();
         private readonly Regex documentNameExpression = new Regex(@"^(?<name>.+)\.cs$", RegexOptions.IgnoreCase);
-
-        [ImportingConstructor]
-        public TypeAndDocumentNameAnalyzer(IGeneratedCodeRecognitionService generatedCodeRecognitionService)
-        {
-            this.generatedCodeRecognitionService = generatedCodeRecognitionService;
-        }
-
+        
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
         public override void Initialize(AnalysisContext context)

@@ -65,6 +65,8 @@
     <ProjectReference Include="..\ExperimentalTools\ExperimentalTools.csproj">
       <Project>{2432587A-3D94-4656-9407-A9788912B2ED}</Project>
       <Name>ExperimentalTools</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

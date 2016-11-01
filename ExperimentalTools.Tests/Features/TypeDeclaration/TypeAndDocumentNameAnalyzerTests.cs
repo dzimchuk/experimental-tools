@@ -3,15 +3,46 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.Diagnostics;
 using ExperimentalTools.Features.TypeDeclaration;
-using ExperimentalTools.Services;
 using Xunit;
+using Microsoft.CodeAnalysis;
 
 namespace ExperimentalTools.Tests.Features.TypeDeclaration
 {
     public class TypeAndDocumentNameAnalyzerTests : DiagnosticTest
     {
         protected override DiagnosticAnalyzer Analyzer => 
-            new TypeAndDocumentNameAnalyzer(new GeneratedCodeRecognitionService());
+            new TypeAndDocumentNameAnalyzer();
+
+        [Theory, MemberData("HasActionTestData")]
+        public Task HasActionTest(string test, string source, string fileName, DiagnosticResult expected) =>
+            RunAsync(source, fileName, expected);
+
+        public static IEnumerable<object[]> HasActionTestData =>
+            new[]
+            {
+                new object[]
+                {
+                    "Type name does not match file name",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+    }
+}",
+                    "Test.cs",
+                    new DiagnosticResult
+                    {
+                        Id = DiagnosticCodes.TypeAndDocumentNameAnalyzer,
+                        Message = "Type name 'TestService' does not match file name",
+                        Severity = DiagnosticSeverity.Warning,
+                        Locations =
+                            new[] {
+                                    new DiagnosticResultLocation("Test.cs", 4, 11)
+                                }
+                    }
+                }
+            };
 
         [Theory, MemberData("NoActionTestData")]
         public Task NoActionTest(string test, string source, string fileName) =>

@@ -36,6 +36,7 @@
     <Compile Include="DiagnosticCodes.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzer.cs" />
     <Compile Include="IGeneratedCodeRecognitionService.cs" />
+    <Compile Include="ServiceLocator.cs" />
     <Compile Include="Services\GeneratedCodeRecognitionService.cs" />
     <Compile Include="Services\SimpleNameGenerator.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToInternal.cs" />
