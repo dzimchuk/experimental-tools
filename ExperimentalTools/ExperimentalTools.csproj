@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DiagnosticCodes.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzer.cs" />
     <Compile Include="IGeneratedCodeRecognitionService.cs" />
     <Compile Include="Services\GeneratedCodeRecognitionService.cs" />

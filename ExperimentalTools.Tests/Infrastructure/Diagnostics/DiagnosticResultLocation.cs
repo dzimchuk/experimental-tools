@@ -2,7 +2,7 @@
 
 namespace ExperimentalTools.Tests.Infrastructure.Diagnostics
 {
-    internal struct DiagnosticResultLocation
+    public struct DiagnosticResultLocation
     {
         public DiagnosticResultLocation(string path, int line, int column)
         {

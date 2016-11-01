@@ -16,8 +16,8 @@ namespace ExperimentalTools.Tests.Infrastructure.Diagnostics
         /// <param name="language">The language the source classes are in</param>
         /// <param name="analyzer">The analyzer to be run on the sources</param>
         /// <returns>An IEnumerable of Diagnostics that surfaced in the source code, sorted by Location</returns>
-        public static Task<Diagnostic[]> GetSortedDiagnosticsAsync(string[] sources, DiagnosticAnalyzer analyzer) =>
-            GetSortedDiagnosticsFromDocumentsAsync(analyzer, DocumentProvider.GetDocuments(sources));
+        public static Task<Diagnostic[]> GetSortedDiagnosticsAsync(string[] sources, string[] fileNames, DiagnosticAnalyzer analyzer) =>
+            GetSortedDiagnosticsFromDocumentsAsync(analyzer, DocumentProvider.GetDocuments(sources, fileNames));
 
         /// <summary>
         /// Given an analyzer and a document to apply it to, run the analyzer and gather an array of diagnostics found in it.
@@ -51,7 +51,7 @@ namespace ExperimentalTools.Tests.Infrastructure.Diagnostics
                         for (int i = 0; i < documents.Length; i++)
                         {
                             var document = documents[i];
-                            var tree = document.GetSyntaxTreeAsync().Result;
+                            var tree = await document.GetSyntaxTreeAsync();
                             if (tree == diag.Location.SourceTree)
                             {
                                 diagnostics.Add(diag);

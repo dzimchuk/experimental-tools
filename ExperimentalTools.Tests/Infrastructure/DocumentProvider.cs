@@ -17,9 +17,12 @@ namespace ExperimentalTools.Tests.Infrastructure
         private const string CSharpDefaultFileExt = "cs";
         private const string TestProjectName = "TestProject";
 
-        public static Document[] GetDocuments(string[] sources)
+        public static Document[] GetDocuments(string[] sources) => 
+            GetDocuments(sources, null);
+
+        public static Document[] GetDocuments(string[] sources, string[] fileNames)
         {
-            var project = CreateProject(sources);
+            var project = CreateProject(sources, fileNames);
             var documents = project.Documents.ToArray();
 
             if (sources.Length != documents.Length)
@@ -31,10 +34,18 @@ namespace ExperimentalTools.Tests.Infrastructure
         }
 
         public static Document GetDocument(string source) => 
-            CreateProject(new[] { source }).Documents.First();
+            CreateProject(new[] { source }, null).Documents.First();
 
-        private static Project CreateProject(string[] sources)
+        public static Document GetDocument(string source, string fileName) =>
+            CreateProject(new[] { source }, new[] { fileName }).Documents.First();
+
+        private static Project CreateProject(string[] sources, string[] fileNames)
         {
+            if (fileNames != null && sources.Length != fileNames.Length)
+            {
+                throw new ArgumentException("Number of specified file names does not match the number of sources");
+            }
+
             var projectId = ProjectId.CreateNewId(debugName: TestProjectName);
 
             var solution = new AdhocWorkspace()
@@ -48,7 +59,10 @@ namespace ExperimentalTools.Tests.Infrastructure
             var count = 0;
             foreach (var source in sources)
             {
-                var newFileName = DefaultFilePathPrefix + count + "." + CSharpDefaultFileExt;
+                var newFileName = fileNames != null
+                    ? fileNames[count]
+                    : DefaultFilePathPrefix + count + "." + CSharpDefaultFileExt;
+
                 var documentId = DocumentId.CreateNewId(projectId, debugName: newFileName);
                 solution = solution.AddDocument(documentId, newFileName, SourceText.From(source));
                 count++;
