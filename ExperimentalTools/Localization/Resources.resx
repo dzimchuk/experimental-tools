@@ -123,6 +123,9 @@
   <data name="AddInitializedField" xml:space="preserve">
     <value>Add initialized field</value>
   </data>
+  <data name="CategoryNaming" xml:space="preserve">
+    <value>Naming</value>
+  </data>
   <data name="InitializeExistingField" xml:space="preserve">
     <value>Initialize existing field</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="InitializeFieldInExistingConstructors" xml:space="preserve">
     <value>Initialize field in existing constructors</value>
+  </data>
+  <data name="RenameAToB" xml:space="preserve">
+    <value>Rename '{0}' to '{1}'</value>
   </data>
   <data name="ToInternal" xml:space="preserve">
     <value>To internal</value>
@@ -155,5 +161,11 @@
   </data>
   <data name="ToPublic" xml:space="preserve">
     <value>To public</value>
+  </data>
+  <data name="TypeAndDocumentNameAnalyzerMessageFormat" xml:space="preserve">
+    <value>Type name '{0}' does not match file name</value>
+  </data>
+  <data name="TypeAndDocumentNameAnalyzerTitle" xml:space="preserve">
+    <value>Type name does not match file name</value>
   </data>
 </root>

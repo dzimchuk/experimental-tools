@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ExperimentalTools.Features.AccessModifier.Actions;
 using System.Composition;
-using System.Linq;
 
 namespace ExperimentalTools.Features.AccessModifier.Recipes
 {
@@ -22,7 +19,7 @@ namespace ExperimentalTools.Features.AccessModifier.Recipes
         {
         }
 
-        public override bool CanHandle(BaseTypeDeclarationSyntax typeDeclaration) => 
-            !typeDeclaration.Ancestors().OfType<BaseTypeDeclarationSyntax>().Any();
+        public override bool CanHandle(BaseTypeDeclarationSyntax typeDeclaration) =>
+            typeDeclaration.IsTopLevelType();
     }
 }

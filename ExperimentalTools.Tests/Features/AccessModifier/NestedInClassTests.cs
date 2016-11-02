@@ -5,19 +5,11 @@ using Xunit;
 
 namespace ExperimentalTools.Tests.Features.AccessModifier
 {
-    public class NestedInClassTests
+    public class NestedInClassTests : AccessModifierTest
     {
         [Theory, MemberData("HasActionTestData")]
-        public async Task HasActionTest(string test, string actionTitle, string input, string expectedResult)
-        {
-            await TestRunner.RunAsync(input, async (acceptor, context) =>
-            {
-                Assert.True(acceptor.HasAction(actionTitle));
-
-                var result = await acceptor.GetResultAsync(actionTitle, context);
-                Assert.Equal(expectedResult.HomogenizeLineEndings(), result.HomogenizeLineEndings());
-            });
-        }
+        public Task HasActionTest(string test, string actionTitle, string input, string expectedResult) =>
+            RunMultipleActionsTestAsync(actionTitle, input, expectedResult);
 
         public static IEnumerable<object[]> HasActionTestData =>
             new[]
@@ -175,14 +167,8 @@ namespace HelloWorld
             };
 
         [Theory, MemberData("NoActionTestData")]
-        public async Task NoActionTest(string test, string actionTitle, string input)
-        {
-            await TestRunner.RunAsync(input, (acceptor, context) =>
-            {
-                Assert.False(acceptor.HasAction(actionTitle));
-                return Task.FromResult(0);
-            });
-        }
+        public Task NoActionTest(string test, string actionTitle, string input) =>
+            RunNoSpecificActionTestAsync(actionTitle, input);
 
         public static IEnumerable<object[]> NoActionTestData =>
             new[]

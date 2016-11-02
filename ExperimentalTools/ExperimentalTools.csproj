@@ -33,7 +33,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Components\SimpleNameGenerator.cs" />
+    <Compile Include="DiagnosticCodes.cs" />
+    <Compile Include="Features\TypeDeclaration\NameHelper.cs" />
+    <Compile Include="Features\TypeDeclaration\RenameDocumentAction.cs" />
+    <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzer.cs" />
+    <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameCodeFixProvider.cs" />
+    <Compile Include="IGeneratedCodeRecognitionService.cs" />
+    <Compile Include="ISyntaxFactsService.cs" />
+    <Compile Include="ServiceLocator.cs" />
+    <Compile Include="Services\GeneratedCodeRecognitionService.cs" />
+    <Compile Include="Services\SimpleNameGenerator.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToInternal.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToPrivateExplicit.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToPrivateImplicit.cs" />
@@ -61,6 +70,7 @@
     <Compile Include="Features\Constructor\AddNewConstructorWithParameterRefactoring.cs" />
     <Compile Include="Features\AccessModifier\ChangeAccessModifierRefactoring.cs" />
     <Compile Include="SemanticExtensions.cs" />
+    <Compile Include="Services\SyntaxFactsService.cs" />
     <Compile Include="SyntaxExtensions.cs" />
     <Compile Include="SyntaxFactory.cs" />
   </ItemGroup>

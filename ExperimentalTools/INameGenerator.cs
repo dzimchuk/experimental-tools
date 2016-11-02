@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ExperimentalTools
 {
-    public interface INameGenerator
+    internal interface INameGenerator
     {
         Task<string> GetNewMemberNameAsync(TypeDeclarationSyntax declaredTypeSyntax, string proposedName, Document document, CancellationToken cancellationToken);
         string GetNewParameterName(ParameterListSyntax parameterList, string proposedName);

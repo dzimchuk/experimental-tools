@@ -5,19 +5,11 @@ using Xunit;
 
 namespace ExperimentalTools.Tests.Features.AccessModifier
 {
-    public class TopLevelStructTests
+    public class TopLevelStructTests : AccessModifierTest
     {
         [Theory, MemberData("TestData")]
-        public async Task Test(string test, string actionTitle, string input, string expectedResult)
-        {
-            await TestRunner.RunAsync(input, async (acceptor, context) =>
-            {
-                Assert.True(acceptor.HasAction(actionTitle));
-
-                var result = await acceptor.GetResultAsync(actionTitle, context);
-                Assert.Equal(expectedResult.HomogenizeLineEndings(), result.HomogenizeLineEndings());
-            });
-        }
+        public Task HasActionTest(string test, string actionTitle, string input, string expectedResult) =>
+            RunMultipleActionsTestAsync(actionTitle, input, expectedResult);
 
         public static IEnumerable<object[]> TestData =>
             new[]

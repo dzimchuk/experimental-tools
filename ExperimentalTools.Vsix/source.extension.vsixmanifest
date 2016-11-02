@@ -19,5 +19,6 @@
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="ExperimentalTools" Path="|ExperimentalTools|"/>
+    <Asset Type="Microsoft.VisualStudio.Analyzer" d:Source="Project" d:ProjectName="ExperimentalTools" Path="|ExperimentalTools|" />
   </Assets>
 </PackageManifest>

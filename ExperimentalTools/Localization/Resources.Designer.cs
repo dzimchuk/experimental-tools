@@ -80,6 +80,15 @@ namespace ExperimentalTools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Naming.
+        /// </summary>
+        internal static string CategoryNaming {
+            get {
+                return ResourceManager.GetString("CategoryNaming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initialize existing field.
         /// </summary>
         internal static string InitializeExistingField {
@@ -103,6 +112,15 @@ namespace ExperimentalTools.Localization {
         internal static string InitializeFieldInExistingConstructors {
             get {
                 return ResourceManager.GetString("InitializeFieldInExistingConstructors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename &apos;{0}&apos; to &apos;{1}&apos;.
+        /// </summary>
+        internal static string RenameAToB {
+            get {
+                return ResourceManager.GetString("RenameAToB", resourceCulture);
             }
         }
         
@@ -175,6 +193,24 @@ namespace ExperimentalTools.Localization {
         internal static string ToPublic {
             get {
                 return ResourceManager.GetString("ToPublic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type name &apos;{0}&apos; does not match file name.
+        /// </summary>
+        internal static string TypeAndDocumentNameAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("TypeAndDocumentNameAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type name does not match file name.
+        /// </summary>
+        internal static string TypeAndDocumentNameAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("TypeAndDocumentNameAnalyzerTitle", resourceCulture);
             }
         }
     }

@@ -1,18 +1,19 @@
 # Road map
 
 - [ ] Settings page (ability to enable/disable individual features)
-- [ ] Update file name to match type name
+- [x] Update file name to match type name (and vice versa)
 - [ ] Update namespace to match file path
 - [ ] Add/remove braces
 - [ ] This is constructor (when copied from another one)
+- [ ] Generate MemberData property for xunit data driven tests
+- [ ] Locate in Solution Explorer (Alt+Shift+L)
+- [ ] Quick GUID generation (nguid)
 - [ ] Add to interface (on a method; VS currently has one on a type)
 - [ ] Method can be made static
 - [ ] Class can be made static
 - [ ] Member can be made private
 - [ ] Member can be removed
 - [ ] Field can be made readonly
-- [ ] Locate in Solution Explorer (Alt+Shift+L)
-- [ ] Quick GUID generation (nguid)
 
 Features that have a checkmark are complete and available for
 download in the
