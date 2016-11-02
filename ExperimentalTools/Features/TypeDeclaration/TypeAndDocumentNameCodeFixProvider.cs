@@ -13,9 +13,17 @@ using ExperimentalTools.Localization;
 
 namespace ExperimentalTools.Features.TypeDeclaration
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TypeAndDocumentNameCodeFix)), Shared]
-    public class TypeAndDocumentNameCodeFix : CodeFixProvider
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TypeAndDocumentNameCodeFixProvider)), Shared]
+    internal class TypeAndDocumentNameCodeFixProvider : CodeFixProvider
     {
+        private readonly ISyntaxFactsService syntaxFactsService;
+
+        [ImportingConstructor]
+        public TypeAndDocumentNameCodeFixProvider(ISyntaxFactsService syntaxFactsService)
+        {
+            this.syntaxFactsService = syntaxFactsService;
+        }
+
         public sealed override ImmutableArray<string> FixableDiagnosticIds => 
             ImmutableArray.Create(DiagnosticCodes.TypeAndDocumentNameAnalyzer);
 
@@ -25,7 +33,7 @@ namespace ExperimentalTools.Features.TypeDeclaration
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
-            
+
             var diagnostic = context.Diagnostics.First();
             var diagnosticSpan = diagnostic.Location.SourceSpan;
 
@@ -35,36 +43,39 @@ namespace ExperimentalTools.Features.TypeDeclaration
                 return;
             }
 
-            var suitableDocumentName = NameHelper.GetSuitableDocumentName(context.Document.Name);
-            if (suitableDocumentName == null)
+            CalculateRenameTypeAction(context, diagnostic, typeDeclaration);
+            CalculateRenameDocumentAction(context, root, diagnostic, typeDeclaration);
+        }
+
+        private static void CalculateRenameDocumentAction(CodeFixContext context, SyntaxNode root, Diagnostic diagnostic, TypeDeclarationSyntax typeDeclaration)
+        {
+            var newDocumentName = NameHelper.AddExtension(typeDeclaration.Identifier.ValueText);
+            var renameDocumentTitle = string.Format(Resources.RenameAToB, context.Document.Name, newDocumentName);
+            context.RegisterCodeFix(
+                new RenameDocumentAction(renameDocumentTitle, context.Document, root, newDocumentName, renameDocumentTitle),
+                diagnostic);
+        }
+
+        private void CalculateRenameTypeAction(CodeFixContext context, Diagnostic diagnostic, TypeDeclarationSyntax typeDeclaration)
+        {
+            var documentName = NameHelper.RemoveExtension(context.Document.Name);
+            if (documentName == null)
             {
                 return;
             }
 
-            var renameTypeTitle = string.Format(Resources.RenameAToB, typeDeclaration.Identifier.ValueText, suitableDocumentName);
+            if (!syntaxFactsService.IsValidIdentifier(documentName))
+            {
+                return;
+            }
+
+            var renameTypeTitle = string.Format(Resources.RenameAToB, typeDeclaration.Identifier.ValueText, documentName);
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: renameTypeTitle,
-                    createChangedSolution: c => RenameTypeAsync(context.Document, typeDeclaration, suitableDocumentName, c),
+                    createChangedSolution: c => RenameTypeAsync(context.Document, typeDeclaration, documentName, c),
                     equivalenceKey: renameTypeTitle),
                 diagnostic);
-
-            var renameDocumentTitle = string.Format(Resources.RenameAToB, context.Document.Name, typeDeclaration.Identifier.ValueText);
-            context.RegisterCodeFix(
-                CodeAction.Create(
-                    title: renameDocumentTitle,
-                    createChangedSolution: c => RenameDocumentAsync(context.Document, root, typeDeclaration.Identifier.ValueText, c),
-                    equivalenceKey: renameDocumentTitle),
-                diagnostic);
-        }
-
-        private Task<Solution> RenameDocumentAsync(Document document, SyntaxNode root,
-            string newDocumentName, CancellationToken cancellationToken)
-        {
-            var project = document.Project.RemoveDocument(document.Id);
-            var newDocument = project.AddDocument($"{newDocumentName}.cs", root, document.Folders);
-
-            return Task.FromResult(newDocument.Project.Solution);
         }
 
         private async Task<Solution> RenameTypeAsync(Document document, TypeDeclarationSyntax typeDeclaration,

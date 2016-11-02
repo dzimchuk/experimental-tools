@@ -30,7 +30,7 @@ namespace HelloWorld
     {
     }
 }",
-                    "Test.cs",
+                    @"c:\temp\Test.cs",
                     new DiagnosticResult
                     {
                         Id = DiagnosticCodes.TypeAndDocumentNameAnalyzer,
@@ -38,7 +38,7 @@ namespace HelloWorld
                         Severity = DiagnosticSeverity.Warning,
                         Locations =
                             new[] {
-                                    new DiagnosticResultLocation("Test.cs", 4, 11)
+                                    new DiagnosticResultLocation(@"c:\temp\Test.cs", 4, 11)
                                 }
                     }
                 }
@@ -61,7 +61,7 @@ namespace HelloWorld
     {
     }
 }",
-                    "TestService.cs"
+                    @"c:\temp\TestService.cs"
                 },
                 new object[]
                 {
@@ -73,7 +73,7 @@ namespace HelloWorld
     {
     }
 }",
-                    "TestService.designer.cs"
+                    @"c:\temp\TestService.designer.cs"
                 },
                 new object[]
                 {
@@ -86,7 +86,7 @@ namespace HelloWorld
         class Nested {}
     }
 }",
-                    "TestService.cs"
+                    @"c:\temp\TestService.cs"
                 },
                 new object[]
                 {
@@ -102,7 +102,7 @@ namespace HelloWorld
     {
     }
 }",
-                    "Test.cs"
+                    @"c:\temp\Test.cs"
                 }
             };
 
@@ -127,7 +127,7 @@ namespace HelloWorld
 }"
             };
 
-            return RunAsync(sources, new[] { "Test1.cs", "Test2.cs" });
+            return RunAsync(sources, new[] { @"c:\temp\Test1.cs", @"c:\temp\Test2.cs" });
         }
     }
 }

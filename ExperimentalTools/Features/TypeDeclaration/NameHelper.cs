@@ -1,15 +1,11 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.IO;
 
 namespace ExperimentalTools.Features.TypeDeclaration
 {
     internal static class NameHelper
     {
-        private static readonly Regex documentNameExpression = new Regex(@"^(?<name>.+)\.cs$", RegexOptions.IgnoreCase);
+        public static string RemoveExtension(string documentName) => Path.GetFileNameWithoutExtension(documentName);
 
-        public static string GetSuitableDocumentName(string documentName)
-        {
-            var m = documentNameExpression.Match(documentName);
-            return m.Success ? m.Groups["name"].Value : null;
-        }
+        public static string AddExtension(string documentName) => $"{documentName}.cs";
     }
 }

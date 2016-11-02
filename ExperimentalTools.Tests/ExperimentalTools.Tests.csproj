@@ -117,7 +117,9 @@
     <Compile Include="Features\AccessModifier\TopLevelInterfaceTests.cs" />
     <Compile Include="Features\AccessModifier\TopLevelStructTests.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzerTests.cs" />
+    <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameCodeFixProviderTests.cs" />
     <Compile Include="Infrastructure\ActionAcceptors\MultipleCodeActionsAcceptor.cs" />
+    <Compile Include="Infrastructure\Diagnostics\CodeFixTest.cs" />
     <Compile Include="Infrastructure\Diagnostics\CodeFixVerifier.cs" />
     <Compile Include="Infrastructure\Diagnostics\DiagnosticResult.cs" />
     <Compile Include="Infrastructure\Diagnostics\DiagnosticResultLocation.cs" />

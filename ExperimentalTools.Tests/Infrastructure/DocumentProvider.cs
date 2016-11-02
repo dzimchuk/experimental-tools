@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace ExperimentalTools.Tests.Infrastructure
@@ -20,9 +21,9 @@ namespace ExperimentalTools.Tests.Infrastructure
         public static Document[] GetDocuments(string[] sources) => 
             GetDocuments(sources, null);
 
-        public static Document[] GetDocuments(string[] sources, string[] fileNames)
+        public static Document[] GetDocuments(string[] sources, string[] filePaths)
         {
-            var project = CreateProject(sources, fileNames);
+            var project = CreateProject(sources, filePaths);
             var documents = project.Documents.ToArray();
 
             if (sources.Length != documents.Length)
@@ -36,14 +37,19 @@ namespace ExperimentalTools.Tests.Infrastructure
         public static Document GetDocument(string source) => 
             CreateProject(new[] { source }, null).Documents.First();
 
-        public static Document GetDocument(string source, string fileName) =>
-            CreateProject(new[] { source }, new[] { fileName }).Documents.First();
+        public static Document GetDocument(string source, string filePath) =>
+            CreateProject(new[] { source }, new[] { filePath }).Documents.First();
 
-        private static Project CreateProject(string[] sources, string[] fileNames)
+        private static Project CreateProject(string[] sources, string[] filePaths)
         {
-            if (fileNames != null && sources.Length != fileNames.Length)
+            if (filePaths != null && sources.Length != filePaths.Length)
             {
-                throw new ArgumentException("Number of specified file names does not match the number of sources");
+                throw new ArgumentException("Number of specified file paths does not match the number of sources");
+            }
+
+            if (filePaths != null && filePaths.Any(name => name == null))
+            {
+                throw new ArgumentException("File path can't be null");
             }
 
             var projectId = ProjectId.CreateNewId(debugName: TestProjectName);
@@ -59,12 +65,14 @@ namespace ExperimentalTools.Tests.Infrastructure
             var count = 0;
             foreach (var source in sources)
             {
-                var newFileName = fileNames != null
-                    ? fileNames[count]
+                var newFileName = filePaths != null
+                    ? Path.GetFileName(filePaths[count])
                     : DefaultFilePathPrefix + count + "." + CSharpDefaultFileExt;
 
                 var documentId = DocumentId.CreateNewId(projectId, debugName: newFileName);
-                solution = solution.AddDocument(documentId, newFileName, SourceText.From(source));
+                solution = filePaths != null
+                    ? solution.AddDocument(documentId, newFileName, SourceText.From(source), filePath: filePaths[count])
+                    : solution.AddDocument(documentId, newFileName, SourceText.From(source));
                 count++;
             }
 

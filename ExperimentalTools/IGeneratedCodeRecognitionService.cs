@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace ExperimentalTools
 {
-    public interface IGeneratedCodeRecognitionService
+    internal interface IGeneratedCodeRecognitionService
     {
         bool IsGeneratedCode(Document document);
         bool IsGeneratedCode(SyntaxNodeAnalysisContext context);

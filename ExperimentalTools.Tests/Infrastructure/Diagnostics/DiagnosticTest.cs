@@ -10,16 +10,16 @@ namespace ExperimentalTools.Tests.Infrastructure.Diagnostics
         protected Task RunAsync(string source, params DiagnosticResult[] expected) => 
             RunAsync(new[] { source }, expected);
 
-        protected Task RunAsync(string source, string fileName, params DiagnosticResult[] expected) =>
-            RunAsync(new[] { source }, new[] { fileName }, expected);
+        protected Task RunAsync(string source, string filePath, params DiagnosticResult[] expected) =>
+            RunAsync(new[] { source }, new[] { filePath }, expected);
 
         protected Task RunAsync(string[] sources, params DiagnosticResult[] expected) => 
             RunAsync(sources, null, expected);
 
-        protected async Task RunAsync(string[] sources, string[] fileNames, params DiagnosticResult[] expected)
+        protected async Task RunAsync(string[] sources, string[] filePaths, params DiagnosticResult[] expected)
         {
             var analyzer = Analyzer;
-            var diagnostics = await DiagnosticRunner.GetSortedDiagnosticsAsync(sources, fileNames, analyzer);
+            var diagnostics = await DiagnosticRunner.GetSortedDiagnosticsAsync(sources, filePaths, analyzer);
             DiagnosticVerifier.VerifyDiagnosticResults(diagnostics, analyzer, expected);
         }
     }

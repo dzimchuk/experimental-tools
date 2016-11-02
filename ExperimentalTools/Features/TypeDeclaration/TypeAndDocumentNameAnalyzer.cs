@@ -7,11 +7,12 @@ using ExperimentalTools.Localization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.IO;
 
 namespace ExperimentalTools.Features.TypeDeclaration
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class TypeAndDocumentNameAnalyzer : DiagnosticAnalyzer
+    internal class TypeAndDocumentNameAnalyzer : DiagnosticAnalyzer
     {
         private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.TypeAndDocumentNameAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.TypeAndDocumentNameAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
@@ -51,11 +52,11 @@ namespace ExperimentalTools.Features.TypeDeclaration
                 return;
             }
 
-            var documentName = symbol.DeclaringSyntaxReferences[0].SyntaxTree.FilePath;
-            var suitableDocumentName = NameHelper.GetSuitableDocumentName(documentName);
-            if (suitableDocumentName != null)
+            var documentPath = symbol.DeclaringSyntaxReferences[0].SyntaxTree.FilePath;
+            var documentName = NameHelper.RemoveExtension(Path.GetFileName(documentPath));
+            if (documentName != null)
             {
-                if (!suitableDocumentName.Equals(symbol.Name, StringComparison.OrdinalIgnoreCase))
+                if (!documentName.Equals(symbol.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(Rule, symbol.Locations[0], symbol.Name));
                 }

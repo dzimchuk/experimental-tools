@@ -13,11 +13,11 @@ namespace ExperimentalTools.Tests.Infrastructure.Diagnostics
         /// Given classes in the form of strings, their language, and an IDiagnosticAnlayzer to apply to it, return the diagnostics found in the string after converting it to a document.
         /// </summary>
         /// <param name="sources">Classes in the form of strings</param>
-        /// <param name="fileNames">Optional file names for the sources (can be null)</param>
+        /// <param name="filePaths">Optional file paths for the sources (can be null)</param>
         /// <param name="analyzer">The analyzer to be run on the sources</param>
         /// <returns>An IEnumerable of Diagnostics that surfaced in the source code, sorted by Location</returns>
-        public static Task<Diagnostic[]> GetSortedDiagnosticsAsync(string[] sources, string[] fileNames, DiagnosticAnalyzer analyzer) =>
-            GetSortedDiagnosticsFromDocumentsAsync(analyzer, DocumentProvider.GetDocuments(sources, fileNames));
+        public static Task<Diagnostic[]> GetSortedDiagnosticsAsync(string[] sources, string[] filePaths, DiagnosticAnalyzer analyzer) =>
+            GetSortedDiagnosticsFromDocumentsAsync(analyzer, DocumentProvider.GetDocuments(sources, filePaths));
 
         /// <summary>
         /// Given an analyzer and a document to apply it to, run the analyzer and gather an array of diagnostics found in it.
