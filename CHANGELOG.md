@@ -1,7 +1,7 @@
 # Road map
 
 - [ ] Settings page (ability to enable/disable individual features)
-- [ ] Update file name to match type name
+- [x] Update file name to match type name (and vice versa)
 - [ ] Update namespace to match file path
 - [ ] Add/remove braces
 - [ ] This is constructor (when copied from another one)
