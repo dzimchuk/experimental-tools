@@ -1,7 +1,5 @@
 # Road map
 
-- [ ] Settings page (ability to enable/disable individual features)
-- [x] Update file name to match type name (and vice versa)
 - [ ] Update namespace to match file path
 - [ ] Add/remove braces
 - [ ] This is constructor (when copied from another one)
@@ -23,6 +21,13 @@ download in the
 
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
+
+## 0.3
+
+**2016-11-14**
+
+- [x] Update file name to match type name (and vice versa)
+- [x] Settings page (ability to enable/disable individual features)
 
 ## 0.2
 

@@ -19,6 +19,8 @@ See the [change log](CHANGELOG.md) for changes and road map.
 - Add constructor and initialize field
 - Initialize field in existing constructor
 - Change access modifier on type declarations
+- Update file name to match type name (and vice versa)
+- Settings page (ability to enable/disable individual features)
 
 ### Initialize field from constructor parameter
 Ctrl+. on a constructor parameter and choose *Add initialized field*.
@@ -42,6 +44,22 @@ Ctrl+. on a field and choose *Initialize field in existing constructor*.
 Ctrl+. on a type declaration (either top level or nested) and choose one of proposed options.
 
 ![Change access modifier on type declarations](art/ChangeTypeAccessModifier.png)
+
+### Update file name to match type name (and vice versa)
+
+Analyzes if a top level type name does not match the name of the file where it is declared and displays a warning.
+
+![Type and file name analyzer](art/TypeAndDocumentNameAnalyzer.png)
+
+It also offers to either rename the type to match the file name or rename the file to match the type name.
+
+![Type and file name analyzer](art/TypeAndDocumentNameCodeFix.png)
+
+### Settings page (ability to enable/disable individual features)
+
+All features can be individually enabled or disabled.
+
+![Type and file name analyzer](art/GeneralOptions.png)
 
 ## Contribute
 Check out the [contribution guidelines](CONTRIBUTING.md)
