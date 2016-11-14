@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using ExperimentalTools.Localization;
-using System.Text.RegularExpressions;
 using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.IO;
@@ -16,12 +15,14 @@ namespace ExperimentalTools.Features.TypeDeclaration
     {
         private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.TypeAndDocumentNameAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.TypeAndDocumentNameAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-        
-        private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticCodes.TypeAndDocumentNameAnalyzer, Title, MessageFormat, Resources.CategoryNaming, DiagnosticSeverity.Warning, true);
+
+        private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticCodes.TypeAndDocumentNameAnalyzer, Title, MessageFormat, Resources.CategoryNaming, GetSeverity(), true);
+
+        private static DiagnosticSeverity GetSeverity() => 
+            ServiceLocator.GetService<IOptions>().IsFeatureEnabled(FeatureIdentifiers.TypeAndDocumentNameAnalyzer) ? DiagnosticSeverity.Warning : DiagnosticSeverity.Hidden;
 
         private readonly IGeneratedCodeRecognitionService generatedCodeRecognitionService = ServiceLocator.GetService<IGeneratedCodeRecognitionService>();
-        private readonly Regex documentNameExpression = new Regex(@"^(?<name>.+)\.cs$", RegexOptions.IgnoreCase);
-        
+
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
         public override void Initialize(AnalysisContext context)

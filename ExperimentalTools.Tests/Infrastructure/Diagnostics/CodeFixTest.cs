@@ -6,6 +6,11 @@ namespace ExperimentalTools.Tests.Infrastructure.Diagnostics
 {
     public abstract class CodeFixTest
     {
+        public CodeFixTest()
+        {
+            OptionsBucket.Instance.EnableAllFeatures();
+        }
+
         protected abstract DiagnosticAnalyzer Analyzer { get; }
         protected abstract CodeFixProvider CodeFixProvider { get; }
         

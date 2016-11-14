@@ -17,8 +17,8 @@ namespace ExperimentalTools.Tests.Features.TypeDeclaration
         protected override DiagnosticAnalyzer Analyzer => 
             new TypeAndDocumentNameAnalyzer();
 
-        protected override CodeFixProvider CodeFixProvider => 
-            new TypeAndDocumentNameCodeFixProvider(new SyntaxFactsService());
+        protected override CodeFixProvider CodeFixProvider =>
+            new TypeAndDocumentNameCodeFixProvider(new SyntaxFactsService(), new OptionsService());
 
         [Fact]
         public Task TypeRenameTest()

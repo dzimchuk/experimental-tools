@@ -1,6 +1,6 @@
 ﻿namespace ExperimentalTools
 {
-    internal class DiagnosticCodes
+    internal static class DiagnosticCodes
     {
         public static string TypeAndDocumentNameAnalyzer = "ET001";
     }

@@ -10,8 +10,8 @@ namespace ExperimentalTools.Tests.Features.Constructor
 {
     public class AddConstructorParameterRefactoringTests : RefactoringTest
     {
-        protected override CodeRefactoringProvider Provider => 
-            new AddConstructorParameterRefactoring(new SimpleNameGenerator());
+        protected override CodeRefactoringProvider Provider =>
+            new AddConstructorParameterRefactoring(new SimpleNameGenerator(), new OptionsService());
 
         [Theory, MemberData("HasActionTestData")]
         public Task HasActionTest(string test, string input, string expectedOutput) => 

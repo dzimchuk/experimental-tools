@@ -13,15 +13,22 @@ namespace ExperimentalTools.Features.AccessModifier
     internal class ChangeAccessModifierRefactoring : CodeRefactoringProvider
     {
         private readonly ITypeRecipe[] recipes;
+        private readonly IOptions options;
         
         [ImportingConstructor]
-        public ChangeAccessModifierRefactoring([ImportMany]ITypeRecipe[] recipes)
+        public ChangeAccessModifierRefactoring([ImportMany]ITypeRecipe[] recipes, IOptions options)
         {
             this.recipes = recipes;
+            this.options = options;
         }
 
         public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)
         {
+            if (!options.IsFeatureEnabled(FeatureIdentifiers.ChangeAccessModifierRefactoring))
+            {
+                return;
+            }
+
             if (context.Document.Project.Solution.Workspace.Kind == WorkspaceKind.MiscellaneousFiles)
             {
                 return;

@@ -17,15 +17,22 @@ namespace ExperimentalTools.Features.Constructor
     internal class AddNewConstructorWithParameterRefactoring : CodeRefactoringProvider
     {
         private readonly INameGenerator nameGenerator;
+        private readonly IOptions options;
 
         [ImportingConstructor]
-        public AddNewConstructorWithParameterRefactoring(INameGenerator nameGenerator)
+        public AddNewConstructorWithParameterRefactoring(INameGenerator nameGenerator, IOptions options)
         {
             this.nameGenerator = nameGenerator;
+            this.options = options;
         }
 
         public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)
         {
+            if (!options.IsFeatureEnabled(FeatureIdentifiers.AddNewConstructorWithParameterRefactoring))
+            {
+                return;
+            }
+
             if (context.Document.Project.Solution.Workspace.Kind == WorkspaceKind.MiscellaneousFiles)
             {
                 return;

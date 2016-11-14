@@ -34,14 +34,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DiagnosticCodes.cs" />
+    <Compile Include="FeatureIdentifiers.cs" />
     <Compile Include="Features\TypeDeclaration\NameHelper.cs" />
     <Compile Include="Features\TypeDeclaration\RenameDocumentAction.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzer.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameCodeFixProvider.cs" />
     <Compile Include="IGeneratedCodeRecognitionService.cs" />
+    <Compile Include="IOptions.cs" />
     <Compile Include="ISyntaxFactsService.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="Services\GeneratedCodeRecognitionService.cs" />
+    <Compile Include="OptionsBucket.cs" />
+    <Compile Include="Services\OptionsService.cs" />
     <Compile Include="Services\SimpleNameGenerator.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToInternal.cs" />
     <Compile Include="Features\AccessModifier\Actions\TypeToPrivateExplicit.cs" />

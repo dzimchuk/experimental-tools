@@ -17,11 +17,13 @@ namespace ExperimentalTools.Features.TypeDeclaration
     internal class TypeAndDocumentNameCodeFixProvider : CodeFixProvider
     {
         private readonly ISyntaxFactsService syntaxFactsService;
+        private readonly IOptions options;
 
         [ImportingConstructor]
-        public TypeAndDocumentNameCodeFixProvider(ISyntaxFactsService syntaxFactsService)
+        public TypeAndDocumentNameCodeFixProvider(ISyntaxFactsService syntaxFactsService, IOptions options)
         {
             this.syntaxFactsService = syntaxFactsService;
+            this.options = options;
         }
 
         public sealed override ImmutableArray<string> FixableDiagnosticIds => 
@@ -47,8 +49,13 @@ namespace ExperimentalTools.Features.TypeDeclaration
             CalculateRenameDocumentAction(context, root, diagnostic, typeDeclaration);
         }
 
-        private static void CalculateRenameDocumentAction(CodeFixContext context, SyntaxNode root, Diagnostic diagnostic, TypeDeclarationSyntax typeDeclaration)
+        private void CalculateRenameDocumentAction(CodeFixContext context, SyntaxNode root, Diagnostic diagnostic, TypeDeclarationSyntax typeDeclaration)
         {
+            if (!options.IsFeatureEnabled(FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix))
+            {
+                return;
+            }
+
             var newDocumentName = NameHelper.AddExtension(typeDeclaration.Identifier.ValueText);
             var renameDocumentTitle = string.Format(Resources.RenameAToB, context.Document.Name, newDocumentName);
             context.RegisterCodeFix(
@@ -58,6 +65,11 @@ namespace ExperimentalTools.Features.TypeDeclaration
 
         private void CalculateRenameTypeAction(CodeFixContext context, Diagnostic diagnostic, TypeDeclarationSyntax typeDeclaration)
         {
+            if (!options.IsFeatureEnabled(FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix))
+            {
+                return;
+            }
+
             var documentName = NameHelper.RemoveExtension(context.Document.Name);
             if (documentName == null)
             {

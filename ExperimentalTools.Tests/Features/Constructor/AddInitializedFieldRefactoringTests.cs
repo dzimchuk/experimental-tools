@@ -11,7 +11,7 @@ namespace ExperimentalTools.Tests.Features.Constructor
     public class AddInitializedFieldRefactoringTests : RefactoringTest
     {
         protected override CodeRefactoringProvider Provider =>
-            new AddInitializedFieldRefactoring(new SimpleNameGenerator());
+            new AddInitializedFieldRefactoring(new SimpleNameGenerator(), new OptionsService());
 
         [Theory, MemberData("HasActionTestData")]
         public Task HasActionTest(string test, string input, string expectedOutput) =>

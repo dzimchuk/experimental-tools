@@ -19,5 +19,20 @@ namespace ExperimentalTools.Tests
 
             return builder.ToString();
         }
+
+        public static void EnableAllFeatures(this OptionsBucket bucket)
+        {
+            var features = bucket.Features;
+
+            features[FeatureIdentifiers.AddConstructorParameterRefactoring] = true;
+            features[FeatureIdentifiers.AddInitializedFieldRefactoring] = true;
+            features[FeatureIdentifiers.AddNewConstructorWithParameterRefactoring] = true;
+
+            features[FeatureIdentifiers.ChangeAccessModifierRefactoring] = true;
+
+            features[FeatureIdentifiers.TypeAndDocumentNameAnalyzer] = true;
+            features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = true;
+            features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix] = true;
+        }
     }
 }
