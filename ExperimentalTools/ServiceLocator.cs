@@ -1,4 +1,5 @@
 ﻿using ExperimentalTools.Services;
+using ExperimentalTools.Workspace;
 using System;
 
 namespace ExperimentalTools
@@ -15,6 +16,11 @@ namespace ExperimentalTools
             if (typeof(T) == typeof(IOptions))
             {
                 return new OptionsService() as T;
+            }
+
+            if (typeof(T) == typeof(IWorkspace))
+            {
+                return new WorkspaceService() as T;
             }
 
             throw new NotSupportedException($"Service {typeof(T)} not supported");

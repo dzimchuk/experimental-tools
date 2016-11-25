@@ -11,5 +11,7 @@
         public const string TypeAndDocumentNameAnalyzer = "TypeAndDocumentNameAnalyzer";
         public const string RenameTypeToMatchFileNameCodeFix = "RenameTypeToMatchFileNameCodeFix";
         public const string RenameFileToMatchTypeNameCodeFix = "RenameFileToMatchTypeNameCodeFix";
+
+        public const string NamespaceNormalizationAnalyzer = "NamespaceNormalizationAnalyzer";
     }
 }

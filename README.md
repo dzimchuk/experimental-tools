@@ -18,8 +18,9 @@ See the [change log](CHANGELOG.md) for changes and road map.
 - Initialize field from constructor parameter
 - Add constructor and initialize field
 - Initialize field in existing constructor
-- Change access modifier on type declarations
+- Namespace does not match file path analyzer
 - Update file name to match type name (and vice versa)
+- Change access modifier on type declarations
 - Settings page (ability to enable/disable individual features)
 
 ### Initialize field from constructor parameter
@@ -39,11 +40,11 @@ Ctrl+. on a field and choose *Initialize field in existing constructor*.
 
 ![Initialize field in existing constructor](art/InitializeFieldInExistingConstructor.png)
 
-### Change access modifier on type declarations
+### Namespace does not match file path analyzer
 
-Ctrl+. on a type declaration (either top level or nested) and choose one of proposed options.
+Analyze if a top level namespace does not match the path of the file where it is declared and display a warning.
 
-![Change access modifier on type declarations](art/ChangeTypeAccessModifier.png)
+![Namespace and file path analyzer](art/NamespaceNormalizationAnalyzer.png)
 
 ### Update file name to match type name (and vice versa)
 
@@ -54,6 +55,12 @@ Analyzes if a top level type name does not match the name of the file where it i
 It also offers to either rename the type to match the file name or rename the file to match the type name.
 
 ![Type and file name analyzer](art/TypeAndDocumentNameCodeFix.png)
+
+### Change access modifier on type declarations
+
+Ctrl+. on a type declaration (either top level or nested) and choose one of proposed options.
+
+![Change access modifier on type declarations](art/ChangeTypeAccessModifier.png)
 
 ### Settings page (ability to enable/disable individual features)
 

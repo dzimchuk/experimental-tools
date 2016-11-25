@@ -27,10 +27,10 @@ namespace ExperimentalTools.Features.TypeDeclaration
 
         public override void Initialize(AnalysisContext context)
         {
-            context.RegisterSymbolAction(AnalyzeNode, SymbolKind.NamedType);
+            context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.NamedType);
         }
 
-        private void AnalyzeNode(SymbolAnalysisContext context)
+        private void AnalyzeSymbol(SymbolAnalysisContext context)
         {
             if (generatedCodeRecognitionService.IsGeneratedCode(context))
             {
@@ -38,7 +38,7 @@ namespace ExperimentalTools.Features.TypeDeclaration
             }
 
             var symbol = (INamedTypeSymbol)context.Symbol;
-            if (symbol.DeclaringSyntaxReferences.Count() > 1)
+            if (symbol.DeclaringSyntaxReferences.Count() != 1)
             {
                 return;
             }
@@ -52,8 +52,13 @@ namespace ExperimentalTools.Features.TypeDeclaration
             {
                 return;
             }
-
+            
             var documentPath = symbol.DeclaringSyntaxReferences[0].SyntaxTree.FilePath;
+            if (documentPath == null)
+            {
+                return;
+            }
+
             var documentName = NameHelper.RemoveExtension(Path.GetFileName(documentPath));
             if (documentName != null)
             {
@@ -67,7 +72,7 @@ namespace ExperimentalTools.Features.TypeDeclaration
         private static bool IsTheOnlyType(INamedTypeSymbol symbol, CancellationToken cancellationToken)
         {
             var root = symbol.DeclaringSyntaxReferences[0].SyntaxTree.GetRoot(cancellationToken);
-            var topLevelTypes = root.DescendantNodes().OfType<BaseTypeDeclarationSyntax>().Where(t => t.IsTopLevelType());
+            var topLevelTypes = root.DescendantNodes().OfType<BaseTypeDeclarationSyntax>().Where(t => t.IsTopLevel());
             return topLevelTypes.Count() == 1;
         }
     }

@@ -135,6 +135,12 @@
   <data name="InitializeFieldInExistingConstructors" xml:space="preserve">
     <value>Initialize field in existing constructors</value>
   </data>
+  <data name="NamespaceNormalizationAnalyzerMessageFormat" xml:space="preserve">
+    <value>Namespace '{0}' does not match file path</value>
+  </data>
+  <data name="NamespaceNormalizationAnalyzerTitle" xml:space="preserve">
+    <value>Namespace does not match file path</value>
+  </data>
   <data name="RenameAToB" xml:space="preserve">
     <value>Rename '{0}' to '{1}'</value>
   </data>

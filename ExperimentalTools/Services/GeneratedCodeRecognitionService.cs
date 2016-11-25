@@ -11,6 +11,8 @@ namespace ExperimentalTools.Services
     {
         public bool IsGeneratedCode(Document document) => IsFileNameForGeneratedCode(document.Name);
 
+        public bool IsGeneratedCode(SyntaxTreeAnalysisContext context) => IsGeneratedCode(context.Tree);
+
         public bool IsGeneratedCode(SyntaxNodeAnalysisContext context) => IsGeneratedCode(context.Node.SyntaxTree);
 
         public bool IsGeneratedCode(SymbolAnalysisContext context) => IsGeneratedCode(context.Symbol);
@@ -32,7 +34,7 @@ namespace ExperimentalTools.Services
 
         private static bool IsFileNameForGeneratedCode(string fileName)
         {
-            if (fileName.StartsWith("TemporaryGeneratedFile_", StringComparison.OrdinalIgnoreCase))
+            if (fileName == null || fileName.StartsWith("TemporaryGeneratedFile_", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
