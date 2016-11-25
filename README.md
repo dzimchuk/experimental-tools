@@ -46,6 +46,8 @@ Analyze if a top level namespace does not match the path of the file where it is
 
 ![Namespace and file path analyzer](art/NamespaceNormalizationAnalyzer.png)
 
+It assumes assembly name as the root namespace as it's currently problematic to get the default namespace from within analyzers.
+
 ### Update file name to match type name (and vice versa)
 
 Analyzes if a top level type name does not match the name of the file where it is declared and displays a warning.
