@@ -1,7 +1,5 @@
 # Road map
 
-- [ ] Update namespace to match file path
-- [ ] Add/remove braces
 - [ ] This is constructor (when copied from another one)
 - [ ] Generate MemberData property for xunit data driven tests
 - [ ] Locate in Solution Explorer (Alt+Shift+L)
@@ -21,6 +19,12 @@ download in the
 
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
+
+## 0.4
+
+**2016-11-25**
+
+- [x] Namespace does not match file path analyzer
 
 ## 0.3
 

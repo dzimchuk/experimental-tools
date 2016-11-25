@@ -116,6 +116,24 @@ namespace ExperimentalTools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Namespace &apos;{0}&apos; does not match file path.
+        /// </summary>
+        internal static string NamespaceNormalizationAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("NamespaceNormalizationAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Namespace does not match file path.
+        /// </summary>
+        internal static string NamespaceNormalizationAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("NamespaceNormalizationAnalyzerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rename &apos;{0}&apos; to &apos;{1}&apos;.
         /// </summary>
         internal static string RenameAToB {

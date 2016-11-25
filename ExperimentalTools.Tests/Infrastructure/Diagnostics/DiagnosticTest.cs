@@ -5,11 +5,6 @@ namespace ExperimentalTools.Tests.Infrastructure.Diagnostics
 {
     public abstract class DiagnosticTest
     {
-        public DiagnosticTest()
-        {
-            OptionsBucket.Instance.EnableAllFeatures();
-        }
-
         protected abstract DiagnosticAnalyzer Analyzer { get; }
 
         protected Task RunAsync(string source, params DiagnosticResult[] expected) => 

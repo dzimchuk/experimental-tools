@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="DiagnosticCodes.cs" />
     <Compile Include="FeatureIdentifiers.cs" />
+    <Compile Include="Features\Namespace\NamespaceNormalizationAnalyzer.cs" />
     <Compile Include="Features\TypeDeclaration\NameHelper.cs" />
     <Compile Include="Features\TypeDeclaration\RenameDocumentAction.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzer.cs" />
@@ -77,6 +78,10 @@
     <Compile Include="Services\SyntaxFactsService.cs" />
     <Compile Include="SyntaxExtensions.cs" />
     <Compile Include="SyntaxFactory.cs" />
+    <Compile Include="IWorkspace.cs" />
+    <Compile Include="Models\ProjectDescription.cs" />
+    <Compile Include="Workspace\WorkspaceCache.cs" />
+    <Compile Include="Workspace\WorkspaceService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

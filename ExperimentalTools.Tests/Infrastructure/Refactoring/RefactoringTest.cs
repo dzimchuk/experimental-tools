@@ -7,11 +7,6 @@ namespace ExperimentalTools.Tests.Infrastructure.Refactoring
 {
     public abstract class RefactoringTest
     {
-        public RefactoringTest()
-        {
-            OptionsBucket.Instance.EnableAllFeatures();
-        }
-
         protected abstract CodeRefactoringProvider Provider { get; }
 
         public async Task RunSingleActionTestAsync(string input, string expectedOutput)

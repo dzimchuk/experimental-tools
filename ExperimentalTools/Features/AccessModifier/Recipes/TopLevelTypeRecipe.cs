@@ -20,6 +20,6 @@ namespace ExperimentalTools.Features.AccessModifier.Recipes
         }
 
         public override bool CanHandle(BaseTypeDeclarationSyntax typeDeclaration) =>
-            typeDeclaration.IsTopLevelType();
+            typeDeclaration.IsTopLevel();
     }
 }

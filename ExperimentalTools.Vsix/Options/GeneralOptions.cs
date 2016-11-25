@@ -49,17 +49,27 @@ namespace ExperimentalTools.Vsix.Options
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool RenameFileToMatchTypeNameCodeFix { get; set; }
 
+        [Category(category)]
+        [DisplayName("Warn if namespace does not match file path")]
+        [Description("Analyze if a top level namespace does not match the path of the file where it is declared and display a warning. Requires VS restart.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool NamespaceNormalizationAnalyzer { get; set; }
+
         public GeneralOptions()
         {
-            AddConstructorParameterRefactoring = true;
-            AddInitializedFieldRefactoring = true;
-            AddNewConstructorWithParameterRefactoring = true;
+            var features = OptionsBucket.Instance.Features;
 
-            ChangeAccessModifierRefactoring = true;
+            AddConstructorParameterRefactoring = features[FeatureIdentifiers.AddConstructorParameterRefactoring];
+            AddInitializedFieldRefactoring = features[FeatureIdentifiers.AddInitializedFieldRefactoring];
+            AddNewConstructorWithParameterRefactoring = features[FeatureIdentifiers.AddNewConstructorWithParameterRefactoring];
 
-            TypeAndDocumentNameAnalyzer = true;
-            RenameFileToMatchTypeNameCodeFix = true;
-            RenameTypeToMatchFileNameCodeFix = true;
+            ChangeAccessModifierRefactoring = features[FeatureIdentifiers.ChangeAccessModifierRefactoring];
+
+            TypeAndDocumentNameAnalyzer = features[FeatureIdentifiers.TypeAndDocumentNameAnalyzer];
+            RenameFileToMatchTypeNameCodeFix = features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix];
+            RenameTypeToMatchFileNameCodeFix = features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix];
+
+            NamespaceNormalizationAnalyzer = features[FeatureIdentifiers.NamespaceNormalizationAnalyzer];
         }
 
         protected override void OnApply(PageApplyEventArgs e)
@@ -85,6 +95,8 @@ namespace ExperimentalTools.Vsix.Options
             features[FeatureIdentifiers.TypeAndDocumentNameAnalyzer] = TypeAndDocumentNameAnalyzer;
             features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix] = RenameFileToMatchTypeNameCodeFix;
             features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = RenameTypeToMatchFileNameCodeFix;
+
+            features[FeatureIdentifiers.NamespaceNormalizationAnalyzer] = NamespaceNormalizationAnalyzer;
         }
     }
 }
