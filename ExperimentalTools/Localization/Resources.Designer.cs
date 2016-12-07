@@ -89,7 +89,7 @@ namespace ExperimentalTools.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is constructor.
+        ///   Looks up a localized string similar to Make it a constructor.
         /// </summary>
         internal static string FixConstructorName {
             get {

@@ -127,7 +127,7 @@
     <value>Naming</value>
   </data>
   <data name="FixConstructorName" xml:space="preserve">
-    <value>This is constructor</value>
+    <value>Make it a constructor</value>
   </data>
   <data name="InitializeExistingField" xml:space="preserve">
     <value>Initialize existing field</value>

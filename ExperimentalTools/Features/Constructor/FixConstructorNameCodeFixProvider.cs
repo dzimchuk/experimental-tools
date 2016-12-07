@@ -44,7 +44,7 @@ namespace ExperimentalTools.Features.Constructor
             {
                 return;
             }
-            
+                        
             var methodDeclaration = root.FindNode(diagnostic.Location.SourceSpan) as MethodDeclarationSyntax;
             if (methodDeclaration == null || 
                 (methodDeclaration.ReturnType != null && !methodDeclaration.ReturnType.IsMissing))
@@ -58,17 +58,48 @@ namespace ExperimentalTools.Features.Constructor
                 return;
             }
 
-            if (typeDeclaration.Identifier.ToString().Equals(methodDeclaration.Identifier.ToString()))
+            var model = await context.Document.GetSemanticModelAsync(context.CancellationToken);
+            if (CheckIfConstructorAlreadyExists(model, methodDeclaration, typeDeclaration, context.CancellationToken))
             {
                 return;
             }
-
+            
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: Resources.FixConstructorName,
                     createChangedDocument: c => FixConstructorNameAsync(context.Document, root, methodDeclaration, typeDeclaration.Identifier.ToString(), c),
                     equivalenceKey: Resources.FixConstructorName),
                 diagnostic);
+        }
+
+        private static bool CheckIfConstructorAlreadyExists(SemanticModel model, MethodDeclarationSyntax methodDeclaration,
+            TypeDeclarationSyntax typeDeclaration, CancellationToken cancellationToken)
+        {
+            var constructors = typeDeclaration.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToList();
+            if (!constructors.Any())
+            {
+                return false;
+            }
+
+            foreach (var constructor in constructors)
+            {
+                if (constructor.ParameterList.Parameters.Count == methodDeclaration.ParameterList.Parameters.Count)
+                {
+                    for (int i = 0; i < constructor.ParameterList.Parameters.Count; i++)
+                    {
+                        var constructorParameter = model.GetDeclaredSymbol(constructor.ParameterList.Parameters[i], cancellationToken) as IParameterSymbol;
+                        var methodParameter = model.GetDeclaredSymbol(methodDeclaration.ParameterList.Parameters[i], cancellationToken) as IParameterSymbol;
+                        if (constructorParameter.Type != methodParameter.Type)
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+            
+            return false;
         }
 
         private Task<Document> FixConstructorNameAsync(Document document,

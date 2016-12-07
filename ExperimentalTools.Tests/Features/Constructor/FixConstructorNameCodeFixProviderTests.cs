@@ -28,29 +28,9 @@ namespace ExperimentalTools.Tests.Features.Constructor
             return methodNameDiagnostic;
         }
 
-        [Fact]
-        public async Task CodeFixTest()
+        [Theory, MemberData("HasActionTestData")]
+        public async Task CodeFixTest(string test, string source, string expected)
         {
-            var source = @"
-namespace HelloWorld
-{
-    class TestService
-    {
-        public Test()
-        {
-        }
-    }
-}";
-            var expected = @"
-namespace HelloWorld
-{
-    class TestService
-    {
-        public TestService()
-        {
-        }
-    }
-}";
             var document = DocumentProvider.GetDocument(source);
             var diagnostic = await GetDiagnosticAsync(document);
 
@@ -65,5 +45,152 @@ namespace HelloWorld
 
             Assert.Equal(expected, actual);
         }
+
+        public static IEnumerable<object[]> HasActionTestData =>
+            new[]
+            {
+                new object[]
+                {
+                    "No constructor",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        public Test()
+        {
+        }
+    }
+}",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService()
+        {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Constructor with a different number of parameters exists",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(int index)
+        {
+        }
+
+        public Test(int i, double b)
+        {
+        }
+    }
+}",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(int index)
+        {
+        }
+
+        public TestService(int i, double b)
+        {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Constructor with different parameters exists",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(int index, string name)
+        {
+        }
+
+        public Test(int i, double b)
+        {
+        }
+    }
+}",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(int index, string name)
+        {
+        }
+
+        public TestService(int i, double b)
+        {
+        }
+    }
+}"
+                }
+            };
+
+        [Theory, MemberData("NoActionTestData")]
+        public async Task NoActionTest(string test, string source)
+        {
+            var document = DocumentProvider.GetDocument(source);
+            var diagnostic = await GetDiagnosticAsync(document);
+
+            var actions = new List<CodeAction>();
+            var context = new CodeFixContext(document, diagnostic, (a, d) => actions.Add(a), CancellationToken.None);
+            await codeFixProvider.RegisterCodeFixesAsync(context);
+
+            Assert.Empty(actions);
+        }
+
+        public static IEnumerable<object[]> NoActionTestData =>
+            new[]
+            {
+                new object[]
+                {
+                    "Constructor already exists",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService()
+        {
+        }
+
+        public Test()
+        {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Constructor with the same parameters already exists",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        public TestService(int index, double value)
+        {
+        }
+
+        public Test(int i, double b)
+        {
+        }
+    }
+}"
+                }
+            };
     }
 }
