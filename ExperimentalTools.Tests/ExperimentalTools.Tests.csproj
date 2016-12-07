@@ -116,6 +116,7 @@
     <Compile Include="Features\AccessModifier\TopLevelEnumTests.cs" />
     <Compile Include="Features\AccessModifier\TopLevelInterfaceTests.cs" />
     <Compile Include="Features\AccessModifier\TopLevelStructTests.cs" />
+    <Compile Include="Features\Constructor\FixConstructorNameCodeFixProviderTests.cs" />
     <Compile Include="Features\Namespace\NamespaceNormalizationAnalyzerTests.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzerTests.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameCodeFixProviderTests.cs" />

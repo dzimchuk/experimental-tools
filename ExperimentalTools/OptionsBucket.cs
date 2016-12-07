@@ -20,7 +20,9 @@ namespace ExperimentalTools
             { FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix, true },
             { FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix, true },
 
-            { FeatureIdentifiers.NamespaceNormalizationAnalyzer, true }
+            { FeatureIdentifiers.NamespaceNormalizationAnalyzer, true },
+
+            {FeatureIdentifiers.FixConstructorNameCodeFix, true }
         };
     }
 }

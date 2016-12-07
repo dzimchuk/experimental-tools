@@ -1,6 +1,6 @@
 # Road map
 
-- [ ] This is constructor (when copied from another one)
+- [x] This is constructor (when copied from another one)
 - [ ] Generate MemberData property for xunit data driven tests
 - [ ] Locate in Solution Explorer (Alt+Shift+L)
 - [ ] Quick GUID generation (nguid)

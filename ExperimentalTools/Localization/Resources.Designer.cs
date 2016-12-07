@@ -89,6 +89,15 @@ namespace ExperimentalTools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Make it a constructor.
+        /// </summary>
+        internal static string FixConstructorName {
+            get {
+                return ResourceManager.GetString("FixConstructorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initialize existing field.
         /// </summary>
         internal static string InitializeExistingField {

@@ -13,5 +13,7 @@
         public const string RenameFileToMatchTypeNameCodeFix = "RenameFileToMatchTypeNameCodeFix";
 
         public const string NamespaceNormalizationAnalyzer = "NamespaceNormalizationAnalyzer";
+
+        public const string FixConstructorNameCodeFix = "FixConstructorNameCodeFix";
     }
 }
