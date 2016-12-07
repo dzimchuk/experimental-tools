@@ -26,6 +26,12 @@ namespace ExperimentalTools.Vsix.Options
         public bool AddNewConstructorWithParameterRefactoring { get; set; }
 
         [Category(category)]
+        [DisplayName("Fix constructor name")]
+        [Description("Provide a code fix for CS1520 that changes the incorrect constructor name to the one that matches the type name.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool FixConstructorNameCodeFix { get; set; }
+
+        [Category(category)]
         [DisplayName("Change access modifier")]
         [Description("Change access modifier of a type declaration.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
@@ -70,6 +76,8 @@ namespace ExperimentalTools.Vsix.Options
             RenameTypeToMatchFileNameCodeFix = features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix];
 
             NamespaceNormalizationAnalyzer = features[FeatureIdentifiers.NamespaceNormalizationAnalyzer];
+
+            FixConstructorNameCodeFix = features[FeatureIdentifiers.FixConstructorNameCodeFix];
         }
 
         protected override void OnApply(PageApplyEventArgs e)
@@ -97,6 +105,8 @@ namespace ExperimentalTools.Vsix.Options
             features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = RenameTypeToMatchFileNameCodeFix;
 
             features[FeatureIdentifiers.NamespaceNormalizationAnalyzer] = NamespaceNormalizationAnalyzer;
+
+            features[FeatureIdentifiers.FixConstructorNameCodeFix] = FixConstructorNameCodeFix;
         }
     }
 }

@@ -96,7 +96,7 @@ namespace ExperimentalTools.Tests.Infrastructure.Diagnostics
         /// </summary>
         /// <param name="document">The Document to run the compiler diagnostic analyzers on</param>
         /// <returns>The compiler diagnostics that were found in the code</returns>
-        private static async Task<IEnumerable<Diagnostic>> GetCompilerDiagnosticsAsync(Document document)
+        public static async Task<IEnumerable<Diagnostic>> GetCompilerDiagnosticsAsync(Document document)
         {
             var model = await document.GetSemanticModelAsync();
             return model.GetDiagnostics();
@@ -107,7 +107,7 @@ namespace ExperimentalTools.Tests.Infrastructure.Diagnostics
         /// </summary>
         /// <param name="document">The Document to be converted to a string</param>
         /// <returns>A string containing the syntax of the Document after formatting</returns>
-        private static async Task<string> GetStringFromDocumentAsync(Document document)
+        public static async Task<string> GetStringFromDocumentAsync(Document document)
         {
             var simplifiedDoc = await Simplifier.ReduceAsync(document, Simplifier.Annotation);
             var root = await simplifiedDoc.GetSyntaxRootAsync();
@@ -122,7 +122,7 @@ namespace ExperimentalTools.Tests.Infrastructure.Diagnostics
         /// <param name="document">The Document to apply the fix on</param>
         /// <param name="codeAction">A CodeAction that will be applied to the Document.</param>
         /// <returns>A Document with the changes from the CodeAction</returns>
-        private static async Task<Document> ApplyFixAsync(Document document, CodeAction codeAction)
+        public static async Task<Document> ApplyFixAsync(Document document, CodeAction codeAction)
         {
             var operations = await codeAction.GetOperationsAsync(CancellationToken.None);
             var changedSolution = operations.OfType<ApplyChangesOperation>().Single().ChangedSolution;
