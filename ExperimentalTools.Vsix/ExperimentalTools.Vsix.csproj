@@ -62,6 +62,11 @@
       <Link>Resources\LICENSE</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <VSCTCompile Include="Commands\ExperimentalToolsPackage.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
+    </VSCTCompile>
+    <Content Include="Commands\Resources\LocateInSolutionExplorerCommand.png" />
     <Content Include="source.extension.ico">
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Content>
@@ -90,6 +95,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\LocateInSolutionExplorerCommand.cs" />
     <Compile Include="Options\EnabledDisabledConverter.cs" />
     <Compile Include="Options\GeneralOptions.cs">
       <SubType>Component</SubType>

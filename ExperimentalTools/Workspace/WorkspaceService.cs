@@ -6,6 +6,6 @@ namespace ExperimentalTools.Workspace
     [Export(typeof(IWorkspace))]
     internal class WorkspaceService : IWorkspace
     {
-        public ProjectDescription FindProjectByPath(string path) => WorkspaceCache.Instance.FindByPath(path);
+        public ProjectDescription FindProjectByPath(string path) => WorkspaceCache.Instance.FindProjectByPath(path);
     }
 }
