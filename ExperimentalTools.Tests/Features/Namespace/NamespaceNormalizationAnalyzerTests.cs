@@ -18,7 +18,7 @@ namespace ExperimentalTools.Tests.Features.Namespace
 
         public NamespaceNormalizationAnalyzerTests()
         {
-            WorkspaceCache.Instance.AddOrUpdate(new Models.ProjectDescription
+            WorkspaceCache.Instance.AddOrUpdateProject(new Models.ProjectDescription
             {
                 Id = projectId,
                 Path = @"c:\temp",

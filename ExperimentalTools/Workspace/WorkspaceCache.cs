@@ -15,7 +15,7 @@ namespace ExperimentalTools.Workspace
         private readonly ConcurrentDictionary<string, ProjectDescription> projectsByPath = 
             new ConcurrentDictionary<string, ProjectDescription>();
 
-        public ProjectDescription FindByPath(string path)
+        public ProjectDescription FindProjectByPath(string path)
         {
             ProjectDescription description;
             if (projectsByPath.TryGetValue(path, out description))
@@ -32,7 +32,7 @@ namespace ExperimentalTools.Workspace
             projectsByPath.Clear();
         }
 
-        public void AddOrUpdate(ProjectDescription project)
+        public void AddOrUpdateProject(ProjectDescription project)
         {
             if (string.IsNullOrWhiteSpace(project.Path))
             {
@@ -43,7 +43,7 @@ namespace ExperimentalTools.Workspace
             projectsByPath.AddOrUpdate(project.Path, project, (path, desc) => project);
         }
 
-        public void Remove(ProjectId projectId)
+        public void RemoveProject(ProjectId projectId)
         {
             ProjectDescription project;
             if (projectsById.TryRemove(projectId, out project))

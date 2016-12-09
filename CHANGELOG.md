@@ -1,8 +1,6 @@
 # Road map
 
-- [x] This is constructor (when copied from another one)
 - [ ] Generate MemberData property for xunit data driven tests
-- [ ] Locate in Solution Explorer (Alt+Shift+L)
 - [ ] Quick GUID generation (nguid)
 - [ ] Add to interface (on a method; VS currently has one on a type)
 - [ ] Method can be made static
@@ -19,6 +17,13 @@ download in the
 
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
+
+## 0.5
+
+**2016-12-09**
+
+- [x] Make it a constructor (when copied from another class)
+- [x] Locate in Solution Explorer (Shift+Alt+L)
 
 ## 0.4
 

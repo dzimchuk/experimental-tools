@@ -21,6 +21,8 @@ See the [change log](CHANGELOG.md) for changes and road map.
 - Namespace does not match file path analyzer
 - Update file name to match type name (and vice versa)
 - Change access modifier on type declarations
+- Make it a constructor (when copied from another class)
+- Locate in Solution Explorer (Shift+Alt+L)
 - Settings page (ability to enable/disable individual features)
 
 ### Initialize field from constructor parameter
@@ -63,6 +65,20 @@ It also offers to either rename the type to match the file name or rename the fi
 Ctrl+. on a type declaration (either top level or nested) and choose one of proposed options.
 
 ![Change access modifier on type declarations](art/ChangeTypeAccessModifier.png)
+
+### Make it a constructor (when copied from another class)
+
+Sometimes you copy code from another class into a new one and this quick fix allows you to update the constructor name.
+
+![Make it a constructor](art/MakeItConstructorCodeFix.png)
+
+### Locate in Solution Explorer (Shift+Alt+L)
+
+There is a standard command in Solution Explorer called 'Sync with Active Document'. People coming from ReSharper will appreciate its Shift+Alt+L equivalent.
+
+![Locate in Solution Explorer](art/LocateInSolutionExplorerCommand.png)
+
+The command is available in the code editor either from the context menu or as a shortcut.
 
 ### Settings page (ability to enable/disable individual features)
 

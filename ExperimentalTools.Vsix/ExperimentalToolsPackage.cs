@@ -10,6 +10,7 @@ using ExperimentalTools.Workspace;
 using System.Linq;
 using ExperimentalTools.Models;
 using System.IO;
+using ExperimentalTools.Vsix.Commands;
 
 namespace ExperimentalTools.Vsix
 {
@@ -19,10 +20,13 @@ namespace ExperimentalTools.Vsix
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideOptionPage(typeof(GeneralOptions), "Experimental Tools", "General", 0, 0, true)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string)]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class ExperimentalToolsPackage : Package
     {
         protected override void Initialize()
         {
+            base.Initialize();
+
             var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
             var workspace = componentModel.GetService<VisualStudioWorkspace>();
             workspace.WorkspaceChanged += WorkspaceChanged;
@@ -30,8 +34,8 @@ namespace ExperimentalTools.Vsix
             var generalOptions = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
             generalOptions.UpdateFeatureStates();
 
-            base.Initialize();
-        }
+            LocateInSolutionExplorerCommand.Initialize(this);
+        }        
 
         private void WorkspaceChanged(object sender, Microsoft.CodeAnalysis.WorkspaceChangeEventArgs e)
         {
@@ -51,11 +55,11 @@ namespace ExperimentalTools.Vsix
                             Path = !string.IsNullOrWhiteSpace(project.FilePath) ? Path.GetDirectoryName(project.FilePath) : null,
                             AssemblyName = project.AssemblyName
                         };
-                        WorkspaceCache.Instance.AddOrUpdate(description);
+                        WorkspaceCache.Instance.AddOrUpdateProject(description);
                     }
                     break;
                 case Microsoft.CodeAnalysis.WorkspaceChangeKind.ProjectRemoved:
-                    WorkspaceCache.Instance.Remove(e.ProjectId);
+                    WorkspaceCache.Instance.RemoveProject(e.ProjectId);
                     break;
                 default:
                     break;
