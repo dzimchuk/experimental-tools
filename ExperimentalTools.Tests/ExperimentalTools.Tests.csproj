@@ -120,6 +120,7 @@
     <Compile Include="Features\Namespace\NamespaceNormalizationAnalyzerTests.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzerTests.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameCodeFixProviderTests.cs" />
+    <Compile Include="Features\Xunit\ScaffoldXunitTheoryMemberDataRefactoringTests.cs" />
     <Compile Include="Infrastructure\ActionAcceptors\MultipleCodeActionsAcceptor.cs" />
     <Compile Include="Infrastructure\Diagnostics\CodeFixTest.cs" />
     <Compile Include="Infrastructure\Diagnostics\CodeFixVerifier.cs" />

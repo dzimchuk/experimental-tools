@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace ExperimentalTools
 {
@@ -59,5 +60,50 @@ namespace ExperimentalTools
 
         public static bool IsTopLevel(this NamespaceDeclarationSyntax namespaceDeclaration) =>
             !namespaceDeclaration.Ancestors().OfType<NamespaceDeclarationSyntax>().Any();
+
+        public static IEnumerable<TNode> GetAncestorsOrThis<TNode>(this SyntaxNode node) => node.AncestorsAndSelf().OfType<TNode>();
+
+        public static TNode GetAncestorOrThis<TNode>(this SyntaxNode node) => node.GetAncestorsOrThis<TNode>().First();
+
+        public static IEnumerable<UsingDirectiveSyntax> GetEnclosingUsingDirectives(this SyntaxNode node)
+        {
+            return node.GetAncestorOrThis<CompilationUnitSyntax>().Usings
+                       .Concat(node.GetAncestorsOrThis<NamespaceDeclarationSyntax>()
+                                   .Reverse()
+                                   .SelectMany(n => n.Usings));
+        }
+
+        public static IEnumerable<ExternAliasDirectiveSyntax> GetEnclosingExternAliasDirectives(this SyntaxNode node)
+        {
+            return node.GetAncestorOrThis<CompilationUnitSyntax>().Externs
+                       .Concat(node.GetAncestorsOrThis<NamespaceDeclarationSyntax>()
+                                   .Reverse()
+                                   .SelectMany(n => n.Externs));
+        }
+        
+        public static SyntaxNode AddNamespaceUsing(this SyntaxNode root, CompilationUnitSyntax compilationUnit, string @namespace)
+        {
+            var newUsing = UsingDirective(ConstructNameSyntax(@namespace));
+            var usingList = compilationUnit.Usings.Concat(new[] { newUsing }).OrderBy(@using => @using.Name.ToString()).ToArray();
+
+            var newCompilationUnit = compilationUnit.WithUsings(List(usingList));
+            return root.ReplaceNode(compilationUnit, newCompilationUnit);
+        }
+
+        private static NameSyntax ConstructNameSyntax(string name)
+        {
+            var parts = name.Split('.');
+            return ConstructNameSyntax(parts, parts.Length - 1);
+        }
+
+        private static NameSyntax ConstructNameSyntax(string[] parts, int index)
+        {
+            var currentPart = parts[index];
+            var namePiece = IdentifierName(currentPart);
+
+            return index == 0
+                ? (NameSyntax)namePiece
+                : QualifiedName(ConstructNameSyntax(parts, index - 1), namePiece);
+        }
     }
 }

@@ -61,6 +61,24 @@ namespace ExperimentalTools.Vsix.Options
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool NamespaceNormalizationAnalyzer { get; set; }
 
+        [Category(category)]
+        [DisplayName("Locate in Solution Explorer")]
+        [Description("Provide a context menu command and the key shortcut (Shit+Alt+L) to locate the currently open document in Solution Explorer. It's essentially the same command as 'Sync with Active Document'.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool LocateInSolutionExplorerCommand { get; set; }
+
+        [Category(category)]
+        [DisplayName("Scaffold xunit theory member data")]
+        [Description("Add a sample member data property and wire it up to the xunit theory test method.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool ScaffoldXunitTheoryMemberDataRefactoring { get; set; }
+
+        [Category(category)]
+        [DisplayName("Scaffold xunit theory inline data")]
+        [Description("Add sample inline parameters to the xunit theory test method.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool ScaffoldXunitTheoryInlineDataRefactoring { get; set; }
+
         public GeneralOptions()
         {
             var features = OptionsBucket.Instance.Features;
@@ -78,6 +96,11 @@ namespace ExperimentalTools.Vsix.Options
             NamespaceNormalizationAnalyzer = features[FeatureIdentifiers.NamespaceNormalizationAnalyzer];
 
             FixConstructorNameCodeFix = features[FeatureIdentifiers.FixConstructorNameCodeFix];
+
+            LocateInSolutionExplorerCommand = features[FeatureIdentifiers.LocateInSolutionExplorerCommand];
+
+            ScaffoldXunitTheoryMemberDataRefactoring = features[FeatureIdentifiers.ScaffoldXunitTheoryMemberData];
+            ScaffoldXunitTheoryInlineDataRefactoring = features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData];
         }
 
         protected override void OnApply(PageApplyEventArgs e)
@@ -107,6 +130,11 @@ namespace ExperimentalTools.Vsix.Options
             features[FeatureIdentifiers.NamespaceNormalizationAnalyzer] = NamespaceNormalizationAnalyzer;
 
             features[FeatureIdentifiers.FixConstructorNameCodeFix] = FixConstructorNameCodeFix;
+
+            features[FeatureIdentifiers.LocateInSolutionExplorerCommand] = LocateInSolutionExplorerCommand;
+
+            features[FeatureIdentifiers.ScaffoldXunitTheoryMemberData] = ScaffoldXunitTheoryMemberDataRefactoring;
+            features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData] = ScaffoldXunitTheoryInlineDataRefactoring;
         }
     }
 }

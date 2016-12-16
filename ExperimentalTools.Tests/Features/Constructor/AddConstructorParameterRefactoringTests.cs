@@ -5,11 +5,17 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.CodeAnalysis.CodeRefactorings;
+using Xunit.Abstractions;
 
 namespace ExperimentalTools.Tests.Features.Constructor
 {
     public class AddConstructorParameterRefactoringTests : RefactoringTest
     {
+        public AddConstructorParameterRefactoringTests(ITestOutputHelper output)
+            : base(output)
+        {
+        }
+
         protected override CodeRefactoringProvider Provider =>
             new AddConstructorParameterRefactoring(new SimpleNameGenerator(), new OptionsService());
 

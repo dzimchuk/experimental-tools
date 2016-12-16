@@ -1,6 +1,9 @@
-﻿using Microsoft.CodeAnalysis.CodeRefactorings;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.Text;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -13,9 +16,15 @@ namespace ExperimentalTools.Tests.Infrastructure.Refactoring
         private static readonly Regex textSpanExpression =
             new Regex($"{textSpanStart}(?<textSpanContent>.*){textSpanEnd}", RegexOptions.Compiled | RegexOptions.Singleline);
         
-        public static CodeRefactoringContext Build(string sourceText, ICodeActionAcceptor acceptor)
+        public static CodeRefactoringContext Build(string sourceText, ICodeActionAcceptor acceptor, IEnumerable<MetadataReference> additionalReferences)
         {
             var document = DocumentProvider.GetDocument(NormalizeSource(sourceText));
+            if (additionalReferences != null && additionalReferences.Any())
+            {
+                var solution = document.Project.Solution.AddMetadataReferences(document.Project.Id, additionalReferences);
+                document = solution.GetDocument(document.Id);
+            }
+
             return new CodeRefactoringContext(document, GetTextSpan(sourceText), acceptor.Accept, CancellationToken.None);
         }
 

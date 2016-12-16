@@ -152,6 +152,24 @@ namespace ExperimentalTools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scaffold inline data.
+        /// </summary>
+        internal static string ScaffoldXunitTheoryInlineData {
+            get {
+                return ResourceManager.GetString("ScaffoldXunitTheoryInlineData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scaffold member data.
+        /// </summary>
+        internal static string ScaffoldXunitTheoryMemberData {
+            get {
+                return ResourceManager.GetString("ScaffoldXunitTheoryMemberData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To internal.
         /// </summary>
         internal static string ToInternal {

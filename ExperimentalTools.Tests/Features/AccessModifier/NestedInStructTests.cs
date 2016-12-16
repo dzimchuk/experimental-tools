@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace ExperimentalTools.Tests.Features.AccessModifier
 {
     public class NestedInStructTests : AccessModifierTest
     {
+        public NestedInStructTests(ITestOutputHelper output)
+            : base(output)
+        {
+        }
+
         [Theory, MemberData("HasActionTestData")]
         public Task HasActionTest(string test, string actionTitle, string input, string expectedResult) =>
             RunMultipleActionsTestAsync(actionTitle, input, expectedResult);

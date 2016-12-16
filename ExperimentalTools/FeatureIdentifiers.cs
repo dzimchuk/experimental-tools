@@ -15,5 +15,10 @@
         public const string NamespaceNormalizationAnalyzer = "NamespaceNormalizationAnalyzer";
 
         public const string FixConstructorNameCodeFix = "FixConstructorNameCodeFix";
+
+        public const string LocateInSolutionExplorerCommand = "LocateInSolutionExplorerCommand";
+
+        public const string ScaffoldXunitTheoryMemberData = "ScaffoldXunitTheoryMemberData";
+        public const string ScaffoldXunitTheoryInlineData = "ScaffoldXunitTheoryInlineData";
     }
 }
