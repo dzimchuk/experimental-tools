@@ -60,17 +60,19 @@ namespace ExperimentalTools.Features.Xunit
             {
                 return;
             }
-
-            var memberDataAttribute = FindMemberDataAttribute(attrList, model, context.CancellationToken);
+            
+            var memberDataAttribute = FindAttribute(attrList, "Xunit.MemberDataAttribute", model, context.CancellationToken);
             if (memberDataAttribute != null)
             {
-                return;
+                if (CheckIfAlreadyScaffolded(model, memberDataAttribute, context.CancellationToken))
+                {
+                    return;
+                }
             }
             
             var action = CodeAction.Create(Resources.ScaffoldXunitTheoryMemberData,
-                cancellationToken => ScaffoldAsync(context.Document, root, model, attrList, cancellationToken));
+                cancellationToken => ScaffoldAsync(context.Document, root, model, attrList, memberDataAttribute, cancellationToken));
             context.RegisterRefactoring(action);
-
         }
 
         private static AttributeListSyntax TryFindAttributeList(SyntaxNode node)
@@ -103,25 +105,40 @@ namespace ExperimentalTools.Features.Xunit
 
             return null;
         }
-        
-        private static AttributeSyntax FindMemberDataAttribute(AttributeListSyntax attrList, SemanticModel model, CancellationToken cancellationToken)
+
+        private static bool CheckAssembly(IAssemblySymbol assembly) => 
+            assembly != null && assembly.Name.ToUpperInvariant().Contains("XUNIT") && assembly.Identity.Version.Major >= 2;
+
+        private static bool CheckIfAlreadyScaffolded(SemanticModel model, AttributeSyntax memberDataAttribute,
+            CancellationToken cancellationToken)
         {
-            foreach (var attr in attrList.ChildNodes().OfType<AttributeSyntax>())
+            var memberName = GetMemberName(memberDataAttribute);
+            if (string.IsNullOrWhiteSpace(memberName))
             {
-                var symbol = model.GetTypeInfo(attr, cancellationToken).Type;
-                if (symbol != null && (symbol.Name.Equals("MemberDataAttribute") || symbol.Name.Equals("PropertyDataAttribute")) && CheckAssembly(symbol.ContainingAssembly))
+                return false;
+            }
+
+            var declaredType = model.GetDeclaredSymbol(memberDataAttribute.GetParentTypeDeclaration(), cancellationToken) as INamedTypeSymbol;
+            return declaredType.MemberNames.Contains(memberName);
+        }
+
+        private static string GetMemberName(AttributeSyntax memberDataAttribute)
+        {
+            var arg = memberDataAttribute?.ArgumentList?.Arguments.FirstOrDefault();
+            if (arg != null)
+            {
+                var expr = arg.Expression as LiteralExpressionSyntax;
+                if (expr != null && expr.Kind() == SyntaxKind.StringLiteralExpression)
                 {
-                    return attr;
+                    return expr.Token.ValueText;
                 }
             }
 
             return null;
         }
 
-        private static bool CheckAssembly(IAssemblySymbol assembly) => 
-            assembly != null && assembly.Name.ToUpperInvariant().Contains("XUNIT") && assembly.Identity.Version.Major >= 2;
-
-        private async Task<Document> ScaffoldAsync(Document document, SyntaxNode root, SemanticModel model, AttributeListSyntax attrList, CancellationToken cancellationToken)
+        private async Task<Document> ScaffoldAsync(Document document, SyntaxNode root, SemanticModel model, 
+            AttributeListSyntax attrList, AttributeSyntax memberDataAttribute, CancellationToken cancellationToken)
         {
             var typeDeclaration = attrList.GetParentTypeDeclaration();
             var compilationUnit = typeDeclaration.Ancestors().OfType<CompilationUnitSyntax>().First();
@@ -129,21 +146,34 @@ namespace ExperimentalTools.Features.Xunit
 
             var usings = model.GetUsingNamespacesInScope(methodDeclaration);
 
-            var trackedRoot = root.TrackNodes(methodDeclaration, typeDeclaration, attrList, compilationUnit);
+            var trackedRoot = memberDataAttribute != null
+                ? root.TrackNodes(methodDeclaration, typeDeclaration, attrList, compilationUnit, memberDataAttribute)
+                : root.TrackNodes(methodDeclaration, typeDeclaration, attrList, compilationUnit);
 
-            var propertyName = $"{methodDeclaration.Identifier.ToString()}Data";
-            propertyName = await nameGenerator.GetNewMemberNameAsync(typeDeclaration, propertyName, document, cancellationToken);
+            var memberName = await GetNewMemberNameAsync(document, cancellationToken, typeDeclaration, methodDeclaration, memberDataAttribute);
 
-            var propertyDeclaration = CreatePropertyDeclaration(propertyName);
+            var propertyDeclaration = CreatePropertyDeclaration(memberName);
             trackedRoot = trackedRoot.InsertNodesAfter(trackedRoot.GetCurrentNode(methodDeclaration), SingletonList(propertyDeclaration));
 
-            trackedRoot = SetupMemberDataAttribute(trackedRoot, attrList, propertyName);
+            trackedRoot = SetupMemberDataAttribute(trackedRoot, attrList, memberName, memberDataAttribute);
             trackedRoot = UpdateTestMethodParameters(trackedRoot, methodDeclaration);
 
             trackedRoot = AddUsingIfNeeded(trackedRoot, compilationUnit, usings, "System.Collections.Generic");
             trackedRoot = AddUsingIfNeeded(trackedRoot, compilationUnit, usings, "Xunit");
 
             return document.WithSyntaxRoot(trackedRoot);
+        }
+
+        private Task<string> GetNewMemberNameAsync(Document document, CancellationToken cancellationToken, 
+            TypeDeclarationSyntax typeDeclaration, MethodDeclarationSyntax methodDeclaration, AttributeSyntax memberDataAttribute)
+        {
+            var memberName = GetMemberName(memberDataAttribute);
+            if (string.IsNullOrWhiteSpace(memberName))
+            {
+                memberName = $"{methodDeclaration.Identifier.ToString()}Data";
+            }
+                
+            return nameGenerator.GetNewMemberNameAsync(typeDeclaration, memberName, document, cancellationToken);
         }
 
         private static SyntaxNode UpdateTestMethodParameters(SyntaxNode trackedRoot, MethodDeclarationSyntax methodDeclaration)
@@ -168,18 +198,29 @@ namespace ExperimentalTools.Features.Xunit
             return trackedRoot.ReplaceNode(trackedMethod, newMethod);
         }
 
-        private static SyntaxNode SetupMemberDataAttribute(SyntaxNode trackedRoot, AttributeListSyntax attrList, string propertyName)
+        private static SyntaxNode SetupMemberDataAttribute(SyntaxNode trackedRoot, AttributeListSyntax attrList, 
+            string memberName, AttributeSyntax memberDataAttribute)
         {
-            var trackedAttrList = trackedRoot.GetCurrentNode(attrList);
-            var newAttrList = trackedAttrList.AddAttributes(Attribute(IdentifierName("MemberData")).WithArgumentList(
+            var newMemberDataAttr = Attribute(IdentifierName("MemberData")).WithArgumentList(
                                 AttributeArgumentList(
                                     SingletonSeparatedList<AttributeArgumentSyntax>(
                                         AttributeArgument(
                                             LiteralExpression(
                                                 SyntaxKind.StringLiteralExpression,
-                                                Literal(propertyName)))))));
+                                                Literal(memberName))))));
 
-            return trackedRoot.ReplaceNode(trackedAttrList, newAttrList);
+            if (memberDataAttribute != null)
+            {
+                var trackedMemberDataAttr = trackedRoot.GetCurrentNode(memberDataAttribute);
+                return trackedRoot.ReplaceNode(trackedMemberDataAttr, newMemberDataAttr);
+            }
+            else
+            {
+                var trackedAttrList = trackedRoot.GetCurrentNode(attrList);
+                var newAttrList = trackedAttrList.AddAttributes(newMemberDataAttr);
+
+                return trackedRoot.ReplaceNode(trackedAttrList, newAttrList);
+            }
         }
 
         private static SyntaxNode AddUsingIfNeeded(SyntaxNode trackedRoot, CompilationUnitSyntax compilationUnit, System.Collections.Generic.HashSet<INamespaceSymbol> usings, string @namespace)

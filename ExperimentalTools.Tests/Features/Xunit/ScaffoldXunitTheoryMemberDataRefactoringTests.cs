@@ -61,6 +61,113 @@ namespace HelloWorld
         public static IEnumerable<object[]> TestMethodData => new[] { new object[] { ""value1"", ""value2"" } };
     }
 }"
+                },
+                new object[]
+                {
+                    "Empty MemberData",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory, MemberData]@::@
+        public TestMethod()
+        {
+        }
+    }
+}",
+                    @"using System.Collections.Generic;
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory, MemberData(""TestMethodData"")]
+        public TestMethod(string param1, string param2)
+        {
+        }
+
+        public static IEnumerable<object[]> TestMethodData => new[] { new object[] { ""value1"", ""value2"" } };
+    }
+}"
+                },
+                new object[]
+                {
+                    "Specified member name",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory, MemberData(""TestData"")]@::@
+        public TestMethod()
+        {
+        }
+    }
+}",
+                    @"using System.Collections.Generic;
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory, MemberData(""TestData"")]
+        public TestMethod(string param1, string param2)
+        {
+        }
+
+        public static IEnumerable<object[]> TestData => new[] { new object[] { ""value1"", ""value2"" } };
+    }
+}"
+                }
+            };
+
+        [Theory, MemberData("NoActionTestData")]
+        public Task NoActionTest(string test, string input) =>
+            RunNoActionTestAsync(input);
+
+        public static IEnumerable<object[]> NoActionTestData =>
+            new[]
+            {
+                new object[]
+                {
+                    "Theory attribute not classified",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        [The@::@ory]
+        public TestMethod()
+        {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Theory already scaffolded",
+                    @"using System.Collections.Generic;
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory, MemberData(""TestMethodData"")]@::@
+        public TestMethod(string param1, string param2)
+        {
+        }
+
+        public static IEnumerable<object[]> TestMethodData => new[] { new object[] { ""value1"", ""value2"" } };
+    }
+}"
                 }
             };
     }
