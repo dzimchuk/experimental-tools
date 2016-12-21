@@ -125,6 +125,106 @@ namespace HelloWorld
         public static IEnumerable<object[]> TestData => new[] { new object[] { ""value1"", ""value2"" } };
     }
 }"
+                },
+                new object[]
+                {
+                    "Empty MemberData - Separate Attribute List",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]@::@
+        [MemberData]
+        public TestMethod()
+        {
+        }
+    }
+}",
+                    @"using System.Collections.Generic;
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        [MemberData(""TestMethodData"")]
+        public TestMethod(string param1, string param2)
+        {
+        }
+
+        public static IEnumerable<object[]> TestMethodData => new[] { new object[] { ""value1"", ""value2"" } };
+    }
+}"
+                },
+                new object[]
+                {
+                    "Specified member name - Separate Attribute List",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        [MemberData(""TestData"")]@::@
+        public TestMethod()
+        {
+        }
+    }
+}",
+                    @"using System.Collections.Generic;
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        [MemberData(""TestData"")]
+        public TestMethod(string param1, string param2)
+        {
+        }
+
+        public static IEnumerable<object[]> TestData => new[] { new object[] { ""value1"", ""value2"" } };
+    }
+}"
+                },
+                new object[]
+                {
+                    "Missing Theory",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [MemberData]@::@
+        public TestMethod()
+        {
+        }
+    }
+}",
+                    @"using System.Collections.Generic;
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory, MemberData(""TestMethodData"")]
+        public TestMethod(string param1, string param2)
+        {
+        }
+
+        public static IEnumerable<object[]> TestMethodData => new[] { new object[] { ""value1"", ""value2"" } };
+    }
+}"
                 }
             };
 
@@ -152,7 +252,7 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Theory already scaffolded",
+                    "Theory already scaffolded - specified test data exists",
                     @"using System.Collections.Generic;
 using Xunit;
 
@@ -161,14 +261,31 @@ namespace HelloWorld
     class TestService
     {
         [Theory, MemberData(""TestMethodData"")]@::@
-        public TestMethod(string param1, string param2)
+        public TestMethod()
         {
         }
 
         public static IEnumerable<object[]> TestMethodData => new[] { new object[] { ""value1"", ""value2"" } };
     }
 }"
-                }
+                },
+                new object[]
+                {
+                    "Theory already scaffolded - method parameters exist",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]@::@
+        public TestMethod(string param1, string param2)
+        {
+        }
+    }
+}"
+                },
             };
     }
 }

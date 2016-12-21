@@ -23,7 +23,7 @@ namespace ExperimentalTools
             return false;
         }
 
-        public static HashSet<INamespaceSymbol> GetUsingNamespacesInScope(this SemanticModel model, SyntaxNode location)
+        public static ISet<INamespaceSymbol> GetUsingNamespacesInScope(this SemanticModel model, SyntaxNode location)
         {
             var result = new HashSet<INamespaceSymbol>();
 
@@ -34,7 +34,6 @@ namespace ExperimentalTools
                     var symbolInfo = model.GetSymbolInfo(@using.Name);
                     if (symbolInfo.Symbol != null && symbolInfo.Symbol.Kind == SymbolKind.Namespace)
                     {
-                        result = result ?? new HashSet<INamespaceSymbol>();
                         result.Add((INamespaceSymbol)symbolInfo.Symbol);
                     }
                 }
