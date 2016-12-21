@@ -3,6 +3,7 @@ using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell;
 using EnvDTE;
 using EnvDTE80;
+using Task = System.Threading.Tasks.Task;
 
 namespace ExperimentalTools.Vsix.Commands
 {
@@ -30,12 +31,11 @@ namespace ExperimentalTools.Vsix.Commands
         }
 
         public static LocateInSolutionExplorerCommand Instance { get; private set; }
-        
-        public static void Initialize(Package package)
+
+        public static async Task InitializeAsync(AsyncPackage serviceProvider)
         {
-            var serviceProvider = (IServiceProvider)package;
-            var commandService = serviceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            var dte = serviceProvider.GetService(typeof(DTE)) as DTE2;
+            var commandService = await serviceProvider.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
+            var dte = await serviceProvider.GetServiceAsync(typeof(DTE)) as DTE2;
 
             var options = ServiceLocator.GetService<IOptions>();
 
