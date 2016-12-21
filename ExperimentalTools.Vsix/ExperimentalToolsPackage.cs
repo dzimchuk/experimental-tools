@@ -1,44 +1,41 @@
-﻿using ExperimentalTools.Models;
-using ExperimentalTools.Vsix.Commands;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+using Microsoft.VisualStudio.Shell;
 using ExperimentalTools.Vsix.Options;
-using ExperimentalTools.Workspace;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.LanguageServices;
-using Microsoft.VisualStudio.Shell;
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
+using ExperimentalTools.Workspace;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading;
-using Task = System.Threading.Tasks.Task;
+using ExperimentalTools.Models;
+using System.IO;
+using ExperimentalTools.Vsix.Commands;
 
 namespace ExperimentalTools.Vsix
 {
-    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
+    [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", Vsix.Version, IconResourceID = 400)] // Info on this package for Help/About
     [Guid(Vsix.Id)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideOptionPage(typeof(GeneralOptions), "Experimental Tools", "General", 0, 0, true)]
-    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string, PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    public sealed class ExperimentalToolsPackage : AsyncPackage
+    public sealed class ExperimentalToolsPackage : Package
     {
-        protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
+        protected override void Initialize()
         {
-            await base.InitializeAsync(cancellationToken, progress);
+            base.Initialize();
 
-            var componentModel = await GetServiceAsync(typeof(SComponentModel)) as IComponentModel;
+            var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
             var workspace = componentModel.GetService<VisualStudioWorkspace>();
             workspace.WorkspaceChanged += WorkspaceChanged;
 
-            await JoinableTaskFactory.SwitchToMainThreadAsync();
             var generalOptions = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
             generalOptions.UpdateFeatureStates();
 
-            await LocateInSolutionExplorerCommand.InitializeAsync(this);
-        }
+            LocateInSolutionExplorerCommand.Initialize(this);
+        }        
 
         private void WorkspaceChanged(object sender, Microsoft.CodeAnalysis.WorkspaceChangeEventArgs e)
         {
