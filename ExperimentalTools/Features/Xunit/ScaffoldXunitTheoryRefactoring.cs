@@ -23,6 +23,7 @@ namespace ExperimentalTools.Features.Xunit
         protected abstract string FeatureIdentifier { get; }
         protected abstract string Title { get; }
         protected abstract string TestDataAttribute { get; }
+        protected abstract string AlternateTestDataAttribute { get; }
 
         protected abstract bool CheckIfAlreadyScaffolded(SemanticModel model, AttributeSyntax testDataAttribute,
             CancellationToken cancellationToken);
@@ -65,6 +66,12 @@ namespace ExperimentalTools.Features.Xunit
             }
 
             var model = await context.Document.GetSemanticModelAsync(context.CancellationToken);
+
+            var alternateTestDataAttribute = FindAttribute(methodDeclaration, AlternateTestDataAttribute, model, context.CancellationToken);
+            if (alternateTestDataAttribute != null)
+            {
+                return;
+            }
 
             var testDataAttribute = FindAttribute(methodDeclaration, TestDataAttribute, model, context.CancellationToken);
             if (testDataAttribute != null)
@@ -148,7 +155,7 @@ namespace ExperimentalTools.Features.Xunit
                 : root.TrackNodes(methodDeclaration, typeDeclaration, attrList, compilationUnit);
 
             trackedRoot = await SetupTestDataAttributeAsync(document, attrList, testDataAttribute, cancellationToken, typeDeclaration, methodDeclaration, trackedRoot);
-            trackedRoot = UpdateTestMethodParameters(trackedRoot, methodDeclaration);
+            trackedRoot = UpdateTestMethodParameters(trackedRoot, methodDeclaration, testDataAttribute, model, cancellationToken);
 
             if (addTheory)
             {
@@ -174,7 +181,9 @@ namespace ExperimentalTools.Features.Xunit
             return trackedRoot;
         }
 
-        private static SyntaxNode UpdateTestMethodParameters(SyntaxNode trackedRoot, MethodDeclarationSyntax methodDeclaration)
+        protected virtual SyntaxNode UpdateTestMethodParameters(SyntaxNode trackedRoot, 
+            MethodDeclarationSyntax methodDeclaration, AttributeSyntax testDataAttribute,
+            SemanticModel model, CancellationToken cancellationToken)
         {
             var trackedMethod = trackedRoot.GetCurrentNode(methodDeclaration);
             var newMethod = trackedMethod.WithParameterList(

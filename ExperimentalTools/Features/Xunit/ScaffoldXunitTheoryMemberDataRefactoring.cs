@@ -27,7 +27,8 @@ namespace ExperimentalTools.Features.Xunit
         protected override string FeatureIdentifier => FeatureIdentifiers.ScaffoldXunitTheoryMemberData;
         protected override string Title => Resources.ScaffoldXunitTheoryMemberData;
         protected override string TestDataAttribute => "Xunit.MemberDataAttribute";
-        
+        protected override string AlternateTestDataAttribute => "Xunit.InlineDataAttribute";
+
         protected override bool CheckIfAlreadyScaffolded(SemanticModel model, AttributeSyntax memberDataAttribute,
             CancellationToken cancellationToken)
         {

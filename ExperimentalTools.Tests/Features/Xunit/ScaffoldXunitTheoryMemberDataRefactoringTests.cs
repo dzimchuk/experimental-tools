@@ -286,6 +286,23 @@ namespace HelloWorld
     }
 }"
                 },
+                new object[]
+                {
+                    "Theory already scaffolded - alternate test data attribute",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory, InlineData]@::@
+        public TestMethod()
+        {
+        }
+    }
+}"
+                }
             };
     }
 }
