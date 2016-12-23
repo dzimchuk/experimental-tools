@@ -15,10 +15,12 @@ namespace ExperimentalTools.Vsix.Commands
 
         private readonly OleMenuCommand command;
         private readonly DTE2 dte;
+        private readonly IOptions options;
 
-        public LocateInSolutionExplorerCommand(IMenuCommandService commandService, DTE2 dte)
+        public LocateInSolutionExplorerCommand(IMenuCommandService commandService, DTE2 dte, IOptions options)
         {
             this.dte = dte;
+            this.options = options;
 
             var commandId = new CommandID(CommandSet, CommandId);
             command = new OleMenuCommand(InvokeCommand, commandId);
@@ -35,12 +37,15 @@ namespace ExperimentalTools.Vsix.Commands
             var commandService = serviceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             var dte = serviceProvider.GetService(typeof(DTE)) as DTE2;
 
-            Instance = new LocateInSolutionExplorerCommand(commandService, dte);
+            var options = ServiceLocator.GetService<IOptions>();
+
+            Instance = new LocateInSolutionExplorerCommand(commandService, dte, options);
         }
 
         private void UpdateStatus(object sender, EventArgs e)
         {
-            var enabled = !miscFilesProjectItemKind.Equals(dte.ActiveDocument.ProjectItem.Kind, StringComparison.OrdinalIgnoreCase);
+            var enabled = options.IsFeatureEnabled(FeatureIdentifiers.LocateInSolutionExplorerCommand) &&
+                !miscFilesProjectItemKind.Equals(dte.ActiveDocument.ProjectItem.Kind, StringComparison.OrdinalIgnoreCase);
             command.Visible = enabled;
             command.Enabled = enabled;
         }

@@ -41,6 +41,9 @@
     <Compile Include="Features\TypeDeclaration\RenameDocumentAction.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzer.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameCodeFixProvider.cs" />
+    <Compile Include="Features\Xunit\ScaffoldXunitTheoryInlineDataRefactoring.cs" />
+    <Compile Include="Features\Xunit\ScaffoldXunitTheoryMemberDataRefactoring.cs" />
+    <Compile Include="Features\Xunit\ScaffoldXunitTheoryRefactoring.cs" />
     <Compile Include="IGeneratedCodeRecognitionService.cs" />
     <Compile Include="IOptions.cs" />
     <Compile Include="ISyntaxFactsService.cs" />

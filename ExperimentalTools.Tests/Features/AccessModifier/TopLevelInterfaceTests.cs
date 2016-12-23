@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace ExperimentalTools.Tests.Features.AccessModifier
 {
     public class TopLevelInterfaceTests : AccessModifierTest
     {
+        public TopLevelInterfaceTests(ITestOutputHelper output)
+            : base(output)
+        {
+        }
+
         [Theory, MemberData("TestData")]
         public Task HasActionTest(string test, string actionTitle, string input, string expectedResult) =>
             RunMultipleActionsTestAsync(actionTitle, input, expectedResult);
