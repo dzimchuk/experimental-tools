@@ -23,6 +23,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 - Change access modifier on type declarations
 - Make it a constructor (when copied from another class)
 - Locate in Solution Explorer (Shift+Alt+L)
+- Scaffold xunit data driven tests
 - Settings page (ability to enable/disable individual features)
 
 ### Initialize field from constructor parameter
@@ -79,6 +80,20 @@ There is a standard command in Solution Explorer called 'Sync with Active Docume
 ![Locate in Solution Explorer](art/LocateInSolutionExplorerCommand.png)
 
 The command is available in the code editor either from the context menu or as a shortcut.
+
+### Scaffold xunit data driven tests
+
+If you're a fan of Xunit data driven tests this one's going to be a little time saver for you. You can scaffold `MemberData`:
+
+![Scaffold Xunit MemberData](art/ScaffoldXunitMemberData.png)
+
+As well as `InlineData`:
+
+![Scaffold Xunit MemberData](art/ScaffoldXunitInlineData.png)
+
+If your `InlineData` contain acceptable parameters they will be respected unless the test method already defines parameters (in which case neither of the scaffolding refactoring will work).
+
+Note that this feature works with Xunit 2.x only.
 
 ### Settings page (ability to enable/disable individual features)
 

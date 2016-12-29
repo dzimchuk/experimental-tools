@@ -1,7 +1,7 @@
 # Road map
 
-- [ ] Generate MemberData property for xunit data driven tests
 - [ ] Quick GUID generation (nguid)
+- [ ] Code fix for namespace vs file path analysis
 - [ ] Add to interface (on a method; VS currently has one on a type)
 - [ ] Method can be made static
 - [ ] Class can be made static
@@ -17,6 +17,12 @@ download in the
 
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
+
+## 0.6
+
+**2016-12-30**
+
+- [x] Scaffold xunit data driven tests
 
 ## 0.5
 
