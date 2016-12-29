@@ -91,7 +91,7 @@ As well as `InlineData`:
 
 ![Scaffold Xunit MemberData](art/ScaffoldXunitInlineData.png)
 
-If your `InlineData` contain acceptable parameters they will be respected unless the test method already defines parameters (in which case neither of the scaffolding refactoring will work).
+If your `InlineData` contains acceptable parameters they will be respected unless the test method already defines parameters (in which case neither of the scaffolding refactoring will work).
 
 Note that this feature works with Xunit 2.x only.
 
