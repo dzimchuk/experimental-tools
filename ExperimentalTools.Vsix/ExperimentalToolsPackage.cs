@@ -11,6 +11,7 @@ using System.Linq;
 using ExperimentalTools.Models;
 using System.IO;
 using ExperimentalTools.Vsix.Commands;
+using EnvDTE;
 
 namespace ExperimentalTools.Vsix
 {
@@ -23,6 +24,8 @@ namespace ExperimentalTools.Vsix
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class ExperimentalToolsPackage : Package
     {
+        internal static string IDEVersion { get; set; }
+
         protected override void Initialize()
         {
             base.Initialize();
@@ -30,6 +33,9 @@ namespace ExperimentalTools.Vsix
             var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
             var workspace = componentModel.GetService<VisualStudioWorkspace>();
             workspace.WorkspaceChanged += WorkspaceChanged;
+
+            var dte = (DTE)GetService(typeof(DTE));
+            IDEVersion = dte.Version;
 
             var generalOptions = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
             generalOptions.UpdateFeatureStates();

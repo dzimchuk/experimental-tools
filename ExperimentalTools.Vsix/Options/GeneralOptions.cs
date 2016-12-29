@@ -103,6 +103,17 @@ namespace ExperimentalTools.Vsix.Options
             ScaffoldXunitTheoryInlineDataRefactoring = features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData];
         }
 
+        protected override void OnActivate(CancelEventArgs e)
+        {
+            base.OnActivate(e);
+
+            if (!IsVS2015)
+            {
+                RenameFileToMatchTypeNameCodeFix = false;
+                RenameTypeToMatchFileNameCodeFix = false; 
+            }
+        }
+
         protected override void OnApply(PageApplyEventArgs e)
         {
             if (e.ApplyBehavior == ApplyKind.Apply)
@@ -124,8 +135,16 @@ namespace ExperimentalTools.Vsix.Options
             features[FeatureIdentifiers.ChangeAccessModifierRefactoring] = ChangeAccessModifierRefactoring;
 
             features[FeatureIdentifiers.TypeAndDocumentNameAnalyzer] = TypeAndDocumentNameAnalyzer;
-            features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix] = RenameFileToMatchTypeNameCodeFix;
-            features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = RenameTypeToMatchFileNameCodeFix;
+            if (IsVS2015)
+            {
+                features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix] = RenameFileToMatchTypeNameCodeFix;
+                features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = RenameTypeToMatchFileNameCodeFix;
+            }
+            else
+            {
+                features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix] = false;
+                features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = false;
+            }
 
             features[FeatureIdentifiers.NamespaceNormalizationAnalyzer] = NamespaceNormalizationAnalyzer;
 
@@ -136,5 +155,7 @@ namespace ExperimentalTools.Vsix.Options
             features[FeatureIdentifiers.ScaffoldXunitTheoryMemberData] = ScaffoldXunitTheoryMemberDataRefactoring;
             features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData] = ScaffoldXunitTheoryInlineDataRefactoring;
         }
+
+        private static bool IsVS2015 => ExperimentalToolsPackage.IDEVersion != null && ExperimentalToolsPackage.IDEVersion.StartsWith("14.");
     }
 }
