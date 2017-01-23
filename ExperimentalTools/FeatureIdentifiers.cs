@@ -20,5 +20,7 @@
 
         public const string ScaffoldXunitTheoryMemberData = "ScaffoldXunitTheoryMemberData";
         public const string ScaffoldXunitTheoryInlineData = "ScaffoldXunitTheoryInlineData";
+
+        public const string GenerateGuid = "GenerateGuid";
     }
 }
