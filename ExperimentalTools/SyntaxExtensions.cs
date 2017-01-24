@@ -114,6 +114,12 @@ namespace ExperimentalTools
                 return ifStatement.WithStatement(statement);
             }
 
+            var whileStatement = parentStatement as WhileStatementSyntax;
+            if (whileStatement != null)
+            {
+                return whileStatement.WithStatement(statement);
+            }
+
             return parentStatement;
         }
     }

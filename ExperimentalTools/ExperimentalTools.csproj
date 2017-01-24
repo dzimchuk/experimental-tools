@@ -35,7 +35,10 @@
   <ItemGroup>
     <Compile Include="DiagnosticCodes.cs" />
     <Compile Include="FeatureIdentifiers.cs" />
+    <Compile Include="Features\Braces\AddBracesInnerStatementStrategy.cs" />
+    <Compile Include="Features\Braces\AddBracesParentStatementStrategy.cs" />
     <Compile Include="Features\Braces\AddBracesRefactoring.cs" />
+    <Compile Include="Features\Braces\AddBracesRefactoringStrategy.cs" />
     <Compile Include="Features\Constructor\FixConstructorNameCodeFixProvider.cs" />
     <Compile Include="Features\Namespace\NamespaceNormalizationAnalyzer.cs" />
     <Compile Include="Features\TypeDeclaration\NameHelper.cs" />
@@ -48,6 +51,7 @@
     <Compile Include="IGeneratedCodeRecognitionService.cs" />
     <Compile Include="IOptions.cs" />
     <Compile Include="ISyntaxFactsService.cs" />
+    <Compile Include="RefactoringStrategy.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="Services\GeneratedCodeRecognitionService.cs" />
     <Compile Include="OptionsBucket.cs" />
@@ -150,7 +154,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ExperimentalTools.Roslyn.Contracts\ExperimentalTools.Roslyn.Contracts.csproj">
+      <Project>{ac5a084c-cd4a-4ed6-9fe2-c6da0fd9c7e8}</Project>
+      <Name>ExperimentalTools.Roslyn.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\v4.6\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

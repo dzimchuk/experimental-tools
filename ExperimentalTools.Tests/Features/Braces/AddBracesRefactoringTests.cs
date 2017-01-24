@@ -97,6 +97,40 @@ namespace HelloWorld
                 },
                 new object[]
                 {
+                    "Inside inner statement",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+                throw new Argument@::@NullException(nameof(arg));
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+            {
+                throw new ArgumentNullException(nameof(arg));
+            }
+        }
+    }
+}"
+                },
+                new object[]
+                {
                     "Inside parent statement",
                     @"
 using System;
@@ -129,6 +163,185 @@ namespace HelloWorld
     }
 }"
                 },
+                new object[]
+                {
+                    "While statement",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(int i)
+        {
+            while (true)
+            @::@    i = i + 1;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(int i)
+        {
+            while (true)
+            {
+                i = i + 1;
+            }
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Else if statement",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+                arg = "";
+            else if (arg == ""1"")
+            @::@    arg = ""2"";
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+                arg = "";
+            else if (arg == ""1"")
+            {
+                arg = ""2"";
+            }
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Else clause (inside inner statement)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+                arg = "";
+            else
+            @::@    arg = ""2"";
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+                arg = "";
+            else
+            {
+                arg = ""2"";
+            }
+        }
+    }
+}"
+                },
+            };
+
+        [Theory, MemberData("NoActionTestData")]
+        public Task NoActionTest(string test, string input) =>
+            RunNoActionTestAsync(input);
+
+        public static IEnumerable<object[]> NoActionTestData =>
+            new[]
+            {
+                new object[]
+                {
+                    "Inside a block",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+            {@::@
+                throw new ArgumentNullException(nameof(arg));
+            }
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Inside a statement nested inside a block",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+            {
+                throw@::@ new ArgumentNullException(nameof(arg));
+            }
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Inside a parent statement with a block",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            @::@if (arg == null)
+            {
+                throw new ArgumentNullException(nameof(arg));
+            }
+        }
+    }
+}"
+                }
             };
     }
 }

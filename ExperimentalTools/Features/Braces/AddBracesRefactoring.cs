@@ -1,19 +1,9 @@
-﻿using System;
-using System.Composition;
+﻿using System.Composition;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeRefactorings;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Rename;
-using Microsoft.CodeAnalysis.Text;
-using ExperimentalTools.Localization;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using ExperimentalTools.Roslyn.Contracts;
 
 namespace ExperimentalTools.Features.Braces
 {
@@ -21,6 +11,11 @@ namespace ExperimentalTools.Features.Braces
     internal class AddBracesRefactoring : CodeRefactoringProvider
     {
         private readonly IOptions options;
+        private readonly List<IRefactoringStrategy> strategies = new List<IRefactoringStrategy>
+        {
+            new AddBracesInnerStatementStrategy(),
+            new AddBracesParentStatementStrategy()
+        };
 
         [ImportingConstructor]
         public AddBracesRefactoring(IOptions options)
@@ -35,47 +30,10 @@ namespace ExperimentalTools.Features.Braces
                 return;
             }
 
-            if (context.Document.Project.Solution.Workspace.Kind == WorkspaceKind.MiscellaneousFiles)
+            foreach (var strategy in strategies)
             {
-                return;
+                await strategy.ComputeRefactoringAsync(context);
             }
-
-            if (!context.Span.IsEmpty)
-            {
-                return;
-            }
-
-            var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
-            var node = root.FindNode(context.Span);
-
-            var statement = node as StatementSyntax;
-            if (statement == null || statement.Parent == null)
-            {
-                return;
-            }
-
-            if (statement is BlockSyntax || statement.Parent is BlockSyntax)
-            {
-                return;
-            }
-
-            var parentStatement = statement.Parent as StatementSyntax;
-            if (parentStatement == null)
-            {
-                return;
-            }
-
-            context.RegisterRefactoring(
-                CodeAction.Create(
-                    Resources.AddBraces, 
-                    cancellationToken => AddBracesAsync(context.Document, root, statement, parentStatement, cancellationToken)));
-        }
-
-        private Task<Document> AddBracesAsync(Document document, SyntaxNode root, StatementSyntax statement, StatementSyntax parentStatement, CancellationToken cancellationToken)
-        {
-            var newParentStatement = parentStatement.WithStatement(Block(statement));
-            var newRoot = root.ReplaceNode(parentStatement, newParentStatement);
-            return Task.FromResult(document.WithSyntaxRoot(newRoot));
         }
     }
 }
