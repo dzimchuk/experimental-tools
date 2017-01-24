@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Shell;
 using EnvDTE;
 using EnvDTE80;
 
-namespace ExperimentalTools.Vsix.Commands
+namespace ExperimentalTools.Vsix.Features.LocateInSolutionExplorer
 {
     internal sealed class LocateInSolutionExplorerCommand
     {

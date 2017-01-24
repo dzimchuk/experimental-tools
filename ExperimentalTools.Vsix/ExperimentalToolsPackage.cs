@@ -1,6 +1,6 @@
 ﻿using ExperimentalTools.Models;
-using ExperimentalTools.Vsix.Commands;
-using ExperimentalTools.Vsix.Options;
+using ExperimentalTools.Vsix.Features.LocateInSolutionExplorer;
+using ExperimentalTools.Vsix.Features.Options;
 using ExperimentalTools.Workspace;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using System.ComponentModel;
 
-namespace ExperimentalTools.Vsix.Options
+namespace ExperimentalTools.Vsix.Features.Options
 {
     internal class GeneralOptions : DialogPage
     {

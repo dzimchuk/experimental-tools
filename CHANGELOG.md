@@ -1,6 +1,6 @@
 # Road map
 
-- [ ] Quick GUID generation (nguid)
+- [ ] Add/remove braces
 - [ ] Code fix for namespace vs file path analysis
 - [ ] Add to interface (on a method; VS currently has one on a type)
 - [ ] Method can be made static
@@ -17,6 +17,10 @@ download in the
 
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
+
+## 0.7
+
+- [x] Quick GUID generation (nguid)
 
 ## 0.6
 
