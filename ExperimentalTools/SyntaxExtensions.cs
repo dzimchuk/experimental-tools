@@ -105,5 +105,16 @@ namespace ExperimentalTools
                 ? (NameSyntax)namePiece
                 : QualifiedName(ConstructNameSyntax(parts, index - 1), namePiece);
         }
+
+        public static StatementSyntax WithStatement(this StatementSyntax parentStatement, StatementSyntax statement)
+        {
+            var ifStatement = parentStatement as IfStatementSyntax;
+            if (ifStatement != null)
+            {
+                return ifStatement.WithStatement(statement);
+            }
+
+            return parentStatement;
+        }
     }
 }

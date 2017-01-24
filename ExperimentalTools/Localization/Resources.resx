@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddBraces" xml:space="preserve">
+    <value>Add braces</value>
+  </data>
   <data name="AddConstructorAndInitializeField" xml:space="preserve">
     <value>Add constructor and initialize field</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="NamespaceNormalizationAnalyzerTitle" xml:space="preserve">
     <value>Namespace does not match file path</value>
+  </data>
+  <data name="RemoveBraces" xml:space="preserve">
+    <value>Remove braces</value>
   </data>
   <data name="RenameAToB" xml:space="preserve">
     <value>Rename '{0}' to '{1}'</value>

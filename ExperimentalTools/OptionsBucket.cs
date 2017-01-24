@@ -29,7 +29,10 @@ namespace ExperimentalTools
             { FeatureIdentifiers.ScaffoldXunitTheoryMemberData, true },
             { FeatureIdentifiers.ScaffoldXunitTheoryInlineData, true },
 
-            { FeatureIdentifiers.GenerateGuid, true }
+            { FeatureIdentifiers.GenerateGuid, true },
+
+            { FeatureIdentifiers.AddBraces, true },
+            { FeatureIdentifiers.RemoveBraces, true }
         };
     }
 }

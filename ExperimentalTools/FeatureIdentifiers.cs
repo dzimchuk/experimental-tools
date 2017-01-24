@@ -22,5 +22,8 @@
         public const string ScaffoldXunitTheoryInlineData = "ScaffoldXunitTheoryInlineData";
 
         public const string GenerateGuid = "GenerateGuid";
+
+        public const string AddBraces = "AddBraces";
+        public const string RemoveBraces = "RemoveBraces";
     }
 }

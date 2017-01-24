@@ -62,6 +62,15 @@ namespace ExperimentalTools.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add braces.
+        /// </summary>
+        internal static string AddBraces {
+            get {
+                return ResourceManager.GetString("AddBraces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add constructor and initialize field.
         /// </summary>
         internal static string AddConstructorAndInitializeField {
@@ -139,6 +148,15 @@ namespace ExperimentalTools.Localization {
         internal static string NamespaceNormalizationAnalyzerTitle {
             get {
                 return ResourceManager.GetString("NamespaceNormalizationAnalyzerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove braces.
+        /// </summary>
+        internal static string RemoveBraces {
+            get {
+                return ResourceManager.GetString("RemoveBraces", resourceCulture);
             }
         }
         

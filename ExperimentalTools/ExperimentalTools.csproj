@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="DiagnosticCodes.cs" />
     <Compile Include="FeatureIdentifiers.cs" />
+    <Compile Include="Features\Braces\AddBracesRefactoring.cs" />
     <Compile Include="Features\Constructor\FixConstructorNameCodeFixProvider.cs" />
     <Compile Include="Features\Namespace\NamespaceNormalizationAnalyzer.cs" />
     <Compile Include="Features\TypeDeclaration\NameHelper.cs" />

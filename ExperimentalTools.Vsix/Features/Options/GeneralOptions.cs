@@ -85,6 +85,18 @@ namespace ExperimentalTools.Vsix.Features.Options
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool GenerateGuid { get; set; }
 
+        [Category(category)]
+        [DisplayName("Add braces around single line statements")]
+        [Description("Offer to add braces around single line statements.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool AddBraces { get; set; }
+
+        [Category(category)]
+        [DisplayName("Remove braces from single line statements")]
+        [Description("Offer to braces from single line statements.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool RemoveBraces { get; set; }
+
         public GeneralOptions()
         {
             var features = OptionsBucket.Instance.Features;
@@ -109,6 +121,9 @@ namespace ExperimentalTools.Vsix.Features.Options
             ScaffoldXunitTheoryInlineDataRefactoring = features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData];
 
             GenerateGuid = features[FeatureIdentifiers.GenerateGuid];
+
+            AddBraces = features[FeatureIdentifiers.AddBraces];
+            RemoveBraces = features[FeatureIdentifiers.RemoveBraces];
         }
 
         protected override void OnApply(PageApplyEventArgs e)
@@ -145,6 +160,9 @@ namespace ExperimentalTools.Vsix.Features.Options
             features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData] = ScaffoldXunitTheoryInlineDataRefactoring;
 
             features[FeatureIdentifiers.GenerateGuid] = GenerateGuid;
+
+            features[FeatureIdentifiers.AddBraces] = AddBraces;
+            features[FeatureIdentifiers.RemoveBraces] = RemoveBraces;
         }
     }
 }
