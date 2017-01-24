@@ -22,12 +22,14 @@ namespace ExperimentalTools
 
             { FeatureIdentifiers.NamespaceNormalizationAnalyzer, true },
 
-            {FeatureIdentifiers.FixConstructorNameCodeFix, true },
+            { FeatureIdentifiers.FixConstructorNameCodeFix, true },
 
-            {FeatureIdentifiers.LocateInSolutionExplorerCommand, true },
+            { FeatureIdentifiers.LocateInSolutionExplorerCommand, true },
 
-            {FeatureIdentifiers.ScaffoldXunitTheoryMemberData, true },
-            {FeatureIdentifiers.ScaffoldXunitTheoryInlineData, true }
+            { FeatureIdentifiers.ScaffoldXunitTheoryMemberData, true },
+            { FeatureIdentifiers.ScaffoldXunitTheoryInlineData, true },
+
+            { FeatureIdentifiers.GenerateGuid, true }
         };
     }
 }

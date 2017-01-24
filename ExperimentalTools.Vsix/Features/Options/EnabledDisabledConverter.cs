@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 
-namespace ExperimentalTools.Vsix.Options
+namespace ExperimentalTools.Vsix.Features.Options
 {
     internal class EnabledDisabledConverter : BooleanConverter
     {

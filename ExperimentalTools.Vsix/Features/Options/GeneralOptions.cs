@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using System.ComponentModel;
 
-namespace ExperimentalTools.Vsix.Options
+namespace ExperimentalTools.Vsix.Features.Options
 {
     internal class GeneralOptions : DialogPage
     {
@@ -79,6 +79,12 @@ namespace ExperimentalTools.Vsix.Options
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool ScaffoldXunitTheoryInlineDataRefactoring { get; set; }
 
+        [Category(category)]
+        [DisplayName("Generate GUID")]
+        [Description("Generate a new GUID with by typing in nguid and pressing TAB.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool GenerateGuid { get; set; }
+
         public GeneralOptions()
         {
             var features = OptionsBucket.Instance.Features;
@@ -101,6 +107,8 @@ namespace ExperimentalTools.Vsix.Options
 
             ScaffoldXunitTheoryMemberDataRefactoring = features[FeatureIdentifiers.ScaffoldXunitTheoryMemberData];
             ScaffoldXunitTheoryInlineDataRefactoring = features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData];
+
+            GenerateGuid = features[FeatureIdentifiers.GenerateGuid];
         }
 
         protected override void OnApply(PageApplyEventArgs e)
@@ -135,6 +143,8 @@ namespace ExperimentalTools.Vsix.Options
 
             features[FeatureIdentifiers.ScaffoldXunitTheoryMemberData] = ScaffoldXunitTheoryMemberDataRefactoring;
             features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData] = ScaffoldXunitTheoryInlineDataRefactoring;
+
+            features[FeatureIdentifiers.GenerateGuid] = GenerateGuid;
         }
     }
 }

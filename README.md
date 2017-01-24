@@ -24,6 +24,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 - Make it a constructor (when copied from another class)
 - Locate in Solution Explorer (Shift+Alt+L)
 - Scaffold xunit data driven tests
+- Generate GUID (nguid)
 - Settings page (ability to enable/disable individual features)
 
 ### Initialize field from constructor parameter
@@ -94,6 +95,17 @@ As well as `InlineData`:
 If your `InlineData` contains acceptable parameters they will be respected unless the test method already defines parameters (in which case neither of the scaffolding refactoring will work).
 
 Note that this feature works with Xunit 2.x only.
+
+### Generate GUID (nguid)
+
+Just type `nguid` where you want the new GUID to be inserted:
+
+![Generate Guid - before](art/GenerateGuidBefore.png)
+
+and press TAB:
+
+![Generate Guid - After](art/GenerateGuidAfter.png)
+
 
 ### Settings page (ability to enable/disable individual features)
 

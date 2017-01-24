@@ -1,16 +1,16 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
-using Microsoft.VisualStudio.Shell;
-using ExperimentalTools.Vsix.Options;
+﻿using ExperimentalTools.Models;
+using ExperimentalTools.Vsix.Features.LocateInSolutionExplorer;
+using ExperimentalTools.Vsix.Features.Options;
+using ExperimentalTools.Workspace;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.LanguageServices;
-using ExperimentalTools.Workspace;
-using System.Linq;
-using ExperimentalTools.Models;
+using Microsoft.VisualStudio.Shell;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using ExperimentalTools.Vsix.Commands;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace ExperimentalTools.Vsix
 {
