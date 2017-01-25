@@ -14,5 +14,12 @@ namespace ExperimentalTools.Features.Braces
             var newRoot = root.ReplaceNode(parentStatement, newParentStatement);
             return Task.FromResult(document.WithSyntaxRoot(newRoot));
         }
+
+        protected Task<Document> AddBracesAsync(Document document, SyntaxNode root, StatementSyntax statement, ElseClauseSyntax elseClause, CancellationToken cancellationToken)
+        {
+            var newElseClause = elseClause.WithStatement(Block(statement));
+            var newRoot = root.ReplaceNode(elseClause, newElseClause);
+            return Task.FromResult(document.WithSyntaxRoot(newRoot));
+        }
     }
 }

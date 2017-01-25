@@ -131,7 +131,7 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Inside parent statement",
+                    "Before parent statement",
                     @"
 using System;
 
@@ -142,6 +142,40 @@ namespace HelloWorld
         public void TestMethod(string arg)
         {
             @::@if (arg == null)
+                throw new ArgumentNullException(nameof(arg));
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+            {
+                throw new ArgumentNullException(nameof(arg));
+            }
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Inside parent statement",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (ar@::@g == null)
                 throw new ArgumentNullException(nameof(arg));
         }
     }
@@ -273,6 +307,112 @@ namespace HelloWorld
     }
 }"
                 },
+                new object[]
+                {
+                    "Else clause",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+                arg = "";
+            else@::@
+                arg = ""2"";
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+                arg = "";
+            else
+            {
+                arg = ""2"";
+            }
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "For statement",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(int i)
+        {
+            for (int n = 0; n < 10; n++)
+            @::@    i = i + 1;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(int i)
+        {
+            for (int n = 0; n < 10; n++)
+            {
+                i = i + 1;
+            }
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Foreach statement",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(int[] arr)
+        {
+            foreach (int i in arr)
+            @::@    i = i + 1;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(int[] arr)
+        {
+            foreach (int i in arr)
+            {
+                i = i + 1;
+            }
+        }
+    }
+}"
+                }
             };
 
         [Theory, MemberData("NoActionTestData")]
@@ -337,6 +477,28 @@ namespace HelloWorld
             @::@if (arg == null)
             {
                 throw new ArgumentNullException(nameof(arg));
+            }
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Inside else clause with a block",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (arg == null)
+                arg = "";
+            els@::@e
+            {
+                arg = ""2"";
             }
         }
     }

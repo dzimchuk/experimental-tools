@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
-using ExperimentalTools.Roslyn.Contracts;
 
 namespace ExperimentalTools.Features.Braces
 {
@@ -11,9 +10,11 @@ namespace ExperimentalTools.Features.Braces
     internal class AddBracesRefactoring : CodeRefactoringProvider
     {
         private readonly IOptions options;
-        private readonly List<IRefactoringStrategy> strategies = new List<IRefactoringStrategy>
+        private readonly List<RefactoringStrategy> strategies = new List<RefactoringStrategy>
         {
             new AddBracesInnerStatementStrategy(),
+            new AddBracesElseClauseInnerStatementStrategy(),
+            new AddBracesElseClauseStrategy(),
             new AddBracesParentStatementStrategy()
         };
 
@@ -32,7 +33,11 @@ namespace ExperimentalTools.Features.Braces
 
             foreach (var strategy in strategies)
             {
-                await strategy.ComputeRefactoringAsync(context);
+                var actionAdded = await strategy.ComputeRefactoringAsync(context);
+                if (actionAdded)
+                {
+                    break;
+                }
             }
         }
     }

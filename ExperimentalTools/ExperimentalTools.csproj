@@ -35,6 +35,8 @@
   <ItemGroup>
     <Compile Include="DiagnosticCodes.cs" />
     <Compile Include="FeatureIdentifiers.cs" />
+    <Compile Include="Features\Braces\AddBracesElseClauseInnerStatementStrategy.cs" />
+    <Compile Include="Features\Braces\AddBracesElseClauseStrategy.cs" />
     <Compile Include="Features\Braces\AddBracesInnerStatementStrategy.cs" />
     <Compile Include="Features\Braces\AddBracesParentStatementStrategy.cs" />
     <Compile Include="Features\Braces\AddBracesRefactoring.cs" />
@@ -153,12 +155,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ExperimentalTools.Roslyn.Contracts\ExperimentalTools.Roslyn.Contracts.csproj">
-      <Project>{ac5a084c-cd4a-4ed6-9fe2-c6da0fd9c7e8}</Project>
-      <Name>ExperimentalTools.Roslyn.Contracts</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\v4.6\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

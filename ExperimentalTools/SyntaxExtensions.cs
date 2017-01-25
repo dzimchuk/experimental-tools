@@ -120,6 +120,18 @@ namespace ExperimentalTools
                 return whileStatement.WithStatement(statement);
             }
 
+            var forStatement = parentStatement as ForStatementSyntax;
+            if (forStatement != null)
+            {
+                return forStatement.WithStatement(statement);
+            }
+
+            var foreachStatement = parentStatement as ForEachStatementSyntax;
+            if (foreachStatement != null)
+            {
+                return foreachStatement.WithStatement(statement);
+            }
+
             return parentStatement;
         }
     }

@@ -1,23 +1,22 @@
-﻿using ExperimentalTools.Roslyn.Contracts;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 
 namespace ExperimentalTools
 {
-    internal abstract class RefactoringStrategy : IRefactoringStrategy
+    internal abstract class RefactoringStrategy
     {
-        public async Task ComputeRefactoringAsync(CodeRefactoringContext context)
+        public async Task<bool> ComputeRefactoringAsync(CodeRefactoringContext context)
         {
             if (context.Document.Project.Solution.Workspace.Kind == WorkspaceKind.MiscellaneousFiles)
             {
-                return;
+                return false;
             }
 
             if (!context.Span.IsEmpty)
             {
-                return;
+                return false;
             }
 
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
@@ -25,14 +24,17 @@ namespace ExperimentalTools
 
             if (node == null)
             {
-                return;
+                return false;
             }
 
             var action = await ComputeRefactoringAsync(context.Document, root, node);
             if (action != null)
             {
                 context.RegisterRefactoring(action);
+                return true;
             }
+
+            return false;
         }
 
         protected abstract Task<CodeAction> ComputeRefactoringAsync(Document document, SyntaxNode root, SyntaxNode selectedNode);
