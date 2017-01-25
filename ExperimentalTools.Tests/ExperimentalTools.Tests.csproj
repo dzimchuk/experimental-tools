@@ -143,6 +143,10 @@
     <Compile Include="Features\AccessModifier\TopLevelClassTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExperimentalTools.Roslyn.Features\ExperimentalTools.Roslyn.Features.csproj">
+      <Project>{12473378-B26D-4A80-96BC-8032D5E69C86}</Project>
+      <Name>ExperimentalTools.Roslyn.Features</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExperimentalTools\ExperimentalTools.csproj">
       <Project>{2432587a-3d94-4656-9407-a9788912b2ed}</Project>
       <Name>ExperimentalTools</Name>

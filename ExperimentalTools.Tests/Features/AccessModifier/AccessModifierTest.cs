@@ -1,6 +1,6 @@
-﻿using ExperimentalTools.Features.AccessModifier;
-using ExperimentalTools.Features.AccessModifier.Recipes;
-using ExperimentalTools.Services;
+﻿using ExperimentalTools.Options;
+using ExperimentalTools.Roslyn.Features.AccessModifier;
+using ExperimentalTools.Roslyn.Features.AccessModifier.Recipes;
 using ExperimentalTools.Tests.Infrastructure.Refactoring;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Xunit.Abstractions;

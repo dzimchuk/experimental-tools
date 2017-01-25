@@ -1,14 +1,14 @@
-﻿using ExperimentalTools.Tests.Infrastructure.Diagnostics;
-using System.Threading.Tasks;
+﻿using ExperimentalTools.Options;
+using ExperimentalTools.Roslyn.Features.TypeDeclaration;
+using ExperimentalTools.Tests.Infrastructure;
+using ExperimentalTools.Tests.Infrastructure.Diagnostics;
+using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
-using ExperimentalTools.Features.TypeDeclaration;
-using Xunit;
-using ExperimentalTools.Services;
-using ExperimentalTools.Tests.Infrastructure;
-using Microsoft.CodeAnalysis.CodeActions;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace ExperimentalTools.Tests.Features.TypeDeclaration
 {
@@ -18,7 +18,7 @@ namespace ExperimentalTools.Tests.Features.TypeDeclaration
             new TypeAndDocumentNameAnalyzer();
 
         protected override CodeFixProvider CodeFixProvider =>
-            new TypeAndDocumentNameCodeFixProvider(new SyntaxFactsService(), new OptionsService());
+            new TypeAndDocumentNameCodeFixProvider(new OptionsService());
 
         [Fact]
         public Task TypeRenameTest()

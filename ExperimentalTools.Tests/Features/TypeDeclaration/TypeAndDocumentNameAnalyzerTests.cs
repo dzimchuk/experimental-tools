@@ -1,10 +1,11 @@
-﻿using ExperimentalTools.Tests.Infrastructure.Diagnostics;
+﻿using ExperimentalTools.Roslyn.Features;
+using ExperimentalTools.Roslyn.Features.TypeDeclaration;
+using ExperimentalTools.Tests.Infrastructure.Diagnostics;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.Diagnostics;
-using ExperimentalTools.Features.TypeDeclaration;
 using Xunit;
-using Microsoft.CodeAnalysis;
 
 namespace ExperimentalTools.Tests.Features.TypeDeclaration
 {

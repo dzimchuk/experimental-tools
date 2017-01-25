@@ -1,6 +1,6 @@
 ﻿namespace ExperimentalTools
 {
-    internal interface IOptions
+    public interface IOptions
     {
         bool IsFeatureEnabled(string identifier);
     }

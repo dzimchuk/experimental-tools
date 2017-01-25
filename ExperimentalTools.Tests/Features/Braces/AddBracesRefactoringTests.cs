@@ -1,14 +1,11 @@
-﻿using ExperimentalTools.Tests.Infrastructure.Refactoring;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit.Abstractions;
+﻿using ExperimentalTools.Options;
+using ExperimentalTools.Roslyn.Features.Braces;
+using ExperimentalTools.Tests.Infrastructure.Refactoring;
 using Microsoft.CodeAnalysis.CodeRefactorings;
-using ExperimentalTools.Features.Braces;
-using ExperimentalTools.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace ExperimentalTools.Tests.Features.Braces
 {

@@ -1,11 +1,12 @@
-﻿using ExperimentalTools.Tests.Infrastructure.Diagnostics;
+﻿using ExperimentalTools.Roslyn.Features;
+using ExperimentalTools.Roslyn.Features.Namespace;
+using ExperimentalTools.Tests.Infrastructure.Diagnostics;
+using ExperimentalTools.Workspace;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.Diagnostics;
-using ExperimentalTools.Features.Namespace;
 using Xunit;
-using Microsoft.CodeAnalysis;
-using ExperimentalTools.Workspace;
 
 namespace ExperimentalTools.Tests.Features.Namespace
 {
@@ -18,7 +19,7 @@ namespace ExperimentalTools.Tests.Features.Namespace
 
         public NamespaceNormalizationAnalyzerTests()
         {
-            WorkspaceCache.Instance.AddOrUpdateProject(new Models.ProjectDescription
+            WorkspaceCache.Instance.AddOrUpdateProject(new ProjectDescription
             {
                 Id = projectId,
                 Path = @"c:\temp",

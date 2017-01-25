@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using ExperimentalTools.Options;
+using Microsoft.VisualStudio.Shell;
 using System.ComponentModel;
 
 namespace ExperimentalTools.Vsix.Features.Options
