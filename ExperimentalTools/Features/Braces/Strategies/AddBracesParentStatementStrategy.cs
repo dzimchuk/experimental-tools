@@ -4,13 +4,20 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ExperimentalTools.Localization;
+using System.Threading;
 
-namespace ExperimentalTools.Features.Braces
+namespace ExperimentalTools.Features.Braces.Strategies
 {
     internal class AddBracesParentStatementStrategy : AddBracesRefactoringStrategy
     {
-        protected override Task<CodeAction> ComputeRefactoringAsync(Document document, SyntaxNode root, SyntaxNode selectedNode)
+        public override Task<CodeAction> CalculateActionAsync(Document document, SyntaxNode root, SyntaxNode selectedNode, CancellationToken cancellationToken)
         {
+            var elseClause = selectedNode as ElseClauseSyntax;
+            if (elseClause != null)
+            {
+                return Task.FromResult<CodeAction>(null);
+            }
+
             var parentStatement = selectedNode.AncestorsAndSelf().OfType<StatementSyntax>().FirstOrDefault();
             if (parentStatement == null)
             {
@@ -28,10 +35,10 @@ namespace ExperimentalTools.Features.Braces
                 return Task.FromResult<CodeAction>(null);
             }
 
-            var action = 
+            var action =
                 CodeAction.Create(
                     Resources.AddBraces,
-                    cancellationToken => AddBracesAsync(document, root, statement, parentStatement, cancellationToken));
+                    token => AddBracesAsync(document, root, statement, parentStatement, token));
 
             return Task.FromResult(action);
         }

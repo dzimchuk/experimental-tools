@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
+using ExperimentalTools.Roslyn.Refactoring;
+using ExperimentalTools.Features.Braces.Strategies;
 
 namespace ExperimentalTools.Features.Braces
 {
@@ -10,7 +12,7 @@ namespace ExperimentalTools.Features.Braces
     internal class AddBracesRefactoring : CodeRefactoringProvider
     {
         private readonly IOptions options;
-        private readonly List<RefactoringStrategy> strategies = new List<RefactoringStrategy>
+        private readonly List<ICodeRefactoringStrategy> strategies = new List<ICodeRefactoringStrategy>
         {
             new AddBracesInnerStatementStrategy(),
             new AddBracesElseClauseInnerStatementStrategy(),
@@ -24,21 +26,15 @@ namespace ExperimentalTools.Features.Braces
             this.options = options;
         }
 
-        public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)
+        public sealed override Task ComputeRefactoringsAsync(CodeRefactoringContext context)
         {
             if (!options.IsFeatureEnabled(FeatureIdentifiers.AddInitializedFieldRefactoring))
             {
-                return;
+                return Task.FromResult(0);
             }
 
-            foreach (var strategy in strategies)
-            {
-                var actionAdded = await strategy.ComputeRefactoringAsync(context);
-                if (actionAdded)
-                {
-                    break;
-                }
-            }
+            var refactoring = new CodeRefactoring(strategies);
+            return refactoring.ComputeRefactoringsAsync(context);
         }
     }
 }

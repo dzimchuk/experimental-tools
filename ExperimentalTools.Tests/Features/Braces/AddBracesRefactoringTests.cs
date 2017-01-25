@@ -244,7 +244,7 @@ namespace HelloWorld
         public void TestMethod(string arg)
         {
             if (arg == null)
-                arg = "";
+                arg = """";
             else if (arg == ""1"")
             @::@    arg = ""2"";
         }
@@ -260,7 +260,7 @@ namespace HelloWorld
         public void TestMethod(string arg)
         {
             if (arg == null)
-                arg = "";
+                arg = """";
             else if (arg == ""1"")
             {
                 arg = ""2"";
@@ -282,7 +282,7 @@ namespace HelloWorld
         public void TestMethod(string arg)
         {
             if (arg == null)
-                arg = "";
+                arg = """";
             else
             @::@    arg = ""2"";
         }
@@ -298,7 +298,7 @@ namespace HelloWorld
         public void TestMethod(string arg)
         {
             if (arg == null)
-                arg = "";
+                arg = """";
             else
             {
                 arg = ""2"";
@@ -320,7 +320,7 @@ namespace HelloWorld
         public void TestMethod(string arg)
         {
             if (arg == null)
-                arg = "";
+                arg = """";
             else@::@
                 arg = ""2"";
         }
@@ -336,7 +336,7 @@ namespace HelloWorld
         public void TestMethod(string arg)
         {
             if (arg == null)
-                arg = "";
+                arg = """";
             else
             {
                 arg = ""2"";
@@ -495,7 +495,7 @@ namespace HelloWorld
         public void TestMethod(string arg)
         {
             if (arg == null)
-                arg = "";
+                arg = """";
             els@::@e
             {
                 arg = ""2"";

@@ -35,12 +35,12 @@
   <ItemGroup>
     <Compile Include="DiagnosticCodes.cs" />
     <Compile Include="FeatureIdentifiers.cs" />
-    <Compile Include="Features\Braces\AddBracesElseClauseInnerStatementStrategy.cs" />
-    <Compile Include="Features\Braces\AddBracesElseClauseStrategy.cs" />
-    <Compile Include="Features\Braces\AddBracesInnerStatementStrategy.cs" />
-    <Compile Include="Features\Braces\AddBracesParentStatementStrategy.cs" />
+    <Compile Include="Features\Braces\Strategies\AddBracesElseClauseInnerStatementStrategy.cs" />
+    <Compile Include="Features\Braces\Strategies\AddBracesElseClauseStrategy.cs" />
+    <Compile Include="Features\Braces\Strategies\AddBracesInnerStatementStrategy.cs" />
+    <Compile Include="Features\Braces\Strategies\AddBracesParentStatementStrategy.cs" />
     <Compile Include="Features\Braces\AddBracesRefactoring.cs" />
-    <Compile Include="Features\Braces\AddBracesRefactoringStrategy.cs" />
+    <Compile Include="Features\Braces\Strategies\AddBracesRefactoringStrategy.cs" />
     <Compile Include="Features\Constructor\FixConstructorNameCodeFixProvider.cs" />
     <Compile Include="Features\Namespace\NamespaceNormalizationAnalyzer.cs" />
     <Compile Include="Features\TypeDeclaration\NameHelper.cs" />
@@ -155,6 +155,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExperimentalTools.Roslyn\ExperimentalTools.Roslyn.csproj">
+      <Project>{f1143ed6-296c-4ddc-8c1f-a67f0b5ce193}</Project>
+      <Name>ExperimentalTools.Roslyn</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\v4.6\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

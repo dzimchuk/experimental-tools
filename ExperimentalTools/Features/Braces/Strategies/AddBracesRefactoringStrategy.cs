@@ -1,13 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using ExperimentalTools.Roslyn.Refactoring;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using System.Threading;
+using System.Threading.Tasks;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace ExperimentalTools.Features.Braces
+namespace ExperimentalTools.Features.Braces.Strategies
 {
-    internal abstract class AddBracesRefactoringStrategy : RefactoringStrategy
+    internal abstract class AddBracesRefactoringStrategy : ICodeRefactoringStrategy
     {
+        public abstract Task<CodeAction> CalculateActionAsync(Document document, SyntaxNode root, SyntaxNode selectedNode, CancellationToken cancellationToken);
+
         protected Task<Document> AddBracesAsync(Document document, SyntaxNode root, StatementSyntax statement, StatementSyntax parentStatement, CancellationToken cancellationToken)
         {
             var newParentStatement = parentStatement.WithStatement(Block(statement));
