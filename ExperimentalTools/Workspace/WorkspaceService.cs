@@ -1,5 +1,4 @@
-﻿using ExperimentalTools.Models;
-using System.Composition;
+﻿using System.Composition;
 
 namespace ExperimentalTools.Workspace
 {

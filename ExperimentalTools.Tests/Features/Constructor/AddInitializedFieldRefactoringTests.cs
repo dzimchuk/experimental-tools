@@ -1,10 +1,10 @@
-﻿using ExperimentalTools.Services;
-using ExperimentalTools.Features.Constructor;
+﻿using ExperimentalTools.Options;
+using ExperimentalTools.Roslyn.Features.Constructor;
 using ExperimentalTools.Tests.Infrastructure.Refactoring;
+using Microsoft.CodeAnalysis.CodeRefactorings;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
-using Microsoft.CodeAnalysis.CodeRefactorings;
 using Xunit.Abstractions;
 
 namespace ExperimentalTools.Tests.Features.Constructor
@@ -17,7 +17,7 @@ namespace ExperimentalTools.Tests.Features.Constructor
         }
 
         protected override CodeRefactoringProvider Provider =>
-            new AddInitializedFieldRefactoring(new SimpleNameGenerator(), new OptionsService());
+            new AddInitializedFieldRefactoring(new OptionsService());
 
         [Theory, MemberData("HasActionTestData")]
         public Task HasActionTest(string test, string input, string expectedOutput) =>
@@ -443,6 +443,47 @@ namespace HelloWorld
         public TestService()
         {
         }
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Placement test (when implementing an interface)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    interface IAction
+    {
+        void Act();
+    }
+
+    class TestService : IAction
+    {
+        public TestService(int @::@index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    interface IAction
+    {
+        void Act();
+    }
+
+    class TestService : IAction
+    {
+        private readonly int index;
 
         public TestService(int index)
         {

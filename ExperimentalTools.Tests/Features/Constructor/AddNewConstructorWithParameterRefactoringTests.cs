@@ -1,10 +1,10 @@
-﻿using ExperimentalTools.Services;
-using ExperimentalTools.Features.Constructor;
+﻿using ExperimentalTools.Options;
+using ExperimentalTools.Roslyn.Features.Constructor;
 using ExperimentalTools.Tests.Infrastructure.Refactoring;
+using Microsoft.CodeAnalysis.CodeRefactorings;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
-using Microsoft.CodeAnalysis.CodeRefactorings;
 using Xunit.Abstractions;
 
 namespace ExperimentalTools.Tests.Features.Constructor
@@ -17,7 +17,7 @@ namespace ExperimentalTools.Tests.Features.Constructor
         }
 
         protected override CodeRefactoringProvider Provider =>
-            new AddNewConstructorWithParameterRefactoring(new SimpleNameGenerator(), new OptionsService());
+            new AddNewConstructorWithParameterRefactoring(new OptionsService());
 
         [Theory, MemberData("HasActionTestData")]
         public Task HasActionTest(string test, string input, string expectedOutput) =>

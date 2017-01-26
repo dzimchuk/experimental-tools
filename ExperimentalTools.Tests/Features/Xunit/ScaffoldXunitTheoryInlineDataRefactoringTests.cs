@@ -1,5 +1,5 @@
-﻿using ExperimentalTools.Features.Xunit;
-using ExperimentalTools.Services;
+﻿using ExperimentalTools.Options;
+using ExperimentalTools.Roslyn.Features.Xunit;
 using ExperimentalTools.Tests.Infrastructure.Refactoring;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;

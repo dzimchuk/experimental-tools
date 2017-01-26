@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using ExperimentalTools.Options;
+using Microsoft.VisualStudio.Shell;
 using System.ComponentModel;
 
 namespace ExperimentalTools.Vsix.Features.Options
@@ -62,6 +63,12 @@ namespace ExperimentalTools.Vsix.Features.Options
         public bool NamespaceNormalizationAnalyzer { get; set; }
 
         [Category(category)]
+        [DisplayName("Change namespace to match file path")]
+        [Description("Change namespace to match file path.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool NamespaceNormalizationCodeFix { get; set; }
+
+        [Category(category)]
         [DisplayName("Locate in Solution Explorer")]
         [Description("Provide a context menu command and the key shortcut (Shit+Alt+L) to locate the currently open document in Solution Explorer. It's essentially the same command as 'Sync with Active Document'.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
@@ -85,6 +92,18 @@ namespace ExperimentalTools.Vsix.Features.Options
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool GenerateGuid { get; set; }
 
+        [Category(category)]
+        [DisplayName("Add braces around single line statements")]
+        [Description("Offer to add braces around single line statements.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool AddBraces { get; set; }
+
+        [Category(category)]
+        [DisplayName("Remove braces from single line statements")]
+        [Description("Offer to braces from single line statements.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool RemoveBraces { get; set; }
+
         public GeneralOptions()
         {
             var features = OptionsBucket.Instance.Features;
@@ -100,6 +119,7 @@ namespace ExperimentalTools.Vsix.Features.Options
             RenameTypeToMatchFileNameCodeFix = features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix];
 
             NamespaceNormalizationAnalyzer = features[FeatureIdentifiers.NamespaceNormalizationAnalyzer];
+            NamespaceNormalizationCodeFix = features[FeatureIdentifiers.NamespaceNormalizationCodeFix];
 
             FixConstructorNameCodeFix = features[FeatureIdentifiers.FixConstructorNameCodeFix];
 
@@ -109,6 +129,9 @@ namespace ExperimentalTools.Vsix.Features.Options
             ScaffoldXunitTheoryInlineDataRefactoring = features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData];
 
             GenerateGuid = features[FeatureIdentifiers.GenerateGuid];
+
+            AddBraces = features[FeatureIdentifiers.AddBraces];
+            RemoveBraces = features[FeatureIdentifiers.RemoveBraces];
         }
 
         protected override void OnApply(PageApplyEventArgs e)
@@ -136,6 +159,7 @@ namespace ExperimentalTools.Vsix.Features.Options
             features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = RenameTypeToMatchFileNameCodeFix;
 
             features[FeatureIdentifiers.NamespaceNormalizationAnalyzer] = NamespaceNormalizationAnalyzer;
+            features[FeatureIdentifiers.NamespaceNormalizationCodeFix] = NamespaceNormalizationCodeFix;
 
             features[FeatureIdentifiers.FixConstructorNameCodeFix] = FixConstructorNameCodeFix;
 
@@ -145,6 +169,9 @@ namespace ExperimentalTools.Vsix.Features.Options
             features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData] = ScaffoldXunitTheoryInlineDataRefactoring;
 
             features[FeatureIdentifiers.GenerateGuid] = GenerateGuid;
+
+            features[FeatureIdentifiers.AddBraces] = AddBraces;
+            features[FeatureIdentifiers.RemoveBraces] = RemoveBraces;
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using ExperimentalTools.Models;
+﻿using ExperimentalTools.Workspace;
 
 namespace ExperimentalTools
 {
-    internal interface IWorkspace
+    public interface IWorkspace
     {
         ProjectDescription FindProjectByPath(string path);
     }

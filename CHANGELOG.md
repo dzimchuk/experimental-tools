@@ -1,7 +1,5 @@
 # Road map
 
-- [ ] Add/remove braces
-- [ ] Code fix for namespace vs file path analysis
 - [ ] Add to interface (on a method; VS currently has one on a type)
 - [ ] Method can be made static
 - [ ] Class can be made static
@@ -20,7 +18,12 @@ on the official Visual Studio extension gallery.
 
 ## 0.7
 
+**2017-01-26**
+
 - [x] Quick GUID generation (nguid)
+- [x] Add/remove braces
+- [x] Code fix for namespace vs file path analysis
+- [x] Bug fixes
 
 ## 0.6
 

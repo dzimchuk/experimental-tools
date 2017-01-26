@@ -1,5 +1,4 @@
-﻿using ExperimentalTools.Models;
-using ExperimentalTools.Vsix.Features.LocateInSolutionExplorer;
+﻿using ExperimentalTools.Vsix.Features.LocateInSolutionExplorer;
 using ExperimentalTools.Vsix.Features.Options;
 using ExperimentalTools.Workspace;
 using Microsoft.VisualStudio;
