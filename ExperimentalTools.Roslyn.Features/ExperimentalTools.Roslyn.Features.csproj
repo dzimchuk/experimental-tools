@@ -78,8 +78,9 @@
     <Compile Include="Constructor\AddConstructorParameterRefactoring.cs" />
     <Compile Include="Constructor\AddInitializedFieldRefactoring.cs" />
     <Compile Include="Constructor\AddNewConstructorWithParameterRefactoring.cs" />
-    <Compile Include="Constructor\FixConstructorNameCodeFixProvider.cs" />
+    <Compile Include="Constructor\FixConstructorNameCodeFix.cs" />
     <Compile Include="DiagnosticCodes.cs" />
+    <Compile Include="Namespace\NamespaceNormalizationCodeFix.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -90,7 +91,7 @@
     <Compile Include="TypeDeclaration\NameHelper.cs" />
     <Compile Include="TypeDeclaration\RenameDocumentAction.cs" />
     <Compile Include="TypeDeclaration\TypeAndDocumentNameAnalyzer.cs" />
-    <Compile Include="TypeDeclaration\TypeAndDocumentNameCodeFixProvider.cs" />
+    <Compile Include="TypeDeclaration\TypeAndDocumentNameCodeFix.cs" />
     <Compile Include="Xunit\ScaffoldXunitTheoryInlineDataRefactoring.cs" />
     <Compile Include="Xunit\ScaffoldXunitTheoryMemberDataRefactoring.cs" />
     <Compile Include="Xunit\ScaffoldXunitTheoryRefactoring.cs" />

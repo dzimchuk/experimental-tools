@@ -129,6 +129,9 @@
   <data name="CategoryNaming" xml:space="preserve">
     <value>Naming</value>
   </data>
+  <data name="ChangeTo" xml:space="preserve">
+    <value>Change to '{0}'</value>
+  </data>
   <data name="FixConstructorName" xml:space="preserve">
     <value>Make it a constructor</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="RenameAToB" xml:space="preserve">
     <value>Rename '{0}' to '{1}'</value>
+  </data>
+  <data name="RenameTo" xml:space="preserve">
+    <value>Rename to '{0}'</value>
   </data>
   <data name="ScaffoldXunitTheoryInlineData" xml:space="preserve">
     <value>Scaffold inline data</value>

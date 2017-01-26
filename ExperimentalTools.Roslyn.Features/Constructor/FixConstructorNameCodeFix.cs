@@ -11,14 +11,14 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace ExperimentalTools.Roslyn.Features.Constructor
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(FixConstructorNameCodeFixProvider)), Shared]
-    internal class FixConstructorNameCodeFixProvider : CodeFixProvider
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(FixConstructorNameCodeFix)), Shared]
+    internal class FixConstructorNameCodeFix : CodeFixProvider
     {
         private const string diagnosticId = "CS1520";
         private readonly IOptions options;
 
         [ImportingConstructor]
-        public FixConstructorNameCodeFixProvider(IOptions options)
+        public FixConstructorNameCodeFix(IOptions options)
         {
             this.options = options;
         }

@@ -98,6 +98,15 @@ namespace ExperimentalTools.Roslyn.Features {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change to &apos;{0}&apos;.
+        /// </summary>
+        internal static string ChangeTo {
+            get {
+                return ResourceManager.GetString("ChangeTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Make it a constructor.
         /// </summary>
         internal static string FixConstructorName {
@@ -166,6 +175,15 @@ namespace ExperimentalTools.Roslyn.Features {
         internal static string RenameAToB {
             get {
                 return ResourceManager.GetString("RenameAToB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename to &apos;{0}&apos;.
+        /// </summary>
+        internal static string RenameTo {
+            get {
+                return ResourceManager.GetString("RenameTo", resourceCulture);
             }
         }
         

@@ -13,6 +13,7 @@
         public const string RenameFileToMatchTypeNameCodeFix = "RenameFileToMatchTypeNameCodeFix";
 
         public const string NamespaceNormalizationAnalyzer = "NamespaceNormalizationAnalyzer";
+        public const string NamespaceNormalizationCodeFix = "NamespaceNormalizationCodeFix";
 
         public const string FixConstructorNameCodeFix = "FixConstructorNameCodeFix";
 

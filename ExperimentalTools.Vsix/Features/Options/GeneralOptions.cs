@@ -63,6 +63,12 @@ namespace ExperimentalTools.Vsix.Features.Options
         public bool NamespaceNormalizationAnalyzer { get; set; }
 
         [Category(category)]
+        [DisplayName("Change namespace to match file path")]
+        [Description("Change namespace to match file path.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool NamespaceNormalizationCodeFix { get; set; }
+
+        [Category(category)]
         [DisplayName("Locate in Solution Explorer")]
         [Description("Provide a context menu command and the key shortcut (Shit+Alt+L) to locate the currently open document in Solution Explorer. It's essentially the same command as 'Sync with Active Document'.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
@@ -113,6 +119,7 @@ namespace ExperimentalTools.Vsix.Features.Options
             RenameTypeToMatchFileNameCodeFix = features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix];
 
             NamespaceNormalizationAnalyzer = features[FeatureIdentifiers.NamespaceNormalizationAnalyzer];
+            NamespaceNormalizationCodeFix = features[FeatureIdentifiers.NamespaceNormalizationCodeFix];
 
             FixConstructorNameCodeFix = features[FeatureIdentifiers.FixConstructorNameCodeFix];
 
@@ -152,6 +159,7 @@ namespace ExperimentalTools.Vsix.Features.Options
             features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = RenameTypeToMatchFileNameCodeFix;
 
             features[FeatureIdentifiers.NamespaceNormalizationAnalyzer] = NamespaceNormalizationAnalyzer;
+            features[FeatureIdentifiers.NamespaceNormalizationCodeFix] = NamespaceNormalizationCodeFix;
 
             features[FeatureIdentifiers.FixConstructorNameCodeFix] = FixConstructorNameCodeFix;
 

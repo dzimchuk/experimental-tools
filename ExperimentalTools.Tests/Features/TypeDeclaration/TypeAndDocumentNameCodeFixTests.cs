@@ -12,13 +12,13 @@ using Xunit;
 
 namespace ExperimentalTools.Tests.Features.TypeDeclaration
 {
-    public class TypeAndDocumentNameCodeFixProviderTests : CodeFixTest
+    public class TypeAndDocumentNameCodeFixTests : CodeFixTest
     {
         protected override DiagnosticAnalyzer Analyzer => 
             new TypeAndDocumentNameAnalyzer();
 
         protected override CodeFixProvider CodeFixProvider =>
-            new TypeAndDocumentNameCodeFixProvider(new OptionsService());
+            new TypeAndDocumentNameCodeFix(new OptionsService());
 
         [Fact]
         public Task TypeRenameTest()

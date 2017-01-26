@@ -15,22 +15,18 @@ See the [change log](CHANGELOG.md) for changes and road map.
 
 ## Features
 
-- Initialize field from constructor parameter
 - Add constructor and initialize field
-- Initialize field in existing constructor
-- Namespace does not match file path analyzer
-- Update file name to match type name (and vice versa)
+- Add/Remove braces
 - Change access modifier on type declarations
-- Make it a constructor (when copied from another class)
-- Locate in Solution Explorer (Shift+Alt+L)
-- Scaffold xunit data driven tests
 - Generate GUID (nguid)
+- Initialize field from constructor parameter
+- Initialize field in existing constructor
+- Locate in Solution Explorer (Shift+Alt+L)
+- Make it a constructor (when copied from another class)
+- Namespace vs file path analyzer and code fix
+- Scaffold xunit data driven tests
 - Settings page (ability to enable/disable individual features)
-
-### Initialize field from constructor parameter
-Ctrl+. on a constructor parameter and choose *Add initialized field*.
-
-![Initialize field from constructor parameter](art/InitializeFieldFromConstructor.png)
+- Update file name to match type name (and vice versa)
 
 ### Add constructor and initialize field
 
@@ -38,29 +34,13 @@ Ctrl+. on a field and choose *Add constructor and initialize field*.
 
 ![Add constructor and initialize field](art/AddConstructorAndInitializeField.png)
 
-### Initialize field in existing constructor
+### Add/Remove braces
 
-Ctrl+. on a field and choose *Initialize field in existing constructor*.
+Allows you to quickly add missing braces to single statements:
 
-![Initialize field in existing constructor](art/InitializeFieldInExistingConstructor.png)
+![Add braces](art/AddBraces.png)
 
-### Namespace does not match file path analyzer
-
-Analyze if a top level namespace does not match the path of the file where it is declared and display a warning.
-
-![Namespace and file path analyzer](art/NamespaceNormalizationAnalyzer.png)
-
-It assumes assembly name as the root namespace as it's currently problematic to get the default namespace from within analyzers.
-
-### Update file name to match type name (and vice versa)
-
-Analyzes if a top level type name does not match the name of the file where it is declared and displays a warning.
-
-![Type and file name analyzer](art/TypeAndDocumentNameAnalyzer.png)
-
-It also offers to either rename the type to match the file name or rename the file to match the type name.
-
-![Type and file name analyzer](art/TypeAndDocumentNameCodeFix.png)
+It works both ways and allows you to remove braces if you prefer so.
 
 ### Change access modifier on type declarations
 
@@ -68,11 +48,26 @@ Ctrl+. on a type declaration (either top level or nested) and choose one of prop
 
 ![Change access modifier on type declarations](art/ChangeTypeAccessModifier.png)
 
-### Make it a constructor (when copied from another class)
+### Generate GUID (nguid)
 
-Sometimes you copy code from another class into a new one and this quick fix allows you to update the constructor name.
+Just type `nguid` where you want the new GUID to be inserted:
 
-![Make it a constructor](art/MakeItConstructorCodeFix.png)
+![Generate Guid - before](art/GenerateGuidBefore.png)
+
+and press TAB:
+
+![Generate Guid - After](art/GenerateGuidAfter.png)
+
+### Initialize field from constructor parameter
+Ctrl+. on a constructor parameter and choose *Add initialized field*.
+
+![Initialize field from constructor parameter](art/InitializeFieldFromConstructor.png)
+
+### Initialize field in existing constructor
+
+Ctrl+. on a field and choose *Initialize field in existing constructor*.
+
+![Initialize field in existing constructor](art/InitializeFieldInExistingConstructor.png)
 
 ### Locate in Solution Explorer (Shift+Alt+L)
 
@@ -81,6 +76,22 @@ There is a standard command in Solution Explorer called 'Sync with Active Docume
 ![Locate in Solution Explorer](art/LocateInSolutionExplorerCommand.png)
 
 The command is available in the code editor either from the context menu or as a shortcut.
+
+### Make it a constructor (when copied from another class)
+
+Sometimes you copy code from another class into a new one and this quick fix allows you to update the constructor name.
+
+![Make it a constructor](art/MakeItConstructorCodeFix.png)
+
+### Namespace vs file path analyzer and code fix
+
+Analyze if a top level namespace does not match the path of the file where it is declared and display a warning.
+
+![Namespace and file path analyzer](art/NamespaceNormalizationAnalyzer.png)
+
+It assumes assembly name as the root namespace as it's currently problematic to get the default namespace from within analyzers.
+
+Note that the code fix currently does not update references.
 
 ### Scaffold xunit data driven tests
 
@@ -96,22 +107,21 @@ If your `InlineData` contains acceptable parameters they will be respected unles
 
 Note that this feature works with Xunit 2.x only.
 
-### Generate GUID (nguid)
-
-Just type `nguid` where you want the new GUID to be inserted:
-
-![Generate Guid - before](art/GenerateGuidBefore.png)
-
-and press TAB:
-
-![Generate Guid - After](art/GenerateGuidAfter.png)
-
-
 ### Settings page (ability to enable/disable individual features)
 
 All features can be individually enabled or disabled.
 
 ![Type and file name analyzer](art/GeneralOptions.png)
+
+### Update file name to match type name (and vice versa)
+
+Analyzes if a top level type name does not match the name of the file where it is declared and displays a warning.
+
+![Type and file name analyzer](art/TypeAndDocumentNameAnalyzer.png)
+
+It also offers to either rename the type to match the file name or rename the file to match the type name.
+
+![Type and file name analyzer](art/TypeAndDocumentNameCodeFix.png)
 
 ## Contribute
 Check out the [contribution guidelines](CONTRIBUTING.md)

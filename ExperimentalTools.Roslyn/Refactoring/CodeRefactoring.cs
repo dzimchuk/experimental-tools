@@ -38,7 +38,7 @@ namespace ExperimentalTools.Roslyn.Refactoring
 
             foreach (var strategy in strategies)
             {
-                var action = await strategy.CalculateActionAsync(context.Document, root, node, context.CancellationToken);
+                var action = await strategy.CalculateActionAsync(context.Document, root, node, context.CancellationToken).ConfigureAwait(false);
                 if (action != null)
                 {
                     context.RegisterRefactoring(action);

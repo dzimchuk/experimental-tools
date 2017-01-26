@@ -16,7 +16,7 @@ namespace ExperimentalTools.Roslyn
                 return proposedName;
             }
 
-            var model = await document.GetSemanticModelAsync(cancellationToken);
+            var model = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
             var declaredType = model.GetDeclaredSymbol(declaredTypeSyntax, cancellationToken) as INamedTypeSymbol;
 
             if (declaredType != null)

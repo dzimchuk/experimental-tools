@@ -62,54 +62,61 @@ namespace ExperimentalTools.Roslyn.Features.Namespace
                 return;
             }
 
-            if (namespaceNode.Name.ToString().StartsWith(assemblyName))
+            var desiredName = ConstructDesiredName(documentPath, assemblyName);
+            if (string.IsNullOrWhiteSpace(desiredName))
             {
-                var folderStack = new Stack<string>();
-                var workspace = ServiceLocator.GetService<IWorkspace>();
+                return;
+            }
 
-                var path = Path.GetDirectoryName(documentPath);
-                var found = false;
-                do
+            if (!namespaceNode.Name.ToString().Equals(desiredName, StringComparison.OrdinalIgnoreCase))
+            {
+                var properties = ImmutableDictionary<string, string>.Empty.Add("DesiredName", desiredName);
+                context.ReportDiagnostic(Diagnostic.Create(Rule, namespaceNode.Name.GetLocation(), properties, namespaceNode.Name.ToString()));
+            }
+        }
+
+        private static string ConstructDesiredName(string documentPath, string assemblyName)
+        {
+            var folderStack = new Stack<string>();
+            var workspace = ServiceLocator.GetService<IWorkspace>();
+
+            var path = Path.GetDirectoryName(documentPath);
+            var found = false;
+            do
+            {
+                var project = workspace.FindProjectByPath(path);
+                if (project != null)
                 {
-                    var project = workspace.FindProjectByPath(path);
-                    if (project != null)
+                    if (project.AssemblyName == assemblyName)
                     {
-                        if (project.AssemblyName == assemblyName)
-                        {
-                            found = true; 
-                        }
-
-                        break;
+                        found = true;
                     }
 
-                    var folder = Path.GetFileName(path);
-                    if (!string.IsNullOrWhiteSpace(folder))
-                    {
-                        folderStack.Push(folder); 
-                    }
-
-                    path = Path.GetDirectoryName(path);
-
-                } while (!string.IsNullOrWhiteSpace(path));
-                
-                if (found)
-                {
-                    var builder = new StringBuilder(assemblyName);
-                    while(folderStack.Any())
-                    {
-                        builder.AppendFormat(".{0}", folderStack.Pop());
-                    }
-
-                    if (!namespaceNode.Name.ToString().Equals(builder.ToString(), StringComparison.OrdinalIgnoreCase))
-                    {
-                        context.ReportDiagnostic(Diagnostic.Create(Rule, namespaceNode.Name.GetLocation(), namespaceNode.Name.ToString()));
-                    }
+                    break;
                 }
-            }
-            else
+
+                var folder = Path.GetFileName(path);
+                if (!string.IsNullOrWhiteSpace(folder))
+                {
+                    folderStack.Push(folder);
+                }
+
+                path = Path.GetDirectoryName(path);
+
+            } while (!string.IsNullOrWhiteSpace(path));
+
+            if (found)
             {
-                context.ReportDiagnostic(Diagnostic.Create(Rule, namespaceNode.Name.GetLocation(), namespaceNode.Name.ToString()));
+                var builder = new StringBuilder(assemblyName);
+                while (folderStack.Any())
+                {
+                    builder.AppendFormat(".{0}", folderStack.Pop());
+                }
+
+                return builder.ToString();
             }
+
+            return null;
         }
 
         private static bool IsTheOnlyNamespace(NamespaceDeclarationSyntax namespaceDeclaration, CancellationToken cancellationToken)

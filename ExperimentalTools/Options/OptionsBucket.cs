@@ -21,6 +21,7 @@ namespace ExperimentalTools.Options
             { FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix, true },
 
             { FeatureIdentifiers.NamespaceNormalizationAnalyzer, true },
+            { FeatureIdentifiers.NamespaceNormalizationCodeFix, true },
 
             { FeatureIdentifiers.FixConstructorNameCodeFix, true },
 

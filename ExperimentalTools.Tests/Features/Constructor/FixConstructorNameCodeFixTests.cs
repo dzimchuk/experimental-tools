@@ -13,9 +13,9 @@ using Xunit;
 
 namespace ExperimentalTools.Tests.Features.Constructor
 {
-    public class FixConstructorNameCodeFixProviderTests
+    public class FixConstructorNameCodeFixTests
     {
-        private readonly CodeFixProvider codeFixProvider = new FixConstructorNameCodeFixProvider(new OptionsService());
+        private readonly CodeFixProvider codeFixProvider = new FixConstructorNameCodeFix(new OptionsService());
 
         private static async Task<Diagnostic> GetDiagnosticAsync(Document document)
         {

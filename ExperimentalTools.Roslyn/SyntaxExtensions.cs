@@ -90,7 +90,7 @@ namespace ExperimentalTools.Roslyn
             return root.ReplaceNode(compilationUnit, newCompilationUnit);
         }
 
-        private static NameSyntax ConstructNameSyntax(string name)
+        public static NameSyntax ConstructNameSyntax(this string name)
         {
             var parts = name.Split('.');
             return ConstructNameSyntax(parts, parts.Length - 1);

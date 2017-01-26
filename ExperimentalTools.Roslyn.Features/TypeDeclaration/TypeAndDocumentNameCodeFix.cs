@@ -12,13 +12,13 @@ using Microsoft.CodeAnalysis.Rename;
 
 namespace ExperimentalTools.Roslyn.Features.TypeDeclaration
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TypeAndDocumentNameCodeFixProvider)), Shared]
-    internal class TypeAndDocumentNameCodeFixProvider : CodeFixProvider
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TypeAndDocumentNameCodeFix)), Shared]
+    internal class TypeAndDocumentNameCodeFix : CodeFixProvider
     {
         private readonly IOptions options;
 
         [ImportingConstructor]
-        public TypeAndDocumentNameCodeFixProvider(IOptions options)
+        public TypeAndDocumentNameCodeFix(IOptions options)
         {
             this.options = options;
         }
