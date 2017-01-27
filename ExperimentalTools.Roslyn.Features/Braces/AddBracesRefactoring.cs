@@ -14,10 +14,10 @@ namespace ExperimentalTools.Roslyn.Features.Braces
         private readonly IOptions options;
         private readonly List<ICodeRefactoringStrategy> strategies = new List<ICodeRefactoringStrategy>
         {
-            new AddBracesInnerStatementStrategy(),
-            new AddBracesElseClauseInnerStatementStrategy(),
-            new AddBracesElseClauseStrategy(),
-            new AddBracesParentStatementStrategy()
+            new AddBracesInnerStatement(),
+            new AddBracesElseClauseInnerStatement(),
+            new AddBracesElseClause(),
+            new AddBracesParentStatement()
         };
 
         [ImportingConstructor]

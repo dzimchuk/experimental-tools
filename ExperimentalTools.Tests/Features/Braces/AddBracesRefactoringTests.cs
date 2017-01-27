@@ -409,6 +409,154 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Do statement",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(int i)
+        {
+            do
+            @::@    i = i + 1;
+            while (true);
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(int i)
+        {
+            do
+            {
+                i = i + 1;
+            }
+            while (true);
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Lock statement",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int i;
+
+        public void TestMethod()
+        {
+            lock(this)
+            @::@    i = i + 1;
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int i;
+
+        public void TestMethod()
+        {
+            lock(this)
+            {
+                i = i + 1;
+            }
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Using statement",
+                    @"
+using System;
+using System.IO;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod()
+        {
+            using (var fs = new FileStream("""", FileMode.Open))
+            @::@    fs.ReadByte();
+        }
+    }
+}",
+                    @"
+using System;
+using System.IO;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod()
+        {
+            using (var fs = new FileStream("""", FileMode.Open))
+            {
+                fs.ReadByte();
+            }
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Fixed statement",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public unsafe void TestMethod()
+        {
+            string str = ""Hello World"";
+
+            fixed (char* p = str)
+            @::@    Console.WriteLine(*p);
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public unsafe void TestMethod()
+        {
+            string str = ""Hello World"";
+
+            fixed (char* p = str)
+            {
+                Console.WriteLine(*p);
+            }
+        }
+    }
+}"
                 }
             };
 

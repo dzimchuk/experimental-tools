@@ -14,12 +14,12 @@ namespace ExperimentalTools.Roslyn.Features.Braces
         private readonly IOptions options;
         private readonly List<ICodeRefactoringStrategy> strategies = new List<ICodeRefactoringStrategy>
         {
-            new RemoveBracesInnerStatementStrategy(),
-            new RemoveBracesBlockStrategy(),
-            new RemoveBracesParentStatementStrategy(),
-            new RemoveBracesElseClauseInnerStatementStrategy(),
-            new RemoveBracesElseClauseBlockStrategy(),
-            new RemoveBracesElseClauseStrategy()
+            new RemoveBracesInnerStatement(),
+            new RemoveBracesBlock(),
+            new RemoveBracesParentStatement(),
+            new RemoveBracesElseClauseInnerStatement(),
+            new RemoveBracesElseClauseBlock(),
+            new RemoveBracesElseClause()
         };
 
         [ImportingConstructor]

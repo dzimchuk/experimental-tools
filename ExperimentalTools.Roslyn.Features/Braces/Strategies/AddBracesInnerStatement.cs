@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
 {
-    internal class AddBracesInnerStatementStrategy : AddBracesRefactoringStrategy
+    internal class AddBracesInnerStatement : AddBracesRefactoringStrategy
     {
         public override Task<CodeAction> CalculateActionAsync(Document document, SyntaxNode root, SyntaxNode selectedNode, CancellationToken cancellationToken)
         {

@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
 {
-    internal class RemoveBracesElseClauseBlockStrategy : RemoveBracesRefactoringStrategy
+    internal class RemoveBracesBlock : RemoveBracesRefactoringStrategy
     {
         public override Task<CodeAction> CalculateActionAsync(Document document, SyntaxNode root, SyntaxNode selectedNode, CancellationToken cancellationToken)
         {
@@ -17,8 +17,8 @@ namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
                 return Task.FromResult<CodeAction>(null);
             }
 
-            var elseClause = block.Parent as ElseClauseSyntax;
-            if (elseClause == null)
+            var parentStatement = block.Parent as StatementSyntax;
+            if (parentStatement == null)
             {
                 return Task.FromResult<CodeAction>(null);
             }
@@ -32,7 +32,7 @@ namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
             var action =
                 CodeAction.Create(
                     Resources.RemoveBraces,
-                    token => RemoveBracesAsync(document, root, innerStatements.First(), elseClause, token));
+                    token => RemoveBracesAsync(document, root, innerStatements.First(), parentStatement, token));
 
             return Task.FromResult(action);
         }

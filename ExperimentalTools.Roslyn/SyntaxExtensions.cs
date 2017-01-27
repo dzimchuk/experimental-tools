@@ -132,6 +132,30 @@ namespace ExperimentalTools.Roslyn
                 return foreachStatement.WithStatement(statement);
             }
 
+            var doStatement = parentStatement as DoStatementSyntax;
+            if (doStatement != null)
+            {
+                return doStatement.WithStatement(statement);
+            }
+
+            var lockStatment = parentStatement as LockStatementSyntax;
+            if (lockStatment != null)
+            {
+                return lockStatment.WithStatement(statement);
+            }
+
+            var usingStatement = parentStatement as UsingStatementSyntax;
+            if (usingStatement != null)
+            {
+                return usingStatement.WithStatement(statement);
+            }
+
+            var fixedStatement = parentStatement as FixedStatementSyntax;
+            if (fixedStatement != null)
+            {
+                return fixedStatement.WithStatement(statement);
+            }
+
             return parentStatement;
         }
 

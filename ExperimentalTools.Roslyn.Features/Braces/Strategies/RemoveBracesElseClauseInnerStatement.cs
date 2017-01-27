@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
 {
-    internal class RemoveBracesElseClauseInnerStatementStrategy : RemoveBracesRefactoringStrategy
+    internal class RemoveBracesElseClauseInnerStatement : RemoveBracesRefactoringStrategy
     {
         public override Task<CodeAction> CalculateActionAsync(Document document, SyntaxNode root, SyntaxNode selectedNode, CancellationToken cancellationToken)
         {

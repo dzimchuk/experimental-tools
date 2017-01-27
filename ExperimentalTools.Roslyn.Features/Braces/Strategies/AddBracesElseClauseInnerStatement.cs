@@ -7,18 +7,23 @@ using System.Threading;
 
 namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
 {
-    internal class AddBracesElseClauseStrategy : AddBracesRefactoringStrategy
+    internal class AddBracesElseClauseInnerStatement : AddBracesRefactoringStrategy
     {
         public override Task<CodeAction> CalculateActionAsync(Document document, SyntaxNode root, SyntaxNode selectedNode, CancellationToken cancellationToken)
         {
-            var elseClause = selectedNode as ElseClauseSyntax;
-            if (elseClause == null)
+            var statement = selectedNode.AncestorsAndSelf().OfType<StatementSyntax>().FirstOrDefault();
+            if (statement == null || statement.Parent == null)
             {
                 return Task.FromResult<CodeAction>(null);
             }
 
-            var statement = elseClause.ChildNodes().OfType<StatementSyntax>().FirstOrDefault();
-            if (statement == null || statement is BlockSyntax)
+            if (statement is BlockSyntax || statement.Parent is BlockSyntax)
+            {
+                return Task.FromResult<CodeAction>(null);
+            }
+
+            var elseClause = statement.Parent as ElseClauseSyntax;
+            if (elseClause == null)
             {
                 return Task.FromResult<CodeAction>(null);
             }

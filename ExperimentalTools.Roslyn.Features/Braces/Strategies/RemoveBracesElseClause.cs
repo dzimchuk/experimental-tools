@@ -7,17 +7,17 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
 {
-    internal class RemoveBracesParentStatementStrategy : RemoveBracesRefactoringStrategy
+    internal class RemoveBracesElseClause : RemoveBracesRefactoringStrategy
     {
         public override Task<CodeAction> CalculateActionAsync(Document document, SyntaxNode root, SyntaxNode selectedNode, CancellationToken cancellationToken)
         {
-            var parentStatement = selectedNode.AncestorsAndSelf().OfType<StatementSyntax>().FirstOrDefault();
-            if (parentStatement == null)
+            var elseClause = selectedNode as ElseClauseSyntax;
+            if (elseClause == null)
             {
                 return Task.FromResult<CodeAction>(null);
             }
 
-            var childStatements = parentStatement.ChildNodes().OfType<StatementSyntax>().ToList();
+            var childStatements = elseClause.ChildNodes().OfType<StatementSyntax>().ToList();
             if (childStatements.Count != 1)
             {
                 return Task.FromResult<CodeAction>(null);
@@ -28,7 +28,7 @@ namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
             {
                 return Task.FromResult<CodeAction>(null);
             }
-            
+
             var innerStatements = block.ChildNodes().OfType<StatementSyntax>().ToList();
             if (innerStatements.Count != 1)
             {
@@ -38,7 +38,7 @@ namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
             var action =
                 CodeAction.Create(
                     Resources.RemoveBraces,
-                    token => RemoveBracesAsync(document, root, innerStatements.First(), parentStatement, token));
+                    token => RemoveBracesAsync(document, root, innerStatements.First(), elseClause, token));
 
             return Task.FromResult(action);
         }
