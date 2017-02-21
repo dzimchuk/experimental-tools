@@ -1,4 +1,4 @@
-﻿using System.Composition;
+using System.Composition;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -130,7 +130,7 @@ namespace ExperimentalTools.Roslyn.Features.Constructor
                 }
                 else
                 {
-                    insertionPoint = trackedRoot.GetCurrentNode(typeDeclaration).ChildNodes().First(node => !(node is BaseListSyntax));
+                    insertionPoint = trackedRoot.GetCurrentNode(typeDeclaration).ChildNodes().First(node => !(node is BaseListSyntax) && !(node is TypeParameterListSyntax));
                     trackedRoot = trackedRoot.InsertNodesBefore(insertionPoint, SingletonList(field));
                 }
             }

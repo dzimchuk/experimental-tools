@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Options;
+using ExperimentalTools.Options;
 using ExperimentalTools.Roslyn.Features.Constructor;
 using ExperimentalTools.Tests.Infrastructure.Refactoring;
 using Microsoft.CodeAnalysis.CodeRefactorings;
@@ -482,6 +482,37 @@ namespace HelloWorld
     }
 
     class TestService : IAction
+    {
+        private readonly int index;
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Generic type",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService<T>
+    {
+        public TestService(int @::@index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService<T>
     {
         private readonly int index;
 
