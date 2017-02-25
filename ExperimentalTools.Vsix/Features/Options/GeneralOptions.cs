@@ -48,12 +48,14 @@ namespace ExperimentalTools.Vsix.Features.Options
         [DisplayName("Rename type to match file name")]
         [Description("Rename a top level type to match its file name.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
+        [Browsable(false)]
         public bool RenameTypeToMatchFileNameCodeFix { get; set; }
 
         [Category(category)]
         [DisplayName("Rename file to match type name")]
         [Description("Rename a file to match the name of the top level type declared in it.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
+        [Browsable(false)]
         public bool RenameFileToMatchTypeNameCodeFix { get; set; }
 
         [Category(category)]
@@ -155,8 +157,8 @@ namespace ExperimentalTools.Vsix.Features.Options
             features[FeatureIdentifiers.ChangeAccessModifierRefactoring] = ChangeAccessModifierRefactoring;
 
             features[FeatureIdentifiers.TypeAndDocumentNameAnalyzer] = TypeAndDocumentNameAnalyzer;
-            features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix] = RenameFileToMatchTypeNameCodeFix;
-            features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = RenameTypeToMatchFileNameCodeFix;
+            //features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix] = RenameFileToMatchTypeNameCodeFix;
+            //features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = RenameTypeToMatchFileNameCodeFix;
 
             features[FeatureIdentifiers.NamespaceNormalizationAnalyzer] = NamespaceNormalizationAnalyzer;
             features[FeatureIdentifiers.NamespaceNormalizationCodeFix] = NamespaceNormalizationCodeFix;

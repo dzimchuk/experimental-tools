@@ -20,6 +20,12 @@ namespace ExperimentalTools.Tests.Features.TypeDeclaration
         protected override CodeFixProvider CodeFixProvider =>
             new TypeAndDocumentNameCodeFix(new OptionsService());
 
+        public TypeAndDocumentNameCodeFixTests()
+        {
+            OptionsBucket.Instance.Features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix] = true;
+            OptionsBucket.Instance.Features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = true;
+        }
+
         [Fact]
         public Task TypeRenameTest()
         {
