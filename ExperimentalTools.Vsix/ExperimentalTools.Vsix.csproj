@@ -385,6 +385,10 @@
       <Project>{c554fcd0-599a-461a-ba45-baf5ca904613}</Project>
       <Name>ExperimentalTools.Roslyn.Features</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ExperimentalTools.Roslyn\ExperimentalTools.Roslyn.csproj">
+      <Project>{3e77bdf0-9510-4df1-b3df-a3d5fdd2d228}</Project>
+      <Name>ExperimentalTools.Roslyn</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExperimentalTools\ExperimentalTools.csproj">
       <Project>{430ad84d-c094-459b-91f7-5921ab337d20}</Project>
       <Name>ExperimentalTools</Name>
