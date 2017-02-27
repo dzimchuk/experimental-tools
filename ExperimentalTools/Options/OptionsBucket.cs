@@ -17,8 +17,8 @@ namespace ExperimentalTools.Options
             { FeatureIdentifiers.ChangeAccessModifierRefactoring, true },
 
             { FeatureIdentifiers.TypeAndDocumentNameAnalyzer, true },
-            { FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix, true },
-            { FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix, true },
+            { FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix, false },
+            { FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix, false },
 
             { FeatureIdentifiers.NamespaceNormalizationAnalyzer, true },
             { FeatureIdentifiers.NamespaceNormalizationCodeFix, true },

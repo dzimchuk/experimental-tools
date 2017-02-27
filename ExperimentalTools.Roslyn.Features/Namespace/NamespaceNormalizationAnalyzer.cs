@@ -81,6 +81,11 @@ namespace ExperimentalTools.Roslyn.Features.Namespace
             var workspace = ServiceLocator.GetService<IWorkspace>();
 
             var path = Path.GetDirectoryName(documentPath);
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return null;
+            }
+
             var found = false;
             do
             {

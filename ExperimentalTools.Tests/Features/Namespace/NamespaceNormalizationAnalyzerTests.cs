@@ -127,6 +127,18 @@ namespace TestProject
 }
 ",
                     @"c:\temp\Test.cs"
+                },
+                new object[]
+                {
+                    "Incomplete file path",
+                    @"
+namespace TestProject
+{
+    class TestService
+    {
+    }
+}",
+                    @"TestService.cs"
                 }
             };
     }
