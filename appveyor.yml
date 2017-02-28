@@ -1,7 +1,7 @@
 branches:
   # whitelist
   only:
-    - build
+    - master
 
 image: Visual Studio 2017 RC
 
