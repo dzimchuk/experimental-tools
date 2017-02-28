@@ -18,9 +18,9 @@ on the official Visual Studio extension gallery.
 
 ## 0.8
 
-**2017-02-26**
+**2017-02-28**
 
-- [x] Visual Studio 2017 support
+- [x] Retargeted to Visual Studio 2017
 - [x] Bug fixes
 
 ## 0.7

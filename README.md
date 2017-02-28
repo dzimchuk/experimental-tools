@@ -26,7 +26,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 - Namespace vs file path analyzer and code fix
 - Scaffold xunit data driven tests
 - Settings page (ability to enable/disable individual features)
-- Update file name to match type name (and vice versa)
+- Analyze if type name matches file name
 
 ### Add constructor and initialize field
 
@@ -113,15 +113,17 @@ All features can be individually enabled or disabled.
 
 ![Type and file name analyzer](art/GeneralOptions.png)
 
-### Update file name to match type name (and vice versa)
+### Analyze if type name matches file name
 
-Analyzes if a top level type name does not match the name of the file where it is declared and displays a warning.
+Analyzes if a top level type name matches the name of the file where it is declared and displays a warning if not.
 
 ![Type and file name analyzer](art/TypeAndDocumentNameAnalyzer.png)
 
 It also offers to either rename the type to match the file name or rename the file to match the type name.
 
 ![Type and file name analyzer](art/TypeAndDocumentNameCodeFix.png)
+
+Visual Studio 2017 and up provide code refactorings to rename the type or the file name to match each other out of the box. 
 
 ## Contribute
 Check out the [contribution guidelines](CONTRIBUTING.md)
