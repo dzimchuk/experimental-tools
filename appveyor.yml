@@ -1,7 +1,7 @@
 branches:
   # whitelist
   only:
-    - master
+    - build
 
 image: Visual Studio 2017 RC
 
@@ -13,6 +13,8 @@ before_build:
   - ps: Vsix-TokenReplacement ExperimentalTools.Vsix\source.extension.cs 'Version = "([0-9\\.]+)"' 'Version = "{version}"'
 
 build_script:
+  - dotnet --info
+  - dotnet restore
   - nuget restore -Verbosity quiet
   - msbuild /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal /v:m
 
