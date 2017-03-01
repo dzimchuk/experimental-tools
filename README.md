@@ -1,11 +1,11 @@
-# Experimental Tools
+# Experimental Tools 2017
 
 <!-- Replace this badge with your own-->
-[![Build status](https://ci.appveyor.com/api/projects/status/idvryqpirxbe39gt?svg=true)](https://ci.appveyor.com/project/dzimchuk/experimental-tools)
+[![Build status](https://ci.appveyor.com/api/projects/status/idvryqpirxbe39gt/branch/master?svg=true)](https://ci.appveyor.com/project/dzimchuk/experimental-tools)
 
 <!-- Update the VS Gallery link after you upload the VSIX-->
-Download this extension from the [VS Gallery](https://visualstudiogallery.msdn.microsoft.com/8ea7527b-98c9-4571-a43d-0b4851a010c3)
-or get the [CI build](http://vsixgallery.com/extension/f2ba275d-a5ca-4bf9-b8ef-2e580cb13cd3/).
+Download this extension from the [VS Marketplace](https://marketplace.visualstudio.com/vsgallery/3c258fda-06c6-4740-b67c-a527a59c3f7b)
+or get the [CI build](http://vsixgallery.com/extension/fe00c281-eed0-4c6e-901b-d8b845c82e35/).
 
 ---------------------------------------
 
@@ -119,11 +119,7 @@ Analyzes if a top level type name matches the name of the file where it is decla
 
 ![Type and file name analyzer](art/TypeAndDocumentNameAnalyzer.png)
 
-It also offers to either rename the type to match the file name or rename the file to match the type name.
-
-![Type and file name analyzer](art/TypeAndDocumentNameCodeFix.png)
-
-Visual Studio 2017 and up provide code refactorings to rename the type or the file name to match each other out of the box. 
+Visual Studio 2017 and above provide code refactorings to rename types and file names to match each other out of the box. 
 
 ## Contribute
 Check out the [contribution guidelines](CONTRIBUTING.md)

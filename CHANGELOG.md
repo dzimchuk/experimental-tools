@@ -9,7 +9,7 @@
 
 Features that have a checkmark are complete and available for
 download in the
-[CI build](http://vsixgallery.com/extension/f2ba275d-a5ca-4bf9-b8ef-2e580cb13cd3/).
+[CI build](http://vsixgallery.com/extension/fe00c281-eed0-4c6e-901b-d8b845c82e35/).
 
 # Change log
 
@@ -18,7 +18,7 @@ on the official Visual Studio extension gallery.
 
 ## 0.8
 
-**2017-02-28**
+**2017-03-01**
 
 - [x] Retargeted to Visual Studio 2017
 - [x] Bug fixes
