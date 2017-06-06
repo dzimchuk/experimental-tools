@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Options;
+using ExperimentalTools.Options;
 using ExperimentalTools.Roslyn.Features.Constructor;
 using ExperimentalTools.Tests.Infrastructure.Refactoring;
 using Microsoft.CodeAnalysis.CodeRefactorings;
@@ -327,6 +327,24 @@ namespace HelloWorld
         private const int @::@index = 1;
 
         public TestService()
+        {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Static constructor",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index = 1;
+
+        static TestService()
         {
         }
     }

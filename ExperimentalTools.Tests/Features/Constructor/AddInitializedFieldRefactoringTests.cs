@@ -631,6 +631,22 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Static constructor",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        static TestService(string @::@name)
+        {
+        }
+    }
+}"
                 }
             };
     }
