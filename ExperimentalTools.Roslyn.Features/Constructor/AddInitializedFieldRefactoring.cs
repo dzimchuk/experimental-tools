@@ -71,6 +71,12 @@ namespace ExperimentalTools.Roslyn.Features.Constructor
             }
 
             var model = await context.Document.GetSemanticModelAsync(context.CancellationToken);
+            var constructorSymbol = model.GetDeclaredSymbol(constructor, context.CancellationToken);
+            if (constructorSymbol != null && constructorSymbol.IsStatic)
+            {
+                return;
+            }
+
             if (CheckIfAlreadyInitialized(model, parameter, constructor, context.CancellationToken))
             {
                 return;

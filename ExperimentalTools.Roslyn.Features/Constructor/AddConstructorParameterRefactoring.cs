@@ -1,4 +1,4 @@
-﻿using System.Composition;
+using System.Composition;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
@@ -109,6 +109,12 @@ namespace ExperimentalTools.Roslyn.Features.Constructor
 
             foreach (var constructor in constructors)
             {
+                var constructorSymbol = model.GetDeclaredSymbol(constructor, cancellationToken);
+                if (constructorSymbol != null && constructorSymbol.IsStatic)
+                {
+                    continue;
+                }
+
                 var skip = false;
                 var assignments = constructor.DescendantNodes().OfType<AssignmentExpressionSyntax>().ToList();
                 foreach (var assignment in assignments)
