@@ -16,6 +16,13 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
+## 0.9
+
+**2017-06-09**
+
+- [x] Fixed an issue with erroneous field initialization from a static constructor
+- [x] Disable Add Braces refactoring when the cursor is at the parent statement as VS2017 has a built-in IDE0011 diagnostic
+
 ## 0.8
 
 **2017-03-01**

@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Options;
+using ExperimentalTools.Options;
 using ExperimentalTools.Roslyn.Features.Braces;
 using ExperimentalTools.Tests.Infrastructure.Refactoring;
 using Microsoft.CodeAnalysis.CodeRefactorings;
@@ -106,74 +106,6 @@ namespace HelloWorld
         {
             if (arg == null)
                 throw new Argument@::@NullException(nameof(arg));
-        }
-    }
-}",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        public void TestMethod(string arg)
-        {
-            if (arg == null)
-            {
-                throw new ArgumentNullException(nameof(arg));
-            }
-        }
-    }
-}"
-                },
-                new object[]
-                {
-                    "Before parent statement",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        public void TestMethod(string arg)
-        {
-            @::@if (arg == null)
-                throw new ArgumentNullException(nameof(arg));
-        }
-    }
-}",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        public void TestMethod(string arg)
-        {
-            if (arg == null)
-            {
-                throw new ArgumentNullException(nameof(arg));
-            }
-        }
-    }
-}"
-                },
-                new object[]
-                {
-                    "Inside parent statement",
-                    @"
-using System;
-
-namespace HelloWorld
-{
-    class TestService
-    {
-        public void TestMethod(string arg)
-        {
-            if (ar@::@g == null)
-                throw new ArgumentNullException(nameof(arg));
         }
     }
 }",
@@ -645,6 +577,42 @@ namespace HelloWorld
             {
                 arg = ""2"";
             }
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Before parent statement (IDE0011)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            @::@if (arg == null)
+                throw new ArgumentNullException(nameof(arg));
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Inside parent statement (IDE0011)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public void TestMethod(string arg)
+        {
+            if (ar@::@g == null)
+                throw new ArgumentNullException(nameof(arg));
         }
     }
 }"

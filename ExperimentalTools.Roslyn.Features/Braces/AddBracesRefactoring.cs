@@ -1,4 +1,4 @@
-﻿using System.Composition;
+using System.Composition;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -17,7 +17,7 @@ namespace ExperimentalTools.Roslyn.Features.Braces
             new AddBracesInnerStatement(),
             new AddBracesElseClauseInnerStatement(),
             new AddBracesElseClause(),
-            new AddBracesParentStatement()
+            //new AddBracesParentStatement() // IDE0011 diagnostic
         };
 
         [ImportingConstructor]
