@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Vsix.Features.LocateInSolutionExplorer;
+using ExperimentalTools.Vsix.Features.LocateInSolutionExplorer;
 using ExperimentalTools.Vsix.Features.Options;
 using ExperimentalTools.Workspace;
 using Microsoft.VisualStudio;
@@ -40,21 +40,20 @@ namespace ExperimentalTools.Vsix
         {
             switch (e.Kind)
             {
+                case Microsoft.CodeAnalysis.WorkspaceChangeKind.SolutionAdded:
+                    foreach (var project in e.NewSolution.Projects)
+                    {
+                        AddToCache(project);
+                    }
+                    break;
                 case Microsoft.CodeAnalysis.WorkspaceChangeKind.SolutionRemoved:
                     WorkspaceCache.Instance.Clear();
                     break;
                 case Microsoft.CodeAnalysis.WorkspaceChangeKind.ProjectAdded:
-                case Microsoft.CodeAnalysis.WorkspaceChangeKind.ProjectChanged:
-                    var project = e.NewSolution.Projects.FirstOrDefault(p => p.Id == e.ProjectId);
-                    if (project != null)
+                    var addedProject = e.NewSolution.Projects.FirstOrDefault(p => p.Id == e.ProjectId);
+                    if (addedProject != null)
                     {
-                        var description = new ProjectDescription
-                        {
-                            Id = project.Id,
-                            Path = !string.IsNullOrWhiteSpace(project.FilePath) ? Path.GetDirectoryName(project.FilePath) : null,
-                            AssemblyName = project.AssemblyName
-                        };
-                        WorkspaceCache.Instance.AddOrUpdateProject(description);
+                        AddToCache(addedProject);
                     }
                     break;
                 case Microsoft.CodeAnalysis.WorkspaceChangeKind.ProjectRemoved:
@@ -63,6 +62,17 @@ namespace ExperimentalTools.Vsix
                 default:
                     break;
             }
+        }
+
+        private static void AddToCache(Microsoft.CodeAnalysis.Project project)
+        {
+            var description = new ProjectDescription
+            {
+                Id = project.Id,
+                Path = !string.IsNullOrWhiteSpace(project.FilePath) ? Path.GetDirectoryName(project.FilePath) : null,
+                AssemblyName = project.AssemblyName
+            };
+            WorkspaceCache.Instance.AddOrUpdateProject(description);
         }
     }
 }
