@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Options;
+using ExperimentalTools.Options;
 using Microsoft.VisualStudio.Shell;
 using System.ComponentModel;
 
@@ -60,13 +60,13 @@ namespace ExperimentalTools.Vsix.Features.Options
 
         [Category(category)]
         [DisplayName("Warn if namespace does not match file path")]
-        [Description("Analyze if a top level namespace does not match the path of the file where it is declared and display a warning. Requires VS restart.")]
+        [Description("Analyze if a top level namespace does not match the path of the file where it is declared or does not start with the project's default namespace. Requires VS restart.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool NamespaceNormalizationAnalyzer { get; set; }
 
         [Category(category)]
         [DisplayName("Change namespace to match file path")]
-        [Description("Change namespace to match file path.")]
+        [Description("Change namespace to match file path and default namespace.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool NamespaceNormalizationCodeFix { get; set; }
 

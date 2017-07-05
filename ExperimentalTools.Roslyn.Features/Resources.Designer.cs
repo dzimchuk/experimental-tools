@@ -143,7 +143,7 @@ namespace ExperimentalTools.Roslyn.Features {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Namespace &apos;{0}&apos; does not match file path.
+        ///   Looks up a localized string similar to Namespace &apos;{0}&apos; does not match file path or default namespace.
         /// </summary>
         internal static string NamespaceNormalizationAnalyzerMessageFormat {
             get {
@@ -152,7 +152,7 @@ namespace ExperimentalTools.Roslyn.Features {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Namespace does not match file path.
+        ///   Looks up a localized string similar to Namespace does not match file path or default namespace.
         /// </summary>
         internal static string NamespaceNormalizationAnalyzerTitle {
             get {

@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
 namespace ExperimentalTools.Workspace
 {
@@ -7,5 +7,6 @@ namespace ExperimentalTools.Workspace
         public ProjectId Id { get; set; }
         public string Path { get; set; }
         public string AssemblyName { get; set; }
+        public string DefaultNamespace { get; set; }
     }
 }
