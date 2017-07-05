@@ -85,11 +85,9 @@ Sometimes you copy code from another class into a new one and this quick fix all
 
 ### Namespace vs file path analyzer and code fix
 
-Analyze if a top level namespace does not match the path of the file where it is declared and display a warning.
+Analyze if a top level namespace does not match the path of the file where it is declared or does not start with the project's default namespace.
 
 ![Namespace and file path analyzer](art/NamespaceNormalizationAnalyzer.png)
-
-It assumes assembly name as the root namespace as it's currently problematic to get the default namespace from within analyzers.
 
 Note that the code fix currently does not update references.
 

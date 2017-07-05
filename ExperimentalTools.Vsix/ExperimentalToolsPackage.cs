@@ -10,6 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 namespace ExperimentalTools.Vsix
 {
@@ -66,13 +67,35 @@ namespace ExperimentalTools.Vsix
 
         private static void AddToCache(Microsoft.CodeAnalysis.Project project)
         {
+            if (string.IsNullOrWhiteSpace(project.FilePath))
+            {
+                return;
+            }
+
             var description = new ProjectDescription
             {
                 Id = project.Id,
-                Path = !string.IsNullOrWhiteSpace(project.FilePath) ? Path.GetDirectoryName(project.FilePath) : null,
-                AssemblyName = project.AssemblyName
+                Path = Path.GetDirectoryName(project.FilePath),
+                AssemblyName = project.AssemblyName,
+                DefaultNamespace = GetDefaultNamespace(project.FilePath)
             };
+
             WorkspaceCache.Instance.AddOrUpdateProject(description);
+        }
+
+        private static readonly XName rootNamespace = XName.Get("RootNamespace", "http://schemas.microsoft.com/developer/msbuild/2003");
+        private static string GetDefaultNamespace(string projectFile)
+        {
+            try
+            {
+                var doc = XDocument.Parse(File.ReadAllText(projectFile));
+                var ns = doc.Descendants(rootNamespace).FirstOrDefault()?.Value;
+                return !string.IsNullOrWhiteSpace(ns) ? ns : null;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

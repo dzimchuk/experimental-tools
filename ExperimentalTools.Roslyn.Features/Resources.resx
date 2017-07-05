@@ -145,10 +145,10 @@
     <value>Initialize field in existing constructors</value>
   </data>
   <data name="NamespaceNormalizationAnalyzerMessageFormat" xml:space="preserve">
-    <value>Namespace '{0}' does not match file path</value>
+    <value>Namespace '{0}' does not match file path or default namespace</value>
   </data>
   <data name="NamespaceNormalizationAnalyzerTitle" xml:space="preserve">
-    <value>Namespace does not match file path</value>
+    <value>Namespace does not match file path or default namespace</value>
   </data>
   <data name="RemoveBraces" xml:space="preserve">
     <value>Remove braces</value>

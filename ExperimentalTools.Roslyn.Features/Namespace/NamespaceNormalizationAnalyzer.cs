@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using ExperimentalTools.Workspace;
 
 namespace ExperimentalTools.Roslyn.Features.Namespace
 {
@@ -85,8 +86,8 @@ namespace ExperimentalTools.Roslyn.Features.Namespace
             {
                 return null;
             }
-
-            var found = false;
+            
+            ProjectDescription foundProject = null;
             do
             {
                 var project = workspace.FindProjectByPath(path);
@@ -94,7 +95,7 @@ namespace ExperimentalTools.Roslyn.Features.Namespace
                 {
                     if (project.AssemblyName == assemblyName)
                     {
-                        found = true;
+                        foundProject = project;
                     }
 
                     break;
@@ -110,9 +111,9 @@ namespace ExperimentalTools.Roslyn.Features.Namespace
 
             } while (!string.IsNullOrWhiteSpace(path));
 
-            if (found)
+            if (foundProject != null)
             {
-                var builder = new StringBuilder(assemblyName);
+                var builder = new StringBuilder(foundProject.DefaultNamespace ?? foundProject.AssemblyName);
                 while (folderStack.Any())
                 {
                     builder.AppendFormat(".{0}", folderStack.Pop());
