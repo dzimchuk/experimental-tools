@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Roslyn.Features;
+using ExperimentalTools.Roslyn.Features;
 using ExperimentalTools.Roslyn.Features.Namespace;
 using ExperimentalTools.Tests.Infrastructure.Diagnostics;
 using ExperimentalTools.Workspace;
@@ -36,7 +36,7 @@ namespace ExperimentalTools.Tests.Features.Namespace
             {
                 new object[]
                 {
-                    "Namespace matches file path",
+                    "Namespace does not match file path",
                     @"
 namespace TestProject.Inner1.Inner2
 {
