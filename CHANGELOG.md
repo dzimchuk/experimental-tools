@@ -18,7 +18,7 @@ on the official Visual Studio extension gallery.
 
 ## 0.9
 
-**2017-06-09**
+**2017-07-06**
 
 - [x] Fixed an issue with erroneous field initialization from a static constructor
 - [x] Disable Add Braces refactoring when the cursor is at the parent statement as VS2017 has a built-in IDE0011 diagnostic
