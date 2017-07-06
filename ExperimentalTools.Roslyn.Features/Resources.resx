@@ -126,11 +126,20 @@
   <data name="AddInitializedField" xml:space="preserve">
     <value>Add initialized field</value>
   </data>
+  <data name="CategoryAccess" xml:space="preserve">
+    <value>Access control</value>
+  </data>
   <data name="CategoryNaming" xml:space="preserve">
     <value>Naming</value>
   </data>
   <data name="ChangeTo" xml:space="preserve">
     <value>Change to '{0}'</value>
+  </data>
+  <data name="FieldCanBeMadeReadOnlyAnalyzerMessageFormat" xml:space="preserve">
+    <value>Field '{0}' can be made readonly</value>
+  </data>
+  <data name="FieldCanBeMadeReadOnlyAnalyzerTitle" xml:space="preserve">
+    <value>Field can be made readonly</value>
   </data>
   <data name="FixConstructorName" xml:space="preserve">
     <value>Make it a constructor</value>
