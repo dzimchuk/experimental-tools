@@ -167,6 +167,7 @@
     <Compile Include="Features\Constructor\FixConstructorNameCodeFixTests.cs" />
     <Compile Include="Features\Namespace\NamespaceNormalizationAnalyzerTests.cs" />
     <Compile Include="Features\Namespace\NamespaceNormalizationCodeFixTests.cs" />
+    <Compile Include="Features\ReadOnly\FieldCanBeMadeReadOnlyAnalyzerTests.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameAnalyzerTests.cs" />
     <Compile Include="Features\TypeDeclaration\TypeAndDocumentNameCodeFixTests.cs" />
     <Compile Include="Features\Xunit\ScaffoldXunitTheoryInlineDataRefactoringTests.cs" />

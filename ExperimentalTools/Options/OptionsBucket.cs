@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace ExperimentalTools.Options
@@ -33,7 +33,10 @@ namespace ExperimentalTools.Options
             { FeatureIdentifiers.GenerateGuid, true },
 
             { FeatureIdentifiers.AddBraces, true },
-            { FeatureIdentifiers.RemoveBraces, true }
+            { FeatureIdentifiers.RemoveBraces, true },
+
+            {FeatureIdentifiers.FieldCanBeMadeReadOnlyAnalyzer, true },
+            {FeatureIdentifiers.FieldCanBeMadeReadOnlyCodeFix, true }
         };
     }
 }
