@@ -4,6 +4,5 @@ namespace ExperimentalTools.Roslyn.Features
     {
         public static string TypeAndDocumentNameAnalyzer = "ET001";
         public static string NamespaceNormalizationAnalyzer = "ET002";
-        public static string FieldCanBeMadeReadOnlyAnalyzer = "ET003";
     }
 }

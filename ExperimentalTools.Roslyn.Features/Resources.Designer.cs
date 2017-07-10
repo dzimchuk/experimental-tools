@@ -116,20 +116,11 @@ namespace ExperimentalTools.Roslyn.Features {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Field &apos;{0}&apos; can be made readonly.
-        /// </summary>
-        internal static string FieldCanBeMadeReadOnlyAnalyzerMessageFormat {
-            get {
-                return ResourceManager.GetString("FieldCanBeMadeReadOnlyAnalyzerMessageFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Field can be made readonly.
         /// </summary>
-        internal static string FieldCanBeMadeReadOnlyAnalyzerTitle {
+        internal static string FieldCanBeMadeReadOnly {
             get {
-                return ResourceManager.GetString("FieldCanBeMadeReadOnlyAnalyzerTitle", resourceCulture);
+                return ResourceManager.GetString("FieldCanBeMadeReadOnly", resourceCulture);
             }
         }
         
