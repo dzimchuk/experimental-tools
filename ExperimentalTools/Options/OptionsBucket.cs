@@ -35,8 +35,7 @@ namespace ExperimentalTools.Options
             { FeatureIdentifiers.AddBraces, true },
             { FeatureIdentifiers.RemoveBraces, true },
 
-            {FeatureIdentifiers.FieldCanBeMadeReadOnlyAnalyzer, true },
-            {FeatureIdentifiers.FieldCanBeMadeReadOnlyCodeFix, true }
+            {FeatureIdentifiers.FieldCanBeMadeReadOnly, true }
         };
     }
 }

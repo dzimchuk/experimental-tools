@@ -135,10 +135,7 @@
   <data name="ChangeTo" xml:space="preserve">
     <value>Change to '{0}'</value>
   </data>
-  <data name="FieldCanBeMadeReadOnlyAnalyzerMessageFormat" xml:space="preserve">
-    <value>Field '{0}' can be made readonly</value>
-  </data>
-  <data name="FieldCanBeMadeReadOnlyAnalyzerTitle" xml:space="preserve">
+  <data name="FieldCanBeMadeReadOnly" xml:space="preserve">
     <value>Field can be made readonly</value>
   </data>
   <data name="FixConstructorName" xml:space="preserve">
