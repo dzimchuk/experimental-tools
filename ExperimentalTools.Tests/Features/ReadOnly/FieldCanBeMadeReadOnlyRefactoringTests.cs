@@ -56,6 +56,26 @@ namespace HelloWorld
                 },
                 new object[]
                 {
+                    "Field is assigned in the initializer",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index = 1;
+    }
+}",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private readonly int index = 1;
+    }
+}"
+                },
+                new object[]
+                {
                     "Cursor placement test (after semicolon)",
                     @"
 namespace HelloWorld
@@ -143,6 +163,40 @@ namespace HelloWorld
     class TestService
     {
         private int @::@index;
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field is read in a method",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+
+        public int Method()
+        {
+            return index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field is assigned in a method",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+
+        public void Method()
+        {
+            index = 1;
+        }
     }
 }"
                 }

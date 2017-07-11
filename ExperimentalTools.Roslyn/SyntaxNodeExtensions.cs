@@ -1,36 +1,39 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Linq;
 
 namespace ExperimentalTools.Roslyn
 {
+    /// <summary>
+    /// taken from https://github.com/dotnet/roslyn/blob/master/src/Workspaces/CSharp/Portable/Extensions/SyntaxNodeExtensions.cs
+    /// </summary>
     public static class SyntaxNodeExtensions
     {
-        public static (FieldDeclarationSyntax FieldDeclaration, VariableDeclaratorSyntax VariableDeclarator)? ParseFieldDeclaration(this SyntaxNode node)
+        public static bool IsParentKind(this SyntaxNode node, SyntaxKind kind)
         {
-            FieldDeclarationSyntax fieldDeclaration;
-            VariableDeclaratorSyntax variableDeclarator;
+            return node != null && node.Parent.IsKind(kind);
+        }
 
-            variableDeclarator = node as VariableDeclaratorSyntax;
-            if (variableDeclarator != null)
-            {
-                fieldDeclaration = variableDeclarator.Ancestors().OfType<FieldDeclarationSyntax>().FirstOrDefault();
-            }
-            else
-            {
-                fieldDeclaration = node as FieldDeclarationSyntax;
-                if (fieldDeclaration != null)
-                {
-                    variableDeclarator = fieldDeclaration.DescendantNodes().OfType<VariableDeclaratorSyntax>().FirstOrDefault();
-                }
-            }
+        public static bool IsAnyAssignExpression(this SyntaxNode node)
+            => SyntaxFacts.IsAssignmentExpression(node.Kind());
 
-            if (fieldDeclaration == null || variableDeclarator == null)
-            {
-                return null;
-            }
+        public static bool IsLeftSideOfAssignExpression(this SyntaxNode node)
+        {
+            return node.IsParentKind(SyntaxKind.SimpleAssignmentExpression) &&
+                ((AssignmentExpressionSyntax)node.Parent).Left == node;
+        }
 
-            return (fieldDeclaration, variableDeclarator);
+        public static bool IsLeftSideOfAnyAssignExpression(this SyntaxNode node)
+        {
+            return node != null &&
+                node.Parent.IsAnyAssignExpression() &&
+                ((AssignmentExpressionSyntax)node.Parent).Left == node;
+        }
+
+        public static bool IsRightSideOfAnyAssignExpression(this SyntaxNode node)
+        {
+            return node.Parent.IsAnyAssignExpression() &&
+                ((AssignmentExpressionSyntax)node.Parent).Right == node;
         }
     }
 }
