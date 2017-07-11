@@ -3,6 +3,9 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.FindSymbols;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -31,12 +34,63 @@ namespace ExperimentalTools.Roslyn.Features.ReadOnly
             {
                 return null;
             }
+            
+            var writeExpressions = await FindWriteExpressionsAsync(fieldSymbol, document, root, cancellationToken).ConfigureAwait(false);
+
+            if (!writeExpressions.Any() && declaration.Value.VariableDeclarator.Initializer == null)
+            {
+                return null;
+            }
+
+            if (!AreAllWritesInConstructors(writeExpressions, declaration.Value.FieldDeclaration))
+            {
+                return null;
+            }
 
             return CodeAction.Create(Resources.FieldCanBeMadeReadOnly,
                 token => AddReadOnlyModifierAsync(document, root, declaration.Value.FieldDeclaration));
         }
 
-        private Task<Document> AddReadOnlyModifierAsync(Document document, SyntaxNode root, FieldDeclarationSyntax fieldDeclaration)
+        private static bool AreAllWritesInConstructors(IEnumerable<ExpressionSyntax> writeExpressions, FieldDeclarationSyntax fieldDeclaration)
+        {
+            var typeDeclaration = fieldDeclaration.GetParentTypeDeclaration();
+            if (typeDeclaration == null)
+            {
+                return false;
+            }
+
+            var constructors = typeDeclaration.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToList();
+            if (!constructors.Any())
+            {
+                return false;
+            }
+
+            var expressions = from expression in writeExpressions
+                              let constructor = expression.Ancestors().OfType<ConstructorDeclarationSyntax>().FirstOrDefault()
+                              where constructor != null && constructors.Contains(constructor)
+                              select expression;
+
+            return expressions.Count() == writeExpressions.Count();
+        }
+
+        private static async Task<IEnumerable<ExpressionSyntax>> FindWriteExpressionsAsync(IFieldSymbol fieldSymbol, Document document, SyntaxNode root, CancellationToken cancellationToken)
+        {
+            var references = await SymbolFinder.FindReferencesAsync(fieldSymbol, document.Project.Solution, cancellationToken).ConfigureAwait(false);
+            var locations = references.SelectMany(reference => reference.Locations).ToArray();
+            if (!locations.Any())
+            {
+                return new ExpressionSyntax[0];
+            }
+
+            return (from location in locations
+                    let node = root.FindNode(location.Location.SourceSpan)
+                    where node != null
+                    let expression = node.GetAncestorOrThis<ExpressionSyntax>()
+                    where expression != null && expression.IsWrittenTo()
+                    select expression).ToArray();
+        }
+
+        private static Task<Document> AddReadOnlyModifierAsync(Document document, SyntaxNode root, FieldDeclarationSyntax fieldDeclaration)
         {
             var newFieldDeclaration = fieldDeclaration.WithModifiers(fieldDeclaration.Modifiers.Add(Token(SyntaxKind.ReadOnlyKeyword)));
             var newRoot = root.ReplaceNode(fieldDeclaration, newFieldDeclaration);
