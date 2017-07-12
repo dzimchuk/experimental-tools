@@ -76,6 +76,56 @@ namespace HelloWorld
                 },
                 new object[]
                 {
+                    "Static field is assigned in static constructor",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private static int @::@index;
+
+        static TestService()
+        {
+            index = 1;
+        }
+    }
+}",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private static readonly int index;
+
+        static TestService()
+        {
+            index = 1;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Static field is assigned in the initializer",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private static int @::@index = 1;
+    }
+}",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private static readonly int index = 1;
+    }
+}"
+                },
+                new object[]
+                {
                     "Cursor placement test (after semicolon)",
                     @"
 namespace HelloWorld
@@ -168,6 +218,18 @@ namespace HelloWorld
                 },
                 new object[]
                 {
+                    "Static field is never assigned",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private static int @::@index;
+    }
+}"
+                },
+                new object[]
+                {
                     "Field is read in a method",
                     @"
 namespace HelloWorld
@@ -196,6 +258,195 @@ namespace HelloWorld
         public void Method()
         {
             index = 1;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field is assigned in a method and constructor",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+
+        public TestService()
+        {
+            index = 0;
+        }
+
+        public void Method()
+        {
+            index = 1;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field is assigned in another type (out)",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+
+        public TestService()
+        {
+            index = 0;
+        }
+
+        public void Method()
+        {
+            var component = new TestComponent();
+            component.Method(out index);
+        }
+    }
+
+    class TestComponent
+    {
+        public void Method(out int index)
+        {
+            index = 1;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field is assigned in another type (ref)",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+
+        public TestService()
+        {
+            index = 0;
+        }
+
+        public void Method()
+        {
+            var component = new TestComponent();
+            component.Method(ref index);
+        }
+    }
+
+    class TestComponent
+    {
+        public void Method(ref int index)
+        {
+            index = 1;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field is assigned in another type's constructor",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        public int @::@index;
+
+        public TestService()
+        {
+            index = 0;
+        }
+
+        public void Method()
+        {
+            var component = new TestComponent(this);
+        }
+    }
+
+    class TestComponent
+    {
+        public TestComponent(TestService service)
+        {
+            service.index++;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field is assigned in constructor and modified in a method",
+                    @"
+using System;
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+
+        public TestService()
+        {
+            index = 0;
+        }
+
+        public void Method()
+        {
+            Console.WriteLine(index++);
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Static field is assigned in a method",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private static int @::@index;
+
+        public void Method()
+        {
+            index = 1;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Static field is assigned in non-static constructor",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private static int @::@index;
+
+        public TestService()
+        {
+            index = 1;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Non-static field is assigned in static constructor",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+
+        static TestService()
+        {
+            var t = new TestService();
+            t.index = 1;
         }
     }
 }"

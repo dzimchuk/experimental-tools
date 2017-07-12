@@ -5,7 +5,6 @@
 - [ ] Class can be made static
 - [ ] Member can be made private
 - [ ] Member can be removed
-- [ ] Field can be made readonly
 
 Features that have a checkmark are complete and available for
 download in the
@@ -15,6 +14,12 @@ download in the
 
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
+
+## 1.0
+
+**2017-08-01**
+
+- [x] Field can be made readonly
 
 ## 0.9
 

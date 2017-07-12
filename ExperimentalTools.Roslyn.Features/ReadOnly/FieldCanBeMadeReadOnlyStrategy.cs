@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Roslyn.Refactoring;
+using ExperimentalTools.Roslyn.Refactoring;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp;
@@ -37,12 +37,14 @@ namespace ExperimentalTools.Roslyn.Features.ReadOnly
             
             var writeExpressions = await FindWriteExpressionsAsync(fieldSymbol, document, root, cancellationToken).ConfigureAwait(false);
 
-            if (!writeExpressions.Any() && declaration.Value.VariableDeclarator.Initializer == null)
+            if (!writeExpressions.Any())
             {
-                return null;
+                return declaration.Value.VariableDeclarator.Initializer == null
+                    ? null
+                    : CodeAction.Create(Resources.FieldCanBeMadeReadOnly, token => AddReadOnlyModifierAsync(document, root, declaration.Value.FieldDeclaration));
             }
 
-            if (!AreAllWritesInConstructors(writeExpressions, declaration.Value.FieldDeclaration))
+            if (!AreAllWritesInConstructors(writeExpressions, declaration.Value.FieldDeclaration, fieldSymbol.IsStatic, model, cancellationToken))
             {
                 return null;
             }
@@ -50,8 +52,9 @@ namespace ExperimentalTools.Roslyn.Features.ReadOnly
             return CodeAction.Create(Resources.FieldCanBeMadeReadOnly,
                 token => AddReadOnlyModifierAsync(document, root, declaration.Value.FieldDeclaration));
         }
-
-        private static bool AreAllWritesInConstructors(IEnumerable<ExpressionSyntax> writeExpressions, FieldDeclarationSyntax fieldDeclaration)
+        
+        private static bool AreAllWritesInConstructors(IEnumerable<ExpressionSyntax> writeExpressions, FieldDeclarationSyntax fieldDeclaration, 
+            bool shouldBeStatic, SemanticModel model, CancellationToken cancellationToken)
         {
             var typeDeclaration = fieldDeclaration.GetParentTypeDeclaration();
             if (typeDeclaration == null)
@@ -68,6 +71,8 @@ namespace ExperimentalTools.Roslyn.Features.ReadOnly
             var expressions = from expression in writeExpressions
                               let constructor = expression.Ancestors().OfType<ConstructorDeclarationSyntax>().FirstOrDefault()
                               where constructor != null && constructors.Contains(constructor)
+                              let isStatic = (model.GetDeclaredSymbol(constructor, cancellationToken).IsStatic)
+                              where isStatic == shouldBeStatic
                               select expression;
 
             return expressions.Count() == writeExpressions.Count();
