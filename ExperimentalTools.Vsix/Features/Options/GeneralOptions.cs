@@ -106,6 +106,12 @@ namespace ExperimentalTools.Vsix.Features.Options
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool RemoveBraces { get; set; }
 
+        [Category(category)]
+        [DisplayName("Make field readonly")]
+        [Description("Make field readonly.")]
+        [TypeConverter(typeof(EnabledDisabledConverter))]
+        public bool FieldCanBeMadeReadOnly { get; set; }
+        
         public GeneralOptions()
         {
             var features = OptionsBucket.Instance.Features;
@@ -134,6 +140,8 @@ namespace ExperimentalTools.Vsix.Features.Options
 
             AddBraces = features[FeatureIdentifiers.AddBraces];
             RemoveBraces = features[FeatureIdentifiers.RemoveBraces];
+
+            FieldCanBeMadeReadOnly = features[FeatureIdentifiers.FieldCanBeMadeReadOnly];
         }
 
         protected override void OnApply(PageApplyEventArgs e)
@@ -174,6 +182,8 @@ namespace ExperimentalTools.Vsix.Features.Options
 
             features[FeatureIdentifiers.AddBraces] = AddBraces;
             features[FeatureIdentifiers.RemoveBraces] = RemoveBraces;
+
+            features[FeatureIdentifiers.FieldCanBeMadeReadOnly] = FieldCanBeMadeReadOnly;
         }
     }
 }
