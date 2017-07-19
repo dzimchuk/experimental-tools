@@ -349,7 +349,26 @@ namespace HelloWorld
         }
     }
 }"
-                }
+                },
+                new object[]
+                {
+                    "Field already initialized (out expression)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@m_index;
+        public TestService(string input)
+        {
+            if (int.TryParse(input, out m_index)
+            { }
+        }
+    }
+}"
+                },
             };
     }
 }
