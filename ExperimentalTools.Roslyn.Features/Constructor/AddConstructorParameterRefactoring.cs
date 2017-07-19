@@ -100,13 +100,15 @@ namespace ExperimentalTools.Roslyn.Features.Constructor
             context.RegisterRefactoring(action);
         }
 
-        private static List<ConstructorDeclarationSyntax> FilterConstructors(SemanticModel model, VariableDeclaratorSyntax variableDeclarator,
-            TypeDeclarationSyntax typeDeclaration, IEnumerable<ConstructorDeclarationSyntax> constructors,
+        private static List<ConstructorDeclarationSyntax> FilterConstructors(SemanticModel model,
+            VariableDeclaratorSyntax variableDeclarator,
+            TypeDeclarationSyntax typeDeclaration, 
+            IEnumerable<ConstructorDeclarationSyntax> constructors,
             CancellationToken cancellationToken)
         {
             var result = new List<ConstructorDeclarationSyntax>();
             var fieldSymbol = model.GetDeclaredSymbol(variableDeclarator, cancellationToken);
-
+            
             foreach (var constructor in constructors)
             {
                 var constructorSymbol = model.GetDeclaredSymbol(constructor, cancellationToken);
@@ -116,11 +118,11 @@ namespace ExperimentalTools.Roslyn.Features.Constructor
                 }
 
                 var skip = false;
-                var assignments = constructor.DescendantNodes().OfType<AssignmentExpressionSyntax>().ToList();
-                foreach (var assignment in assignments)
+                var expressions = constructor.DescendantNodes().OfType<ExpressionSyntax>().ToList();
+                foreach (var expression in expressions)
                 {
-                    var leftSymbol = model.GetSymbolInfo(assignment.Left, cancellationToken).Symbol;
-                    if (leftSymbol != null && leftSymbol == fieldSymbol)
+                    var symbol = model.GetSymbolInfo(expression, cancellationToken).Symbol;
+                    if (symbol != null && symbol == fieldSymbol && expression.IsWrittenTo())
                     {
                         skip = true;
                         break;
