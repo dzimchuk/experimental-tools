@@ -18,6 +18,7 @@ See the [change log](CHANGELOG.md) for changes and road map.
 - Add constructor and initialize field
 - Add/Remove braces
 - Change access modifier on type declarations
+- Field can be made readonly
 - Generate GUID (nguid)
 - Initialize field from constructor parameter
 - Initialize field in existing constructor
@@ -47,6 +48,12 @@ It works both ways and allows you to remove braces if you prefer so.
 Ctrl+. on a type declaration (either top level or nested) and choose one of proposed options.
 
 ![Change access modifier on type declarations](art/ChangeTypeAccessModifier.png)
+
+### Field can be made readonly
+
+Suggest to declare a field as readonly if it's possible:
+
+![Field can be made readonly](art/FieldCanBeMadeReadonly.png)
 
 ### Generate GUID (nguid)
 
