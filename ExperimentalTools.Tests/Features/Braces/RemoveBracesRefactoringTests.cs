@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Tests.Infrastructure.Refactoring;
+using ExperimentalTools.Tests.Infrastructure.Refactoring;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit.Abstractions;
@@ -528,6 +528,54 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "No else clause escape case",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public string TestMethod()
+        {
+            if (true)@::@
+            {
+                if (false)
+                    return ""A"";
+                else
+                    return ""D"";
+            }
+            else
+                return ""B"";
+
+            return ""C"";
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public string TestMethod()
+        {
+            if (true)
+                if (false)
+                    return ""A"";
+                else
+                    return ""D"";
+            else
+                return ""B"";
+
+            return ""C"";
+        }
+    }
+}"
                 }
             };
 
@@ -726,6 +774,81 @@ namespace HelloWorld
     }
 }"
                 },
+                new object[]
+                {
+                    "Else clause escape case (parent statement)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public string TestMethod()
+        {
+            if (true)@::@
+            {
+                if (false)
+                    return ""A"";
+            }
+            else
+                return ""B"";
+
+            return ""C"";
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Else clause escape case (inner statement)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public string TestMethod()
+        {
+            if (true)
+            {
+                @::@if (false)
+                    return ""A"";
+            }
+            else
+                return ""B"";
+
+            return ""C"";
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Else clause escape case (block)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        public string TestMethod()
+        {
+            if (true)
+            {@::@
+                if (false)
+                    return ""A"";
+            }
+            else
+                return ""B"";
+
+            return ""C"";
+        }
+    }
+}"
+                }
             };
     }
 }

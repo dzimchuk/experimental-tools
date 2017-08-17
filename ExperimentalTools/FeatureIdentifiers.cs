@@ -1,4 +1,4 @@
-﻿namespace ExperimentalTools
+namespace ExperimentalTools
 {
     public static class FeatureIdentifiers
     {
@@ -26,5 +26,7 @@
 
         public const string AddBraces = "AddBraces";
         public const string RemoveBraces = "RemoveBraces";
+
+        public const string FieldCanBeMadeReadOnly = "FieldCanBeMadeReadOnly";
     }
 }

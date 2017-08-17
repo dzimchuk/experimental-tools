@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
@@ -29,6 +29,11 @@ namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
             var block = statement.Parent as BlockSyntax;
             var innerStatements = block.ChildNodes().OfType<StatementSyntax>().ToList();
             if (innerStatements.Count > 1)
+            {
+                return Task.FromResult<CodeAction>(null);
+            }
+
+            if (IsElseClauseEscapeCase(statement, parentStatement))
             {
                 return Task.FromResult<CodeAction>(null);
             }

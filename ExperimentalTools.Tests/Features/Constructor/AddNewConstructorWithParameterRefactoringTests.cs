@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Options;
+using ExperimentalTools.Options;
 using ExperimentalTools.Roslyn.Features.Constructor;
 using ExperimentalTools.Tests.Infrastructure.Refactoring;
 using Microsoft.CodeAnalysis.CodeRefactorings;
@@ -299,6 +299,47 @@ namespace HelloWorld
                 },
                 new object[]
                 {
+                    "Field initialized from another constructor (out expression)",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int @::@index;
+
+        public TestService(string input)
+        {
+            if (int.TryParse(input, out index)
+            { }
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        private int index;
+
+        public TestService(string input)
+        {
+            if (int.TryParse(input, out index)
+            { }
+        }
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
                     "Struct",
                     @"
 using System;
@@ -334,7 +375,7 @@ namespace HelloWorld
                 },
                 new object[]
                 {
-                    "Constructor with multipe paramters (but no assignment) exists",
+                    "Constructor with multipe parameters (but no assignment) exists",
                     @"
 using System;
 

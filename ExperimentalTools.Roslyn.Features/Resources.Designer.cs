@@ -89,6 +89,15 @@ namespace ExperimentalTools.Roslyn.Features {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access control.
+        /// </summary>
+        internal static string CategoryAccess {
+            get {
+                return ResourceManager.GetString("CategoryAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Naming.
         /// </summary>
         internal static string CategoryNaming {
@@ -103,6 +112,15 @@ namespace ExperimentalTools.Roslyn.Features {
         internal static string ChangeTo {
             get {
                 return ResourceManager.GetString("ChangeTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field can be made readonly.
+        /// </summary>
+        internal static string FieldCanBeMadeReadOnly {
+            get {
+                return ResourceManager.GetString("FieldCanBeMadeReadOnly", resourceCulture);
             }
         }
         

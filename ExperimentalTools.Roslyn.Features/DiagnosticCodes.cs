@@ -1,4 +1,4 @@
-﻿namespace ExperimentalTools.Roslyn.Features
+namespace ExperimentalTools.Roslyn.Features
 {
     internal static class DiagnosticCodes
     {

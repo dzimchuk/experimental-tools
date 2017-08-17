@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Roslyn.Refactoring;
+using ExperimentalTools.Roslyn.Refactoring;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
@@ -23,6 +23,19 @@ namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
             var newElseClause = elseClause.WithStatement(statement);
             var newRoot = root.ReplaceNode(elseClause, newElseClause);
             return Task.FromResult(document.WithSyntaxRoot(newRoot));
+        }
+
+        protected bool IsElseClauseEscapeCase(StatementSyntax innerStatement, StatementSyntax parentStatement)
+        {
+            if (parentStatement is IfStatementSyntax parentIfStatement &&
+                parentIfStatement.Else != null &&
+                innerStatement is IfStatementSyntax innerIfStatement &&
+                innerIfStatement.Else == null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

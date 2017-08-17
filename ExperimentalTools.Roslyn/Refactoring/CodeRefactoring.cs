@@ -10,6 +10,11 @@ namespace ExperimentalTools.Roslyn.Refactoring
         private readonly List<ICodeRefactoringStrategy> strategies;
         private readonly bool allowMultipleActions;
 
+        public CodeRefactoring(ICodeRefactoringStrategy strategy)
+            : this(new List<ICodeRefactoringStrategy> { strategy })
+        {
+        }
+
         public CodeRefactoring(List<ICodeRefactoringStrategy> strategies, bool allowMultipleActions = false)
         {
             this.strategies = strategies;
