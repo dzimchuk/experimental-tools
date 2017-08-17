@@ -522,6 +522,39 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Attributed type",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    [Serializable]
+    class TestService
+    {
+        public TestService(int @::@index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    [Serializable]
+    class TestService
+    {
+        private readonly int index;
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
                 }
             };
 
