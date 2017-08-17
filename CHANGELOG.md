@@ -17,9 +17,11 @@ on the official Visual Studio extension gallery.
 
 ## 1.0
 
-**2017-08-01**
+**2017-08-17**
 
 - [x] Field can be made readonly
+- [x] Fixed a crash of AddInitializedField refactoring when there are attributes on the type
+- [x] Added one more edge case handling to AddConstructorParameter refactoring
 
 ## 0.9
 
