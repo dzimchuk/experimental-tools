@@ -18,8 +18,7 @@ namespace ExperimentalTools.Roslyn
         }
 
         public static bool IsInRefContext(this ExpressionSyntax expression)
-            => expression.IsParentKind(SyntaxKind.RefExpression) ||
-               (expression?.Parent as ArgumentSyntax)?.RefOrOutKeyword.Kind() == SyntaxKind.RefKeyword;
+            => (expression?.Parent as ArgumentSyntax)?.RefOrOutKeyword.Kind() == SyntaxKind.RefKeyword;
 
         public static bool IsOnlyWrittenTo(this ExpressionSyntax expression)
         {

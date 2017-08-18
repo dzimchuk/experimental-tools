@@ -24,7 +24,7 @@ namespace ExperimentalTools.Roslyn.Features.ReadOnly
 
             var model = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 
-            var fieldSymbol = model.GetDeclaredSymbol(declaration.Value.VariableDeclarator) as IFieldSymbol;
+            var fieldSymbol = model.GetDeclaredSymbol(declaration.VariableDeclarator) as IFieldSymbol;
             if (fieldSymbol == null)
             {
                 return null;
@@ -39,18 +39,18 @@ namespace ExperimentalTools.Roslyn.Features.ReadOnly
 
             if (!writeExpressions.Any())
             {
-                return declaration.Value.VariableDeclarator.Initializer == null
+                return declaration.VariableDeclarator.Initializer == null
                     ? null
-                    : CodeAction.Create(Resources.FieldCanBeMadeReadOnly, token => AddReadOnlyModifierAsync(document, root, declaration.Value.FieldDeclaration));
+                    : CodeAction.Create(Resources.FieldCanBeMadeReadOnly, token => AddReadOnlyModifierAsync(document, root, declaration.FieldDeclaration));
             }
 
-            if (!AreAllWritesInConstructors(writeExpressions, declaration.Value.FieldDeclaration, fieldSymbol.IsStatic, model, cancellationToken))
+            if (!AreAllWritesInConstructors(writeExpressions, declaration.FieldDeclaration, fieldSymbol.IsStatic, model, cancellationToken))
             {
                 return null;
             }
 
             return CodeAction.Create(Resources.FieldCanBeMadeReadOnly,
-                token => AddReadOnlyModifierAsync(document, root, declaration.Value.FieldDeclaration));
+                token => AddReadOnlyModifierAsync(document, root, declaration.FieldDeclaration));
         }
         
         private static bool AreAllWritesInConstructors(IEnumerable<ExpressionSyntax> writeExpressions, FieldDeclarationSyntax fieldDeclaration, 

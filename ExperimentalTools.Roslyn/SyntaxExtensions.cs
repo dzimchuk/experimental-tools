@@ -170,7 +170,7 @@ namespace ExperimentalTools.Roslyn
             return IsIdentifier(token) && !token.ContainsDiagnostics && token.ToString().Length == identifier.Length;
         }
 
-        public static (FieldDeclarationSyntax FieldDeclaration, VariableDeclaratorSyntax VariableDeclarator)? ParseFieldDeclaration(this SyntaxNode node)
+        public static ParsedFieldDeclaration ParseFieldDeclaration(this SyntaxNode node)
         {
             FieldDeclarationSyntax fieldDeclaration;
             VariableDeclaratorSyntax variableDeclarator;
@@ -194,7 +194,13 @@ namespace ExperimentalTools.Roslyn
                 return null;
             }
 
-            return (fieldDeclaration, variableDeclarator);
+            return new ParsedFieldDeclaration { FieldDeclaration = fieldDeclaration, VariableDeclarator = variableDeclarator };
         }
+    }
+
+    public class ParsedFieldDeclaration
+    {
+        public FieldDeclarationSyntax FieldDeclaration { get; set; }
+        public VariableDeclaratorSyntax VariableDeclarator { get; set; }
     }
 }

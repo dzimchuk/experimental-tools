@@ -81,6 +81,8 @@
     <Compile Include="Constructor\FixConstructorNameCodeFix.cs" />
     <Compile Include="DiagnosticCodes.cs" />
     <Compile Include="Namespace\NamespaceNormalizationCodeFix.cs" />
+    <Compile Include="ReadOnly\FieldCanBeMadeReadOnlyRefactoring.cs" />
+    <Compile Include="ReadOnly\FieldCanBeMadeReadOnlyStrategy.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
