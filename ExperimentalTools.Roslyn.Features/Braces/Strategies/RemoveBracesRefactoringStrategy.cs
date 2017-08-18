@@ -31,6 +31,7 @@ namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
             var innerIfStatement = innerStatement as IfStatementSyntax;
 
             if (parentIfStatement?.Else != null &&
+                innerIfStatement != null &&
                 innerIfStatement?.Else == null)
             {
                 return true;
