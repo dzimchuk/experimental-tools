@@ -27,10 +27,11 @@ namespace ExperimentalTools.Roslyn.Features.Braces.Strategies
 
         protected bool IsElseClauseEscapeCase(StatementSyntax innerStatement, StatementSyntax parentStatement)
         {
-            if (parentStatement is IfStatementSyntax parentIfStatement &&
-                parentIfStatement.Else != null &&
-                innerStatement is IfStatementSyntax innerIfStatement &&
-                innerIfStatement.Else == null)
+            var parentIfStatement = parentStatement as IfStatementSyntax;
+            var innerIfStatement = innerStatement as IfStatementSyntax;
+
+            if (parentIfStatement?.Else != null &&
+                innerIfStatement?.Else == null)
             {
                 return true;
             }
