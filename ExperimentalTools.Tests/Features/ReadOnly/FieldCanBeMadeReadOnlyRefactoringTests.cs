@@ -157,7 +157,7 @@ namespace HelloWorld
             };
 
         [Theory, MemberData("NoActionTestData")]
-        public Task NoActionTest(string test, string input) =>
+        public Task NoActionTest(string test, params string[] input) =>
             RunNoActionTestAsync(input);
 
         public static IEnumerable<object[]> NoActionTestData =>
@@ -447,6 +447,39 @@ namespace HelloWorld
         {
             var t = new TestService();
             t.index = 1;
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Field is assigned in another type's constructor (separate documents)",
+                    @"
+namespace HelloWorld
+{
+    class TestService
+    {
+        public int @::@index;
+
+        public TestService()
+        {
+            index = 0;
+        }
+
+        public void Method()
+        {
+            var component = new TestComponent(this);
+        }
+    }
+}",
+                    @"
+namespace HelloWorld
+{
+    class TestComponent
+    {
+        public TestComponent(TestService service)
+        {
+            service.index++;
         }
     }
 }"

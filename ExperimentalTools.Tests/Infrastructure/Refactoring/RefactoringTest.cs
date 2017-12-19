@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Tests.Infrastructure.ActionAcceptors;
+using ExperimentalTools.Tests.Infrastructure.ActionAcceptors;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using System.Collections.Generic;
@@ -56,7 +56,7 @@ namespace ExperimentalTools.Tests.Infrastructure.Refactoring
             Assert.Equal(normalizedExpected, normalizedActual);
         }
 
-        public async Task RunNoActionTestAsync(string input)
+        public async Task RunNoActionTestAsync(params string[] input)
         {
             var acceptor = new SingleCodeActionAcceptor();
             var context = CodeRefactoringContextBuilder.Build(input, acceptor, AdditionalReferences);
