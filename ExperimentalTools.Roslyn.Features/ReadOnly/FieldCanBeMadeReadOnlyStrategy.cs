@@ -35,7 +35,7 @@ namespace ExperimentalTools.Roslyn.Features.ReadOnly
                 return null;
             }
             
-            var writeExpressions = await FindWriteExpressionsAsync(fieldSymbol, document, root, cancellationToken).ConfigureAwait(false);
+            var writeExpressions = await FindWriteExpressionsAsync(fieldSymbol, document, cancellationToken).ConfigureAwait(false);
 
             if (!writeExpressions.Any())
             {
@@ -44,7 +44,7 @@ namespace ExperimentalTools.Roslyn.Features.ReadOnly
                     : CodeAction.Create(Resources.FieldCanBeMadeReadOnly, token => AddReadOnlyModifierAsync(document, root, declaration.FieldDeclaration));
             }
 
-            if (!AreAllWritesInConstructors(writeExpressions, declaration.FieldDeclaration, fieldSymbol.IsStatic, model, cancellationToken))
+            if (!AreAllWritesInConstructorsOfDeclaringType(writeExpressions, declaration.FieldDeclaration, fieldSymbol.IsStatic, model, cancellationToken))
             {
                 return null;
             }
@@ -53,7 +53,7 @@ namespace ExperimentalTools.Roslyn.Features.ReadOnly
                 token => AddReadOnlyModifierAsync(document, root, declaration.FieldDeclaration));
         }
         
-        private static bool AreAllWritesInConstructors(IEnumerable<ExpressionSyntax> writeExpressions, FieldDeclarationSyntax fieldDeclaration, 
+        private static bool AreAllWritesInConstructorsOfDeclaringType(IEnumerable<ExpressionSyntax> writeExpressions, FieldDeclarationSyntax fieldDeclaration, 
             bool shouldBeStatic, SemanticModel model, CancellationToken cancellationToken)
         {
             var typeDeclaration = fieldDeclaration.GetParentTypeDeclaration();
@@ -78,7 +78,7 @@ namespace ExperimentalTools.Roslyn.Features.ReadOnly
             return expressions.Count() == writeExpressions.Count();
         }
 
-        private static async Task<IEnumerable<ExpressionSyntax>> FindWriteExpressionsAsync(IFieldSymbol fieldSymbol, Document document, SyntaxNode root, CancellationToken cancellationToken)
+        private static async Task<IEnumerable<ExpressionSyntax>> FindWriteExpressionsAsync(IFieldSymbol fieldSymbol, Document document, CancellationToken cancellationToken)
         {
             var references = await SymbolFinder.FindReferencesAsync(fieldSymbol, document.Project.Solution, cancellationToken).ConfigureAwait(false);
             var locations = references.SelectMany(reference => reference.Locations).ToArray();
@@ -87,12 +87,22 @@ namespace ExperimentalTools.Roslyn.Features.ReadOnly
                 return new ExpressionSyntax[0];
             }
 
-            return (from location in locations
-                    let node = root.FindNode(location.Location.SourceSpan)
-                    where node != null
-                    let expression = node.GetAncestorOrThis<ExpressionSyntax>()
-                    where expression != null && expression.IsWrittenTo()
-                    select expression).ToArray();
+            var expressions = new List<ExpressionSyntax>();
+            foreach (var location in locations)
+            {
+                var root = await location.Document.GetSyntaxRootAsync(cancellationToken);
+                var node = root.FindNode(location.Location.SourceSpan);
+                if (node != null)
+                {
+                    var expression = node.GetAncestorOrThis<ExpressionSyntax>();
+                    if (expression != null && expression.IsWrittenTo())
+                    {
+                        expressions.Add(expression);
+                    }
+                }
+            }
+
+            return expressions;
         }
 
         private static Task<Document> AddReadOnlyModifierAsync(Document document, SyntaxNode root, FieldDeclarationSyntax fieldDeclaration)

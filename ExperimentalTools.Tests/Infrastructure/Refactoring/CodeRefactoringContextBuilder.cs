@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.Text;
 using System;
@@ -18,14 +18,22 @@ namespace ExperimentalTools.Tests.Infrastructure.Refactoring
         
         public static CodeRefactoringContext Build(string sourceText, ICodeActionAcceptor acceptor, IEnumerable<MetadataReference> additionalReferences)
         {
-            var document = DocumentProvider.GetDocument(NormalizeSource(sourceText));
+            return Build(new[] { sourceText }, acceptor, additionalReferences);
+        }
+
+        public static CodeRefactoringContext Build(string[] sources, ICodeActionAcceptor acceptor, IEnumerable<MetadataReference> additionalReferences)
+        {
+            var normalizedSources = new[] { NormalizeSource(sources[0]) }.Concat(sources.Skip(1)).ToArray();
+            var documents = DocumentProvider.GetDocuments(normalizedSources);
+
+            var document = documents[0];
             if (additionalReferences != null && additionalReferences.Any())
             {
                 var solution = document.Project.Solution.AddMetadataReferences(document.Project.Id, additionalReferences);
                 document = solution.GetDocument(document.Id);
             }
 
-            return new CodeRefactoringContext(document, GetTextSpan(sourceText), acceptor.Accept, CancellationToken.None);
+            return new CodeRefactoringContext(document, GetTextSpan(sources[0]), acceptor.Accept, CancellationToken.None);
         }
 
         private static TextSpan GetTextSpan(string sourceText)
