@@ -1,3 +1,6 @@
+using EnvDTE;
+using EnvDTE80;
+using ExperimentalTools.Options;
 using ExperimentalTools.Vsix.Features.LocateInSolutionExplorer;
 using ExperimentalTools.Vsix.Features.Options;
 using ExperimentalTools.Workspace;
@@ -33,6 +36,9 @@ namespace ExperimentalTools.Vsix
 
             var generalOptions = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
             generalOptions.UpdateFeatureStates();
+
+            var dte = (DTE2)GetService(typeof(DTE));
+            OptionsBucket.Instance.VSVersion = dte.Version;
 
             LocateInSolutionExplorerCommand.Initialize(this);
         }        

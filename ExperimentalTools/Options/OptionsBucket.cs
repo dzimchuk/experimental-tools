@@ -37,5 +37,7 @@ namespace ExperimentalTools.Options
 
             {FeatureIdentifiers.FieldCanBeMadeReadOnly, true }
         };
+
+        public string VSVersion { get; set; }
     }
 }
