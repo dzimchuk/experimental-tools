@@ -76,25 +76,43 @@ namespace ExperimentalTools.Vsix
             {
                 Id = project.Id,
                 Path = Path.GetDirectoryName(project.FilePath),
-                AssemblyName = project.AssemblyName,
-                DefaultNamespace = GetDefaultNamespace(project.FilePath)
+                AssemblyName = project.AssemblyName
             };
+
+            AddDetails(project.FilePath, description);
 
             WorkspaceCache.Instance.AddOrUpdateProject(description);
         }
 
         private static readonly XName rootNamespace = XName.Get("RootNamespace", "http://schemas.microsoft.com/developer/msbuild/2003");
-        private static string GetDefaultNamespace(string projectFile)
+        private static void AddDetails(string projectFile, ProjectDescription description)
         {
             try
             {
                 var doc = XDocument.Parse(File.ReadAllText(projectFile));
-                var ns = doc.Descendants(rootNamespace).FirstOrDefault()?.Value;
-                return !string.IsNullOrWhiteSpace(ns) ? ns : null;
+
+                var targetFramework = doc.Descendants("TargetFramework").FirstOrDefault()?.Value;
+                if (!string.IsNullOrEmpty(targetFramework) && (targetFramework.StartsWith("netcoreapp") || targetFramework.StartsWith("netstandard")))
+                {
+                    description.IsDotNetCore = true;
+
+                    var defaultNamespace = doc.Descendants("RootNamespace").FirstOrDefault()?.Value;
+                    if (!string.IsNullOrWhiteSpace(defaultNamespace))
+                    {
+                        description.DefaultNamespace = defaultNamespace;
+                    }
+                }
+                else
+                {
+                    var defaultNamespace = doc.Descendants(rootNamespace).FirstOrDefault()?.Value;
+                    if (!string.IsNullOrWhiteSpace(defaultNamespace))
+                    {
+                        description.DefaultNamespace = defaultNamespace;
+                    }
+                }
             }
             catch
             {
-                return null;
             }
         }
     }
