@@ -15,6 +15,14 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
+## 1.1
+
+**2017-12-20**
+
+- [x] Fixed crashing FieldCanBeMadeReadOnly refactoring
+- [x] Better handling of the default namespace in .NET Core and .NET Standard projects
+- [x] Made constructor name code fix more robust
+
 ## 1.0
 
 **2017-08-17**
