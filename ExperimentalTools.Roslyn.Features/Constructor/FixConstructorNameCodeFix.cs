@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -44,9 +44,13 @@ namespace ExperimentalTools.Roslyn.Features.Constructor
                 return;
             }
                         
-            var methodDeclaration = root.FindNode(diagnostic.Location.SourceSpan) as MethodDeclarationSyntax;
-            if (methodDeclaration == null || 
-                (methodDeclaration.ReturnType != null && !methodDeclaration.ReturnType.IsMissing))
+            var methodDeclaration = root.FindNode(diagnostic.Location.SourceSpan) as BaseMethodDeclarationSyntax;
+            if (methodDeclaration == null)
+            {
+                return;
+            }
+            
+            if (DoesMethodHaveReturnType(methodDeclaration))
             {
                 return;
             }
@@ -71,10 +75,16 @@ namespace ExperimentalTools.Roslyn.Features.Constructor
                 diagnostic);
         }
 
-        private static bool CheckIfConstructorAlreadyExists(SemanticModel model, MethodDeclarationSyntax methodDeclaration,
+        private static bool DoesMethodHaveReturnType(BaseMethodDeclarationSyntax methodDeclaration)
+        {
+            var method = methodDeclaration as MethodDeclarationSyntax;
+            return method != null && method.ReturnType != null && !method.ReturnType.IsMissing;
+        }
+
+        private static bool CheckIfConstructorAlreadyExists(SemanticModel model, BaseMethodDeclarationSyntax methodDeclaration,
             TypeDeclarationSyntax typeDeclaration, CancellationToken cancellationToken)
         {
-            var constructors = typeDeclaration.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToList();
+            var constructors = typeDeclaration.DescendantNodes().OfType<ConstructorDeclarationSyntax>().Where(ctor => ctor != methodDeclaration).ToList();
             if (!constructors.Any())
             {
                 return false;
@@ -101,9 +111,9 @@ namespace ExperimentalTools.Roslyn.Features.Constructor
             return false;
         }
 
-        private Task<Document> FixConstructorNameAsync(Document document,
+        private static Task<Document> FixConstructorNameAsync(Document document,
             SyntaxNode root,
-            MethodDeclarationSyntax methodDeclaration, 
+            BaseMethodDeclarationSyntax methodDeclaration, 
             string name, 
             CancellationToken c)
         {

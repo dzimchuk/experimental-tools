@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
@@ -195,6 +195,23 @@ namespace ExperimentalTools.Roslyn
             }
 
             return (fieldDeclaration, variableDeclarator);
+        }
+
+        public static BaseMethodDeclarationSyntax WithIdentifier(this BaseMethodDeclarationSyntax methodDeclaration, SyntaxToken identifier)
+        {
+            var method = methodDeclaration as MethodDeclarationSyntax;
+            if (method != null)
+            {
+                return method.WithIdentifier(identifier);
+            }
+
+            var constructor = methodDeclaration as ConstructorDeclarationSyntax;
+            if (constructor != null)
+            {
+                return constructor.WithIdentifier(identifier);
+            }
+
+            return methodDeclaration;
         }
     }
 }
