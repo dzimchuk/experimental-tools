@@ -11,7 +11,7 @@ namespace ExperimentalTools.Vsix
         public const string Name = "Experimental Tools 2015";
         public const string Description = @"A bunch of quality refactorings and code fixes that are going to improve your C# development experience in Visual Studio and remove some common pain.";
         public const string Language = "en-US";
-        public const string Version = "1.0";
+        public const string Version = "1.1";
         public const string Author = "Andrei Dzimchuk";
         public const string Tags = "Refactoring, roslyn, Productivity, Coding, C#";
     }

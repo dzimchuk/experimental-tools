@@ -157,7 +157,7 @@ namespace HelloWorld
             };
 
         [Theory, MemberData("NoActionTestData")]
-        public Task NoActionTest(string test, params string[] input) =>
+        public Task NoActionTest(string test, string input) =>
             RunNoActionTestAsync(input);
 
         public static IEnumerable<object[]> NoActionTestData =>
@@ -450,10 +450,20 @@ namespace HelloWorld
         }
     }
 }"
-                },
+                }
+            };
+
+        [Theory, MemberData("NoActionTest2Data")]
+        public Task NoActionTest2(string test, string[] input) =>
+            RunNoActionTestAsync(input);
+
+        public static IEnumerable<object[]> NoActionTest2Data =>
+            new[]
+            {
                 new object[]
                 {
                     "Field is assigned in another type's constructor (separate documents)",
+                    new[] {
                     @"
 namespace HelloWorld
 {
@@ -483,6 +493,7 @@ namespace HelloWorld
         }
     }
 }"
+                    }
                 }
             };
     }
