@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Options;
+using ExperimentalTools.Options;
 using ExperimentalTools.Roslyn.Features.Xunit;
 using ExperimentalTools.Tests.Infrastructure.Refactoring;
 using Microsoft.CodeAnalysis;
@@ -41,7 +41,7 @@ namespace HelloWorld
     class TestService
     {
         [The@::@ory]
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -55,7 +55,7 @@ namespace HelloWorld
     {
         [Theory]
         [InlineData(""value1"", ""value2"")]
-        public TestMethod(string param1, string param2)
+        public void TestMethod(string param1, string param2)
         {
         }
     }
@@ -72,7 +72,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -85,7 +85,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(""value1"", ""value2"")]
-        public TestMethod(string param1, string param2)
+        public void TestMethod(string param1, string param2)
         {
         }
     }
@@ -103,7 +103,7 @@ namespace HelloWorld
     {
         [Theory]@::@
         [InlineData]
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -117,7 +117,7 @@ namespace HelloWorld
     {
         [Theory]
         [InlineData(""value1"", ""value2"")]
-        public TestMethod(string param1, string param2)
+        public void TestMethod(string param1, string param2)
         {
         }
     }
@@ -134,7 +134,7 @@ namespace HelloWorld
     class TestService
     {
         [InlineData]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -147,7 +147,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(""value1"", ""value2"")]
-        public TestMethod(string param1, string param2)
+        public void TestMethod(string param1, string param2)
         {
         }
     }
@@ -164,7 +164,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(""value1"", 5, 0.5, 0.5f, 0.5M, true, false, null)]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -177,7 +177,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(""value1"", 5, 0.5, 0.5f, 0.5M, true, false, null)]
-        public TestMethod(string param1, int param2, double param3, float param4, decimal param5, bool param6, bool param7, string param8)
+        public void TestMethod(string param1, int param2, double param3, float param4, decimal param5, bool param6, bool param7, string param8)
         {
         }
     }
@@ -194,7 +194,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(new[] { ""value1"" }, new[] { 5 }, new[] { 0.5 }, new[] { 0.5f }, new[] { 0.5M }, new[] { true })]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -207,7 +207,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(new[] { ""value1"" }, new[] { 5 }, new[] { 0.5 }, new[] { 0.5f }, new[] { 0.5M }, new[] { true })]
-        public TestMethod(string[] param1, int[] param2, double[] param3, float[] param4, decimal[] param5, bool[] param6)
+        public void TestMethod(string[] param1, int[] param2, double[] param3, float[] param4, decimal[] param5, bool[] param6)
         {
         }
     }
@@ -224,7 +224,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(new string[] { ""value1"" }, new int[] { 5 }, new double[] { 0.5 }, new float[] { 0.5f }, new decimal[] { 0.5M }, new bool[] { true }, new long[] { 1 }, new short[] { 2 })]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -237,7 +237,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(new string[] { ""value1"" }, new int[] { 5 }, new double[] { 0.5 }, new float[] { 0.5f }, new decimal[] { 0.5M }, new bool[] { true }, new long[] { 1 }, new short[] { 2 })]
-        public TestMethod(string[] param1, int[] param2, double[] param3, float[] param4, decimal[] param5, bool[] param6, long[] param7, short[] param8)
+        public void TestMethod(string[] param1, int[] param2, double[] param3, float[] param4, decimal[] param5, bool[] param6, long[] param7, short[] param8)
         {
         }
     }
@@ -254,7 +254,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(new uint[] { 5 }, new ulong[] { 1 }, new ushort[] { 2 })]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -267,7 +267,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(new uint[] { 5 }, new ulong[] { 1 }, new ushort[] { 2 })]
-        public TestMethod(uint[] param1, ulong[] param2, ushort[] param3)
+        public void TestMethod(uint[] param1, ulong[] param2, ushort[] param3)
         {
         }
     }
@@ -284,7 +284,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(new System.Int32[] { 5 }, new System.UInt64[] { 1 })]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -297,7 +297,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(new System.Int32[] { 5 }, new System.UInt64[] { 1 })]
-        public TestMethod(int[] param1, ulong[] param2)
+        public void TestMethod(int[] param1, ulong[] param2)
         {
         }
     }
@@ -314,7 +314,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(typeof(TestService), new[] { typeof(TestService) })]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -327,7 +327,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(typeof(TestService), new[] { typeof(TestService) })]
-        public TestMethod(System.Type param1, System.Type[] param2)
+        public void TestMethod(System.Type param1, System.Type[] param2)
         {
         }
     }
@@ -344,7 +344,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(typeof(TestService), new[] { typeof(TestService) }, new Type[] { typeof(TestService) })]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -357,7 +357,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData(typeof(TestService), new[] { typeof(TestService) }, new Type[] { typeof(TestService) })]
-        public TestMethod(Type param1, Type[] param2, Type[] param3)
+        public void TestMethod(Type param1, Type[] param2, Type[] param3)
         {
         }
     }
@@ -381,7 +381,7 @@ namespace HelloWorld
     class TestService
     {
         [The@::@ory]
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -398,7 +398,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData]@::@
-        public TestMethod(string param1, int param2)
+        public void TestMethod(string param1, int param2)
         {
         }
     }
@@ -415,7 +415,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, MemberData]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }

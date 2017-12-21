@@ -1,4 +1,4 @@
-﻿using ExperimentalTools.Options;
+using ExperimentalTools.Options;
 using ExperimentalTools.Roslyn.Features.Xunit;
 using ExperimentalTools.Tests.Infrastructure.Refactoring;
 using Microsoft.CodeAnalysis;
@@ -41,7 +41,7 @@ namespace HelloWorld
     class TestService
     {
         [The@::@ory]
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -54,7 +54,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, MemberData(""TestMethodData"")]
-        public TestMethod(string param1, string param2)
+        public void TestMethod(string param1, string param2)
         {
         }
 
@@ -73,7 +73,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, MemberData]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -86,7 +86,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, MemberData(""TestMethodData"")]
-        public TestMethod(string param1, string param2)
+        public void TestMethod(string param1, string param2)
         {
         }
 
@@ -105,7 +105,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, MemberData(""TestData"")]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -118,7 +118,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, MemberData(""TestData"")]
-        public TestMethod(string param1, string param2)
+        public void TestMethod(string param1, string param2)
         {
         }
 
@@ -138,7 +138,7 @@ namespace HelloWorld
     {
         [Theory]@::@
         [MemberData]
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -152,7 +152,7 @@ namespace HelloWorld
     {
         [Theory]
         [MemberData(""TestMethodData"")]
-        public TestMethod(string param1, string param2)
+        public void TestMethod(string param1, string param2)
         {
         }
 
@@ -172,7 +172,7 @@ namespace HelloWorld
     {
         [Theory]
         [MemberData(""TestData"")]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -186,7 +186,7 @@ namespace HelloWorld
     {
         [Theory]
         [MemberData(""TestData"")]
-        public TestMethod(string param1, string param2)
+        public void TestMethod(string param1, string param2)
         {
         }
 
@@ -205,7 +205,7 @@ namespace HelloWorld
     class TestService
     {
         [MemberData]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -218,7 +218,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, MemberData(""TestMethodData"")]
-        public TestMethod(string param1, string param2)
+        public void TestMethod(string param1, string param2)
         {
         }
 
@@ -244,7 +244,7 @@ namespace HelloWorld
     class TestService
     {
         [The@::@ory]
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
@@ -261,7 +261,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, MemberData(""TestMethodData"")]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
 
@@ -280,7 +280,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory]@::@
-        public TestMethod(string param1, string param2)
+        public void TestMethod(string param1, string param2)
         {
         }
     }
@@ -297,7 +297,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory, InlineData]@::@
-        public TestMethod()
+        public void TestMethod()
         {
         }
     }
