@@ -18,5 +18,8 @@ build_script:
   - nuget restore -Verbosity quiet
   - msbuild /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal /v:m
 
+test_script:
+  - dotnet test -c Release ExperimentalTools.Tests
+   
 after_test:
-  - ps: Vsix-PushArtifacts | Vsix-PublishToGallery
+  - ps: Vsix-PushArtifacts -path .\ExperimentalTools.Vsix\bin\Release\*.vsix -publishToGallery
