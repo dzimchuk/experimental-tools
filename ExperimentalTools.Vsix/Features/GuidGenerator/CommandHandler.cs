@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
@@ -44,11 +45,13 @@ namespace ExperimentalTools.Vsix.Features.GuidGenerator
                 }
             }
 
+            ThreadHelper.ThrowIfNotOnUIThread();
             return nextCommandHandler.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
         }
 
         public int QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             return nextCommandHandler.QueryStatus(ref pguidCmdGroup, cCmds, prgCmds, pCmdText);
         }
 
