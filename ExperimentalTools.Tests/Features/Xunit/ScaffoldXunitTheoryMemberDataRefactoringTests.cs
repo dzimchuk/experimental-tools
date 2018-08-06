@@ -53,7 +53,7 @@ namespace HelloWorld
 {
     class TestService
     {
-        [Theory, MemberData(""TestMethodData"")]
+        [Theory, MemberData(nameof(TestMethodData))]
         public void TestMethod(string param1, string param2)
         {
         }
@@ -85,7 +85,7 @@ namespace HelloWorld
 {
     class TestService
     {
-        [Theory, MemberData(""TestMethodData"")]
+        [Theory, MemberData(nameof(TestMethodData))]
         public void TestMethod(string param1, string param2)
         {
         }
@@ -151,7 +151,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory]
-        [MemberData(""TestMethodData"")]
+        [MemberData(nameof(TestMethodData))]
         public void TestMethod(string param1, string param2)
         {
         }
@@ -217,7 +217,7 @@ namespace HelloWorld
 {
     class TestService
     {
-        [Theory, MemberData(""TestMethodData"")]
+        [Theory, MemberData(nameof(TestMethodData))]
         public void TestMethod(string param1, string param2)
         {
         }

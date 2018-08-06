@@ -72,7 +72,12 @@ namespace ExperimentalTools.Roslyn.Features.Xunit
             var propertyDeclaration = CreatePropertyDeclaration(memberName);
             trackedRoot = trackedRoot.InsertNodesAfter(trackedRoot.GetCurrentNode(methodDeclaration), SingletonList(propertyDeclaration));
 
-            trackedRoot = SetupMemberDataAttribute(trackedRoot, attrList, memberName, memberDataAttribute);
+            var specifiedMemberName = GetMemberName(memberDataAttribute);
+            if (memberName != specifiedMemberName)
+            {
+                trackedRoot = SetupMemberDataAttribute(trackedRoot, attrList, memberName, memberDataAttribute);
+            }
+
             return trackedRoot;
         }
 
@@ -95,9 +100,9 @@ namespace ExperimentalTools.Roslyn.Features.Xunit
                                 AttributeArgumentList(
                                     SingletonSeparatedList<AttributeArgumentSyntax>(
                                         AttributeArgument(
-                                            LiteralExpression(
-                                                SyntaxKind.StringLiteralExpression,
-                                                Literal(memberName))))));
+                                            InvocationExpression(IdentifierName("nameof"))
+                                                .WithArgumentList(ArgumentList(SingletonSeparatedList<ArgumentSyntax>(Argument(IdentifierName(memberName)))))
+                                                ))));
 
             if (memberDataAttribute != null)
             {
