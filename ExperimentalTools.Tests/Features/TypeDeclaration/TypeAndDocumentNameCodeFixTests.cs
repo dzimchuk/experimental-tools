@@ -90,7 +90,7 @@ namespace HelloWorld
             var context = new CodeFixContext(document, analyzerDiagnostics[0], (a, d) => actions.Add(a), CancellationToken.None);
             await CodeFixProvider.RegisterCodeFixesAsync(context);
 
-            Assert.Equal(1, actions.Count);
+            Assert.Single(actions);
             Assert.Equal("Rename 'Test.Part.cs' to 'TestService.cs'", actions[0].Title);
         }
     }

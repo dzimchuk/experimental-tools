@@ -13,7 +13,7 @@ namespace ExperimentalTools.Tests.Features.AccessModifier
         {
         }
 
-        [Theory, MemberData("HasActionTestData")]
+        [Theory, MemberData(nameof(HasActionTestData))]
         public Task HasActionTest(string test, string actionTitle, string input, string expectedResult) =>
             RunMultipleActionsTestAsync(actionTitle, input, expectedResult);
 
@@ -122,7 +122,7 @@ namespace HelloWorld
                 }
             };
 
-        [Theory, MemberData("NoActionTestData")]
+        [Theory, MemberData(nameof(NoActionTestData))]
         public Task NoActionTest(string test, string actionTitle, string input) =>
             RunNoSpecificActionTestAsync(actionTitle, input);
 

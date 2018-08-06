@@ -17,7 +17,7 @@ namespace ExperimentalTools.Tests.Features.Namespace
         protected override DiagnosticAnalyzer Analyzer => 
             new NamespaceNormalizationAnalyzer();
         
-        [Theory, MemberData("HasActionTestData")]
+        [Theory, MemberData(nameof(HasActionTestData))]
         public Task HasActionTest(string test, string source, string fileName, string defaultNamespace, DiagnosticResult expected)
         {
             WorkspaceCache.Instance.AddOrUpdateProject(new ProjectDescription
@@ -105,7 +105,7 @@ namespace TestProject.Inner1
                 }
             };
 
-        [Theory, MemberData("NoActionTestData")]
+        [Theory, MemberData(nameof(NoActionTestData))]
         public Task NoActionTest(string test, string source, string fileName, string defaultNamespace)
         {
             WorkspaceCache.Instance.AddOrUpdateProject(new ProjectDescription

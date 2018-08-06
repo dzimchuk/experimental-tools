@@ -23,7 +23,7 @@ namespace ExperimentalTools.Tests.Features.Xunit
         protected override IEnumerable<MetadataReference> AdditionalReferences =>
             new[] { MetadataReference.CreateFromFile(typeof(FactAttribute).Assembly.Location) };
 
-        [Theory, MemberData("HasActionTestData")]
+        [Theory, MemberData(nameof(HasActionTestData))]
         public Task HasActionTest(string test, string input, string expectedOutput) =>
             RunSingleActionTestAsync(input, expectedOutput);
 
@@ -365,7 +365,7 @@ namespace HelloWorld
                 }
             };
 
-        [Theory, MemberData("NoActionTestData")]
+        [Theory, MemberData(nameof(NoActionTestData))]
         public Task NoActionTest(string test, string input) =>
             RunNoActionTestAsync(input);
 

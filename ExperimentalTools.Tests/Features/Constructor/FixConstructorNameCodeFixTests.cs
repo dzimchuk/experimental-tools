@@ -28,7 +28,7 @@ namespace ExperimentalTools.Tests.Features.Constructor
             return methodNameDiagnostic;
         }
 
-        [Theory, MemberData("HasActionTestData")]
+        [Theory, MemberData(nameof(HasActionTestData))]
         public async Task CodeFixTest(string test, string source, string expected)
         {
             var document = DocumentProvider.GetDocument(source);
@@ -38,7 +38,7 @@ namespace ExperimentalTools.Tests.Features.Constructor
             var context = new CodeFixContext(document, diagnostic, (a, d) => actions.Add(a), CancellationToken.None);
             await codeFixProvider.RegisterCodeFixesAsync(context);
 
-            Assert.Equal(1, actions.Count);
+            Assert.Single(actions);
 
             document = await CodeFixVerifier.ApplyFixAsync(document, actions[0]);
             var actual = await CodeFixVerifier.GetStringFromDocumentAsync(document);
@@ -139,7 +139,7 @@ namespace HelloWorld
                 }
             };
 
-        [Theory, MemberData("NoActionTestData")]
+        [Theory, MemberData(nameof(NoActionTestData))]
         public async Task NoActionTest(string test, string source)
         {
             var document = DocumentProvider.GetDocument(source);

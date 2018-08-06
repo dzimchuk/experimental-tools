@@ -13,7 +13,7 @@ namespace ExperimentalTools.Tests.Features.AccessModifier
         {
         }
 
-        [Theory, MemberData("TestData")]
+        [Theory, MemberData(nameof(TestData))]
         public Task HasActionTest(string test, string actionTitle, string input, string expectedResult) =>
             RunMultipleActionsTestAsync(actionTitle, input, expectedResult);
 

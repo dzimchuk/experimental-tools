@@ -17,7 +17,7 @@ namespace ExperimentalTools.Tests.Features.ReadOnly
 
         protected override CodeRefactoringProvider Provider => new FieldCanBeMadeReadOnlyRefactoring(new OptionsService());
         
-        [Theory, MemberData("HasActionTestData")]
+        [Theory, MemberData(nameof(HasActionTestData))]
         public Task HasActionTest(string test, string input, string expectedOutput) =>
             RunSingleActionTestAsync(input, expectedOutput);
 
@@ -156,7 +156,7 @@ namespace HelloWorld
                 }
             };
 
-        [Theory, MemberData("NoActionTestData")]
+        [Theory, MemberData(nameof(NoActionTestData))]
         public Task NoActionTest(string test, params string[] input) =>
             RunNoActionTestAsync(input);
 
