@@ -362,6 +362,37 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Placement test (method declaration)",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        public void TestMethod()@::@
+        {
+        }
+    }
+}",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        [InlineData(""value1"", ""value2"")]
+        public void TestMethod(string param1, string param2)
+        {
+        }
+    }
+}"
                 }
             };
 
@@ -417,6 +448,23 @@ namespace HelloWorld
         [Theory, MemberData]@::@
         public void TestMethod()
         {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Placement test (method body)",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        public void TestMethod()
+        {@::@
         }
     }
 }"

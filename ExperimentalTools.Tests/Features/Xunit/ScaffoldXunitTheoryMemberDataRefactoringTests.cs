@@ -225,6 +225,38 @@ namespace HelloWorld
         public static IEnumerable<object[]> TestMethodData => new[] { new object[] { ""value1"", ""value2"" } };
     }
 }"
+                },
+                new object[]
+                {
+                    "Placement test (method declaration)",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        public void TestMethod()@::@
+        {
+        }
+    }
+}",
+                    @"using System.Collections.Generic;
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory, MemberData(nameof(TestMethodData))]
+        public void TestMethod(string param1, string param2)
+        {
+        }
+
+        public static IEnumerable<object[]> TestMethodData => new[] { new object[] { ""value1"", ""value2"" } };
+    }
+}"
                 }
             };
 
@@ -299,6 +331,23 @@ namespace HelloWorld
         [Theory, InlineData]@::@
         public void TestMethod()
         {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Placement test (method body)",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        public void TestMethod()
+        {@::@
         }
     }
 }"

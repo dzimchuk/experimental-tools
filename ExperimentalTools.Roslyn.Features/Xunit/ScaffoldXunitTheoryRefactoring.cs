@@ -51,16 +51,8 @@ namespace ExperimentalTools.Roslyn.Features.Xunit
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
             var node = root.FindNode(context.Span);
 
-            var attrList = TryFindAttributeList(node);
-            if (attrList == null ||
-                !(attrList.Parent is MethodDeclarationSyntax) ||
-                !(attrList.Ancestors().OfType<ClassDeclarationSyntax>().Any()))
-            {
-                return;
-            }
-
-            var methodDeclaration = (MethodDeclarationSyntax)attrList.Parent;
-            if (methodDeclaration.ParameterList.Parameters.Any())
+            var methodDeclaration = TryFindMethodDeclaration(node);
+            if (methodDeclaration == null || methodDeclaration.ParameterList.Parameters.Any())
             {
                 return;
             }
@@ -98,6 +90,30 @@ namespace ExperimentalTools.Roslyn.Features.Xunit
                                   theoryAttribute == null,
                                   cancellationToken));
             context.RegisterRefactoring(action);
+        }
+
+        private static MethodDeclarationSyntax TryFindMethodDeclaration(SyntaxNode node)
+        {
+            MethodDeclarationSyntax methodDeclaration = null;
+
+            if (node is ParameterListSyntax parameterList && parameterList.Parent is MethodDeclarationSyntax)
+            {
+                methodDeclaration = (MethodDeclarationSyntax)parameterList.Parent;
+            }
+            else if (node is MethodDeclarationSyntax)
+            {
+                methodDeclaration = (MethodDeclarationSyntax)node;
+            }
+            else
+            {
+                var attrList = TryFindAttributeList(node);
+                if (attrList != null && attrList.Parent is MethodDeclarationSyntax)
+                {
+                    methodDeclaration = (MethodDeclarationSyntax)attrList.Parent;
+                }
+            }
+
+            return methodDeclaration;
         }
 
         private static AttributeListSyntax TryFindAttributeList(SyntaxNode node)
