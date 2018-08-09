@@ -14,7 +14,7 @@ namespace ExperimentalTools.Tests.Features.TypeDeclaration
         protected override DiagnosticAnalyzer Analyzer => 
             new TypeAndDocumentNameAnalyzer();
 
-        [Theory, MemberData("HasActionTestData")]
+        [Theory, MemberData(nameof(HasActionTestData))]
         public Task HasActionTest(string test, string source, string fileName, DiagnosticResult expected) =>
             RunAsync(source, fileName, expected);
 
@@ -45,7 +45,7 @@ namespace HelloWorld
                 }
             };
 
-        [Theory, MemberData("NoActionTestData")]
+        [Theory, MemberData(nameof(NoActionTestData))]
         public Task NoActionTest(string test, string source, string fileName) =>
             RunAsync(source, fileName);
 

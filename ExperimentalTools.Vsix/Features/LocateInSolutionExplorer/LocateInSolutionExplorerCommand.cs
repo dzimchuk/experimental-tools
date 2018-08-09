@@ -44,6 +44,8 @@ namespace ExperimentalTools.Vsix.Features.LocateInSolutionExplorer
 
         private void UpdateStatus(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var enabled = options.IsFeatureEnabled(FeatureIdentifiers.LocateInSolutionExplorerCommand) &&
                 !miscFilesProjectItemKind.Equals(dte.ActiveDocument.ProjectItem.Kind, StringComparison.OrdinalIgnoreCase);
             command.Visible = enabled;

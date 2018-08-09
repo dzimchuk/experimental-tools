@@ -23,8 +23,8 @@ namespace ExperimentalTools.Tests.Features.Xunit
         protected override IEnumerable<MetadataReference> AdditionalReferences => 
             new[] { MetadataReference.CreateFromFile(typeof(FactAttribute).Assembly.Location) };
 
-        [Theory, MemberData("HasActionTestData")]
-        public Task HasActionTest(string test, string input, string expectedOutput) =>
+        [Theory, MemberData(nameof(HasActionTestData))]
+        public Task HasActionTest(string test, string input, string expectedOutput) => 
             RunSingleActionTestAsync(input, expectedOutput);
 
         public static IEnumerable<object[]> HasActionTestData =>
@@ -53,7 +53,7 @@ namespace HelloWorld
 {
     class TestService
     {
-        [Theory, MemberData(""TestMethodData"")]
+        [Theory, MemberData(nameof(TestMethodData))]
         public void TestMethod(string param1, string param2)
         {
         }
@@ -85,7 +85,7 @@ namespace HelloWorld
 {
     class TestService
     {
-        [Theory, MemberData(""TestMethodData"")]
+        [Theory, MemberData(nameof(TestMethodData))]
         public void TestMethod(string param1, string param2)
         {
         }
@@ -151,7 +151,7 @@ namespace HelloWorld
     class TestService
     {
         [Theory]
-        [MemberData(""TestMethodData"")]
+        [MemberData(nameof(TestMethodData))]
         public void TestMethod(string param1, string param2)
         {
         }
@@ -217,7 +217,39 @@ namespace HelloWorld
 {
     class TestService
     {
-        [Theory, MemberData(""TestMethodData"")]
+        [Theory, MemberData(nameof(TestMethodData))]
+        public void TestMethod(string param1, string param2)
+        {
+        }
+
+        public static IEnumerable<object[]> TestMethodData => new[] { new object[] { ""value1"", ""value2"" } };
+    }
+}"
+                },
+                new object[]
+                {
+                    "Placement test (method declaration)",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        public void TestMethod()@::@
+        {
+        }
+    }
+}",
+                    @"using System.Collections.Generic;
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory, MemberData(nameof(TestMethodData))]
         public void TestMethod(string param1, string param2)
         {
         }
@@ -228,7 +260,7 @@ namespace HelloWorld
                 }
             };
 
-        [Theory, MemberData("NoActionTestData")]
+        [Theory, MemberData(nameof(NoActionTestData))]
         public Task NoActionTest(string test, string input) =>
             RunNoActionTestAsync(input);
 
@@ -299,6 +331,23 @@ namespace HelloWorld
         [Theory, InlineData]@::@
         public void TestMethod()
         {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Placement test (method body)",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        public void TestMethod()
+        {@::@
         }
     }
 }"

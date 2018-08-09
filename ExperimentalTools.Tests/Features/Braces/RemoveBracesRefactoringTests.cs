@@ -18,7 +18,7 @@ namespace ExperimentalTools.Tests.Features.Braces
         protected override CodeRefactoringProvider Provider => 
             new RemoveBracesRefactoring(new OptionsService());
 
-        [Theory, MemberData("HasActionTestData")]
+        [Theory, MemberData(nameof(HasActionTestData))]
         public Task HasActionTest(string test, string input, string expectedOutput) =>
             RunSingleActionTestAsync(input, expectedOutput);
 
@@ -579,7 +579,7 @@ namespace HelloWorld
                 }
             };
 
-        [Theory, MemberData("NoActionTestData")]
+        [Theory, MemberData(nameof(NoActionTestData))]
         public Task NoActionTest(string test, string input) =>
             RunNoActionTestAsync(input);
 

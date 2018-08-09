@@ -23,7 +23,7 @@ namespace ExperimentalTools.Tests.Features.Xunit
         protected override IEnumerable<MetadataReference> AdditionalReferences =>
             new[] { MetadataReference.CreateFromFile(typeof(FactAttribute).Assembly.Location) };
 
-        [Theory, MemberData("HasActionTestData")]
+        [Theory, MemberData(nameof(HasActionTestData))]
         public Task HasActionTest(string test, string input, string expectedOutput) =>
             RunSingleActionTestAsync(input, expectedOutput);
 
@@ -362,10 +362,41 @@ namespace HelloWorld
         }
     }
 }"
+                },
+                new object[]
+                {
+                    "Placement test (method declaration)",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        public void TestMethod()@::@
+        {
+        }
+    }
+}",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        [InlineData(""value1"", ""value2"")]
+        public void TestMethod(string param1, string param2)
+        {
+        }
+    }
+}"
                 }
             };
 
-        [Theory, MemberData("NoActionTestData")]
+        [Theory, MemberData(nameof(NoActionTestData))]
         public Task NoActionTest(string test, string input) =>
             RunNoActionTestAsync(input);
 
@@ -417,6 +448,23 @@ namespace HelloWorld
         [Theory, MemberData]@::@
         public void TestMethod()
         {
+        }
+    }
+}"
+                },
+                new object[]
+                {
+                    "Placement test (method body)",
+                    @"
+using Xunit;
+
+namespace HelloWorld
+{
+    class TestService
+    {
+        [Theory]
+        public void TestMethod()
+        {@::@
         }
     }
 }"

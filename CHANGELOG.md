@@ -15,6 +15,12 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
+## 1.2
+
+**2018-08-08**
+- [x] Support async package loading
+- [x] Better xunit scaffolding trigger
+
 ## 1.1
 
 **2017-12-20**
