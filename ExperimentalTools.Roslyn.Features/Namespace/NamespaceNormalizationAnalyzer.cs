@@ -21,8 +21,7 @@ namespace ExperimentalTools.Roslyn.Features.Namespace
 
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticCodes.NamespaceNormalizationAnalyzer, Title, MessageFormat, Resources.CategoryNaming, GetSeverity(), true);
 
-        private static DiagnosticSeverity GetSeverity() =>
-            ServiceLocator.GetService<IOptions>().IsFeatureEnabled(FeatureIdentifiers.NamespaceNormalizationAnalyzer) ? DiagnosticSeverity.Warning : DiagnosticSeverity.Hidden;
+        private static DiagnosticSeverity GetSeverity() => DiagnosticSeverity.Warning;
 
         private readonly GeneratedCodeRecognitionService generatedCodeRecognitionService = new GeneratedCodeRecognitionService();
 
@@ -35,6 +34,11 @@ namespace ExperimentalTools.Roslyn.Features.Namespace
 
         private void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
+            if (!ServiceLocator.GetService<IOptions>().IsFeatureEnabled(FeatureIdentifiers.NamespaceNormalizationAnalyzer))
+            {
+                return;
+            }
+
             if (generatedCodeRecognitionService.IsGeneratedCode(context))
             {
                 return;

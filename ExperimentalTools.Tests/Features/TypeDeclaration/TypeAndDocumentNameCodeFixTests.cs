@@ -22,8 +22,7 @@ namespace ExperimentalTools.Tests.Features.TypeDeclaration
 
         public TypeAndDocumentNameCodeFixTests()
         {
-            OptionsBucket.Instance.Features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix] = true;
-            OptionsBucket.Instance.Features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = true;
+            OptionsBucket.Instance.Initialize(new System.Version(14, 0));
         }
 
         [Fact]
