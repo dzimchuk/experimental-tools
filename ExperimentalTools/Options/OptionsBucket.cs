@@ -8,36 +8,39 @@ namespace ExperimentalTools.Options
         private static Lazy<OptionsBucket> instance = new Lazy<OptionsBucket>(true);
         public static OptionsBucket Instance => instance.Value;
 
-        public Dictionary<string, bool> Features { get; } = new Dictionary<string, bool>()
+        public Dictionary<string, FeatureState> Features { get; private set; }
+
+        public void Initialize(Version vsVersion)
         {
-            { FeatureIdentifiers.AddConstructorParameterRefactoring, true },
-            { FeatureIdentifiers.AddInitializedFieldRefactoring, true },
-            { FeatureIdentifiers.AddNewConstructorWithParameterRefactoring, true },
+            Features = new Dictionary<string, FeatureState>()
+            {
+                { FeatureIdentifiers.AddConstructorParameterRefactoring, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.AddInitializedFieldRefactoring, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.AddNewConstructorWithParameterRefactoring, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.ChangeAccessModifierRefactoring, true },
+                { FeatureIdentifiers.ChangeAccessModifierRefactoring, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.TypeAndDocumentNameAnalyzer, true },
-            { FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix, false },
-            { FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix, false },
+                { FeatureIdentifiers.TypeAndDocumentNameAnalyzer, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix, new FeatureState(vsVersion, null, new Version(14, 9)) },
+                { FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix, new FeatureState(vsVersion, null, new Version(14, 9)) },
 
-            { FeatureIdentifiers.NamespaceNormalizationAnalyzer, true },
-            { FeatureIdentifiers.NamespaceNormalizationCodeFix, true },
+                { FeatureIdentifiers.NamespaceNormalizationAnalyzer, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.NamespaceNormalizationCodeFix, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.FixConstructorNameCodeFix, true },
+                { FeatureIdentifiers.FixConstructorNameCodeFix, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.LocateInSolutionExplorerCommand, true },
+                { FeatureIdentifiers.LocateInSolutionExplorerCommand, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.ScaffoldXunitTheoryMemberData, true },
-            { FeatureIdentifiers.ScaffoldXunitTheoryInlineData, true },
+                { FeatureIdentifiers.ScaffoldXunitTheoryMemberData, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.ScaffoldXunitTheoryInlineData, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.GenerateGuid, true },
+                { FeatureIdentifiers.GenerateGuid, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.AddBraces, true },
-            { FeatureIdentifiers.RemoveBraces, true },
+                { FeatureIdentifiers.AddBraces, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.RemoveBraces, new FeatureState(vsVersion) },
 
-            {FeatureIdentifiers.FieldCanBeMadeReadOnly, true }
-        };
-
-        public string VSVersion { get; set; }
+                {FeatureIdentifiers.FieldCanBeMadeReadOnly, new FeatureState(vsVersion, null, new Version(15, 6)) }
+            };
+        }
     }
 }
