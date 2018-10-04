@@ -101,7 +101,7 @@ namespace ExperimentalTools.Workspace
                 {
                     Id = project.Id,
                     Path = Path.GetDirectoryName(project.FilePath),
-                    AssemblyName = project.AssemblyName
+                    AssemblyName = project.Name
                 };
 
                 AddDetails(project.FilePath, description);
@@ -110,7 +110,7 @@ namespace ExperimentalTools.Workspace
             }
         }
 
-        private static readonly XName rootNamespace = XName.Get("RootNamespace", "http://schemas.microsoft.com/developer/msbuild/2003");
+        private const string projectNamespace = "http://schemas.microsoft.com/developer/msbuild/2003";
 
         private static void AddDetails(string projectFile, ProjectDescription description)
         {
@@ -122,20 +122,18 @@ namespace ExperimentalTools.Workspace
                 if (!string.IsNullOrEmpty(targetFramework) && (targetFramework.StartsWith("netcoreapp") || targetFramework.StartsWith("netstandard")))
                 {
                     description.IsDotNetCore = true;
-
-                    var defaultNamespace = doc.Descendants("RootNamespace").FirstOrDefault()?.Value;
-                    if (!string.IsNullOrWhiteSpace(defaultNamespace))
-                    {
-                        description.DefaultNamespace = defaultNamespace;
-                    }
                 }
-                else
+
+                var defaultNamespace = doc.Descendants(XName.Get("RootNamespace", description.IsDotNetCore ? string.Empty : projectNamespace)).FirstOrDefault()?.Value;
+                if (!string.IsNullOrWhiteSpace(defaultNamespace))
                 {
-                    var defaultNamespace = doc.Descendants(rootNamespace).FirstOrDefault()?.Value;
-                    if (!string.IsNullOrWhiteSpace(defaultNamespace))
-                    {
-                        description.DefaultNamespace = defaultNamespace;
-                    }
+                    description.DefaultNamespace = defaultNamespace;
+                }
+
+                var assemblyName = doc.Descendants(XName.Get("AssemblyName", description.IsDotNetCore ? string.Empty : projectNamespace)).FirstOrDefault()?.Value;
+                if (!string.IsNullOrWhiteSpace(assemblyName))
+                {
+                    description.AssemblyName = assemblyName;
                 }
             }
             catch (Exception ex)
