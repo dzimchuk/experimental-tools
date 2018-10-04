@@ -63,7 +63,7 @@ namespace ExperimentalTools.Vsix
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                return new Version(15, 0);
+                return OptionsBucket.DefaultVersion;
             }
         }
     }

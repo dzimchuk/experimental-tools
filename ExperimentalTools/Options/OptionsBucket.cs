@@ -8,11 +8,23 @@ namespace ExperimentalTools.Options
         private static Lazy<OptionsBucket> instance = new Lazy<OptionsBucket>(true);
         public static OptionsBucket Instance => instance.Value;
 
+        public static readonly Version DefaultVersion = new Version(15, 0);
+
         public Dictionary<string, FeatureState> Features { get; private set; }
+
+        public OptionsBucket()
+        {
+            Initialize(DefaultVersion); // ugly but VS kicks off analyzers even before the package gets a chance to fully initialize
+        }
 
         public void Initialize(Version vsVersion)
         {
-            Features = new Dictionary<string, FeatureState>()
+            Features = GetFeatureStates(vsVersion);
+        }
+
+        private Dictionary<string, FeatureState> GetFeatureStates(Version vsVersion)
+        {
+            return new Dictionary<string, FeatureState>()
             {
                 { FeatureIdentifiers.AddConstructorParameterRefactoring, new FeatureState(vsVersion) },
                 { FeatureIdentifiers.AddInitializedFieldRefactoring, new FeatureState(vsVersion) },
