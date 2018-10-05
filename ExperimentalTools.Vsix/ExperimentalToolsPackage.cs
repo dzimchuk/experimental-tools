@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -40,7 +41,7 @@ namespace ExperimentalTools.Vsix
             var dte = await GetServiceAsync(typeof(DTE)) as DTE2;
             Assumes.Present(dte);
 
-            OptionsBucket.Instance.VSVersion = dte.Version;
+            OptionsBucket.Instance.Initialize(GetVSVersion(dte));
 
             await JoinableTaskFactory.SwitchToMainThreadAsync(DisposalToken);
 
@@ -48,6 +49,22 @@ namespace ExperimentalTools.Vsix
 
             var generalOptions = (GeneralOptions)GetDialogPage(typeof(GeneralOptions));
             generalOptions.UpdateFeatureStates();
+        }
+
+        private static Version GetVSVersion(DTE2 dte)
+        {
+            try
+            {
+                var fileVersion = FileVersionInfo.GetVersionInfo(dte.FullName);
+                return new Version(
+                    fileVersion.FileMajorPart != 0 ? fileVersion.FileMajorPart : 15,
+                    fileVersion.FileMinorPart);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return OptionsBucket.DefaultVersion;
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-# Experimental Tools 2017
+# Experimental Tools
 
 <!-- Replace this badge with your own-->
 [![Build status](https://ci.appveyor.com/api/projects/status/idvryqpirxbe39gt/branch/master?svg=true)](https://ci.appveyor.com/project/dzimchuk/experimental-tools)
@@ -54,6 +54,8 @@ Ctrl+. on a type declaration (either top level or nested) and choose one of prop
 Suggest to declare a field as readonly if it's possible:
 
 ![Field can be made readonly](art/FieldCanBeMadeReadonly.png)
+
+VS 2017 version 15.7 and above provide a built-in analyzer and a code fix.
 
 ### Generate GUID (nguid)
 

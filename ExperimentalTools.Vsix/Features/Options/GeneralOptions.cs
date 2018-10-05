@@ -46,14 +46,14 @@ namespace ExperimentalTools.Vsix.Features.Options
 
         [Category(category)]
         [DisplayName("Rename type to match file name")]
-        [Description("Rename a top level type to match its file name.")]
+        [Description("Rename a top level type to match its file name. VS2015 only.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
         [Browsable(false)]
         public bool RenameTypeToMatchFileNameCodeFix { get; set; }
 
         [Category(category)]
         [DisplayName("Rename file to match type name")]
-        [Description("Rename a file to match the name of the top level type declared in it.")]
+        [Description("Rename a file to match the name of the top level type declared in it. VS2015 only.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
         [Browsable(false)]
         public bool RenameFileToMatchTypeNameCodeFix { get; set; }
@@ -108,7 +108,7 @@ namespace ExperimentalTools.Vsix.Features.Options
 
         [Category(category)]
         [DisplayName("Make field readonly")]
-        [Description("Make field readonly.")]
+        [Description("Make field readonly. Up to VS2017 version 15.6.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool FieldCanBeMadeReadOnly { get; set; }
         
@@ -116,32 +116,32 @@ namespace ExperimentalTools.Vsix.Features.Options
         {
             var features = OptionsBucket.Instance.Features;
 
-            AddConstructorParameterRefactoring = features[FeatureIdentifiers.AddConstructorParameterRefactoring];
-            AddInitializedFieldRefactoring = features[FeatureIdentifiers.AddInitializedFieldRefactoring];
-            AddNewConstructorWithParameterRefactoring = features[FeatureIdentifiers.AddNewConstructorWithParameterRefactoring];
+            AddConstructorParameterRefactoring = features[FeatureIdentifiers.AddConstructorParameterRefactoring].Enabled;
+            AddInitializedFieldRefactoring = features[FeatureIdentifiers.AddInitializedFieldRefactoring].Enabled;
+            AddNewConstructorWithParameterRefactoring = features[FeatureIdentifiers.AddNewConstructorWithParameterRefactoring].Enabled;
 
-            ChangeAccessModifierRefactoring = features[FeatureIdentifiers.ChangeAccessModifierRefactoring];
+            ChangeAccessModifierRefactoring = features[FeatureIdentifiers.ChangeAccessModifierRefactoring].Enabled;
 
-            TypeAndDocumentNameAnalyzer = features[FeatureIdentifiers.TypeAndDocumentNameAnalyzer];
-            RenameFileToMatchTypeNameCodeFix = features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix];
-            RenameTypeToMatchFileNameCodeFix = features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix];
+            TypeAndDocumentNameAnalyzer = features[FeatureIdentifiers.TypeAndDocumentNameAnalyzer].Enabled;
+            RenameFileToMatchTypeNameCodeFix = features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix].Enabled;
+            RenameTypeToMatchFileNameCodeFix = features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix].Enabled;
 
-            NamespaceNormalizationAnalyzer = features[FeatureIdentifiers.NamespaceNormalizationAnalyzer];
-            NamespaceNormalizationCodeFix = features[FeatureIdentifiers.NamespaceNormalizationCodeFix];
+            NamespaceNormalizationAnalyzer = features[FeatureIdentifiers.NamespaceNormalizationAnalyzer].Enabled;
+            NamespaceNormalizationCodeFix = features[FeatureIdentifiers.NamespaceNormalizationCodeFix].Enabled;
 
-            FixConstructorNameCodeFix = features[FeatureIdentifiers.FixConstructorNameCodeFix];
+            FixConstructorNameCodeFix = features[FeatureIdentifiers.FixConstructorNameCodeFix].Enabled;
 
-            LocateInSolutionExplorerCommand = features[FeatureIdentifiers.LocateInSolutionExplorerCommand];
+            LocateInSolutionExplorerCommand = features[FeatureIdentifiers.LocateInSolutionExplorerCommand].Enabled;
 
-            ScaffoldXunitTheoryMemberDataRefactoring = features[FeatureIdentifiers.ScaffoldXunitTheoryMemberData];
-            ScaffoldXunitTheoryInlineDataRefactoring = features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData];
+            ScaffoldXunitTheoryMemberDataRefactoring = features[FeatureIdentifiers.ScaffoldXunitTheoryMemberData].Enabled;
+            ScaffoldXunitTheoryInlineDataRefactoring = features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData].Enabled;
 
-            GenerateGuid = features[FeatureIdentifiers.GenerateGuid];
+            GenerateGuid = features[FeatureIdentifiers.GenerateGuid].Enabled;
 
-            AddBraces = features[FeatureIdentifiers.AddBraces];
-            RemoveBraces = features[FeatureIdentifiers.RemoveBraces];
+            AddBraces = features[FeatureIdentifiers.AddBraces].Enabled;
+            RemoveBraces = features[FeatureIdentifiers.RemoveBraces].Enabled;
 
-            FieldCanBeMadeReadOnly = features[FeatureIdentifiers.FieldCanBeMadeReadOnly];
+            FieldCanBeMadeReadOnly = features[FeatureIdentifiers.FieldCanBeMadeReadOnly].Enabled;
         }
 
         protected override void OnApply(PageApplyEventArgs e)
@@ -158,32 +158,32 @@ namespace ExperimentalTools.Vsix.Features.Options
         {
             var features = OptionsBucket.Instance.Features;
 
-            features[FeatureIdentifiers.AddConstructorParameterRefactoring] = AddConstructorParameterRefactoring;
-            features[FeatureIdentifiers.AddInitializedFieldRefactoring] = AddInitializedFieldRefactoring;
-            features[FeatureIdentifiers.AddNewConstructorWithParameterRefactoring] = AddNewConstructorWithParameterRefactoring;
+            features[FeatureIdentifiers.AddConstructorParameterRefactoring].Enabled = AddConstructorParameterRefactoring;
+            features[FeatureIdentifiers.AddInitializedFieldRefactoring].Enabled = AddInitializedFieldRefactoring;
+            features[FeatureIdentifiers.AddNewConstructorWithParameterRefactoring].Enabled = AddNewConstructorWithParameterRefactoring;
 
-            features[FeatureIdentifiers.ChangeAccessModifierRefactoring] = ChangeAccessModifierRefactoring;
+            features[FeatureIdentifiers.ChangeAccessModifierRefactoring].Enabled = ChangeAccessModifierRefactoring;
 
-            features[FeatureIdentifiers.TypeAndDocumentNameAnalyzer] = TypeAndDocumentNameAnalyzer;
-            //features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix] = RenameFileToMatchTypeNameCodeFix;
-            //features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix] = RenameTypeToMatchFileNameCodeFix;
+            features[FeatureIdentifiers.TypeAndDocumentNameAnalyzer].Enabled = TypeAndDocumentNameAnalyzer;
+            features[FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix].Enabled = RenameFileToMatchTypeNameCodeFix;
+            features[FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix].Enabled = RenameTypeToMatchFileNameCodeFix;
 
-            features[FeatureIdentifiers.NamespaceNormalizationAnalyzer] = NamespaceNormalizationAnalyzer;
-            features[FeatureIdentifiers.NamespaceNormalizationCodeFix] = NamespaceNormalizationCodeFix;
+            features[FeatureIdentifiers.NamespaceNormalizationAnalyzer].Enabled = NamespaceNormalizationAnalyzer;
+            features[FeatureIdentifiers.NamespaceNormalizationCodeFix].Enabled = NamespaceNormalizationCodeFix;
 
-            features[FeatureIdentifiers.FixConstructorNameCodeFix] = FixConstructorNameCodeFix;
+            features[FeatureIdentifiers.FixConstructorNameCodeFix].Enabled = FixConstructorNameCodeFix;
 
-            features[FeatureIdentifiers.LocateInSolutionExplorerCommand] = LocateInSolutionExplorerCommand;
+            features[FeatureIdentifiers.LocateInSolutionExplorerCommand].Enabled = LocateInSolutionExplorerCommand;
 
-            features[FeatureIdentifiers.ScaffoldXunitTheoryMemberData] = ScaffoldXunitTheoryMemberDataRefactoring;
-            features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData] = ScaffoldXunitTheoryInlineDataRefactoring;
+            features[FeatureIdentifiers.ScaffoldXunitTheoryMemberData].Enabled = ScaffoldXunitTheoryMemberDataRefactoring;
+            features[FeatureIdentifiers.ScaffoldXunitTheoryInlineData].Enabled = ScaffoldXunitTheoryInlineDataRefactoring;
 
-            features[FeatureIdentifiers.GenerateGuid] = GenerateGuid;
+            features[FeatureIdentifiers.GenerateGuid].Enabled = GenerateGuid;
 
-            features[FeatureIdentifiers.AddBraces] = AddBraces;
-            features[FeatureIdentifiers.RemoveBraces] = RemoveBraces;
+            features[FeatureIdentifiers.AddBraces].Enabled = AddBraces;
+            features[FeatureIdentifiers.RemoveBraces].Enabled = RemoveBraces;
 
-            features[FeatureIdentifiers.FieldCanBeMadeReadOnly] = FieldCanBeMadeReadOnly;
+            features[FeatureIdentifiers.FieldCanBeMadeReadOnly].Enabled = FieldCanBeMadeReadOnly;
         }
     }
 }

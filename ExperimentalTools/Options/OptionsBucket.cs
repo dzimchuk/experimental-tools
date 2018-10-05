@@ -8,36 +8,51 @@ namespace ExperimentalTools.Options
         private static Lazy<OptionsBucket> instance = new Lazy<OptionsBucket>(true);
         public static OptionsBucket Instance => instance.Value;
 
-        public Dictionary<string, bool> Features { get; } = new Dictionary<string, bool>()
+        public static readonly Version DefaultVersion = new Version(15, 0);
+
+        public Dictionary<string, FeatureState> Features { get; private set; }
+
+        public OptionsBucket()
         {
-            { FeatureIdentifiers.AddConstructorParameterRefactoring, true },
-            { FeatureIdentifiers.AddInitializedFieldRefactoring, true },
-            { FeatureIdentifiers.AddNewConstructorWithParameterRefactoring, true },
+            Initialize(DefaultVersion); // ugly but VS kicks off analyzers even before the package gets a chance to fully initialize
+        }
 
-            { FeatureIdentifiers.ChangeAccessModifierRefactoring, true },
+        public void Initialize(Version vsVersion)
+        {
+            Features = GetFeatureStates(vsVersion);
+        }
 
-            { FeatureIdentifiers.TypeAndDocumentNameAnalyzer, true },
-            { FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix, false },
-            { FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix, false },
+        private Dictionary<string, FeatureState> GetFeatureStates(Version vsVersion)
+        {
+            return new Dictionary<string, FeatureState>()
+            {
+                { FeatureIdentifiers.AddConstructorParameterRefactoring, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.AddInitializedFieldRefactoring, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.AddNewConstructorWithParameterRefactoring, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.NamespaceNormalizationAnalyzer, true },
-            { FeatureIdentifiers.NamespaceNormalizationCodeFix, true },
+                { FeatureIdentifiers.ChangeAccessModifierRefactoring, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.FixConstructorNameCodeFix, true },
+                { FeatureIdentifiers.TypeAndDocumentNameAnalyzer, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.RenameTypeToMatchFileNameCodeFix, new FeatureState(vsVersion, null, new Version(14, 9)) },
+                { FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix, new FeatureState(vsVersion, null, new Version(14, 9)) },
 
-            { FeatureIdentifiers.LocateInSolutionExplorerCommand, true },
+                { FeatureIdentifiers.NamespaceNormalizationAnalyzer, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.NamespaceNormalizationCodeFix, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.ScaffoldXunitTheoryMemberData, true },
-            { FeatureIdentifiers.ScaffoldXunitTheoryInlineData, true },
+                { FeatureIdentifiers.FixConstructorNameCodeFix, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.GenerateGuid, true },
+                { FeatureIdentifiers.LocateInSolutionExplorerCommand, new FeatureState(vsVersion) },
 
-            { FeatureIdentifiers.AddBraces, true },
-            { FeatureIdentifiers.RemoveBraces, true },
+                { FeatureIdentifiers.ScaffoldXunitTheoryMemberData, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.ScaffoldXunitTheoryInlineData, new FeatureState(vsVersion) },
 
-            {FeatureIdentifiers.FieldCanBeMadeReadOnly, true }
-        };
+                { FeatureIdentifiers.GenerateGuid, new FeatureState(vsVersion) },
 
-        public string VSVersion { get; set; }
+                { FeatureIdentifiers.AddBraces, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.RemoveBraces, new FeatureState(vsVersion) },
+
+                {FeatureIdentifiers.FieldCanBeMadeReadOnly, new FeatureState(vsVersion, null, new Version(15, 6)) }
+            };
+        }
     }
 }

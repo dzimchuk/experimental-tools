@@ -17,8 +17,7 @@ namespace ExperimentalTools.Roslyn.Features.TypeDeclaration
 
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticCodes.TypeAndDocumentNameAnalyzer, Title, MessageFormat, Resources.CategoryNaming, GetSeverity(), true);
 
-        private static DiagnosticSeverity GetSeverity() => 
-            ServiceLocator.GetService<IOptions>().IsFeatureEnabled(FeatureIdentifiers.TypeAndDocumentNameAnalyzer) ? DiagnosticSeverity.Warning : DiagnosticSeverity.Hidden;
+        private static DiagnosticSeverity GetSeverity() => DiagnosticSeverity.Warning;
 
         private readonly GeneratedCodeRecognitionService generatedCodeRecognitionService = new GeneratedCodeRecognitionService();
 
@@ -31,6 +30,11 @@ namespace ExperimentalTools.Roslyn.Features.TypeDeclaration
 
         private void AnalyzeSymbol(SymbolAnalysisContext context)
         {
+            if (!ServiceLocator.GetService<IOptions>().IsFeatureEnabled(FeatureIdentifiers.TypeAndDocumentNameAnalyzer))
+            {
+                return;
+            }
+
             if (generatedCodeRecognitionService.IsGeneratedCode(context))
             {
                 return;

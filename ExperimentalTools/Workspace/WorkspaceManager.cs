@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,30 +9,70 @@ namespace ExperimentalTools.Workspace
 {
     internal class WorkspaceManager
     {
+        private readonly FileSystemWatcher watcher;
+
         public WorkspaceManager(Microsoft.CodeAnalysis.Workspace workspace)
         {
+            watcher = new FileSystemWatcher
+            {
+                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
+                IncludeSubdirectories = true,
+                Filter = "*.csproj"
+            };
+
+            watcher.Changed += (s, e) => UpdateProjectDescription(e.FullPath);
+            watcher.Renamed += (s, e) => UpdateProjectDescription(e.FullPath);
+
             workspace.WorkspaceChanged += WorkspaceChanged;
             if (workspace.CurrentSolution != null)
             {
-                Task.Run(() => AddToCacheAsync(workspace.CurrentSolution.Projects));
+                Task.Run(() => AddToCache(workspace.CurrentSolution));
             }
         }
         
-        private void WorkspaceChanged(object sender, WorkspaceChangeEventArgs e)
+        private void UpdateProjectDescription(string fullPath)
+        {
+            var description = WorkspaceCache.Instance.FindProjectByPath(Path.GetDirectoryName(fullPath));
+            if (description != null)
+            {
+                AddDetails(fullPath, description);
+            }
+        }
+
+        private void StartWatcher(Solution solution)
+        {
+            try
+            {
+                watcher.Path = Path.GetDirectoryName(solution.FilePath);
+                watcher.EnableRaisingEvents = true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
+        }
+
+        private void StopWatcher()
+        {
+            watcher.EnableRaisingEvents = false;
+        }
+
+        private void WorkspaceChanged(object sender, WorkspaceChangeEventArgs e) // gets fired on UI thread
         {
             switch (e.Kind)
             {
                 case WorkspaceChangeKind.SolutionAdded:
-                    Task.Run(() => AddToCacheAsync(e.NewSolution.Projects));
+                    Task.Run(() => AddToCache(e.NewSolution));
                     break;
                 case WorkspaceChangeKind.SolutionRemoved:
+                    StopWatcher();
                     WorkspaceCache.Instance.Clear();
                     break;
                 case WorkspaceChangeKind.ProjectAdded:
                     var addedProject = e.NewSolution.Projects.FirstOrDefault(p => p.Id == e.ProjectId);
                     if (addedProject != null)
                     {
-                        Task.Run(() => AddToCacheAsync(addedProject));
+                        Task.Run(() => AddToCache(addedProject));
                     }
                     break;
                 case WorkspaceChangeKind.ProjectRemoved:
@@ -44,62 +83,57 @@ namespace ExperimentalTools.Workspace
             }
         }
 
-        private static async Task AddToCacheAsync(IEnumerable<Project> projects)
+        private void AddToCache(Solution solution)
         {
-            foreach (var project in projects)
+            foreach (var project in solution.Projects)
             {
-                await AddToCacheAsync(project);
+                AddToCache(project);
+            }
+
+            StartWatcher(solution);
+        }
+
+        private static void AddToCache(Project project)
+        {
+            if (!string.IsNullOrWhiteSpace(project.FilePath))
+            {
+                var description = new ProjectDescription
+                {
+                    Id = project.Id,
+                    Path = Path.GetDirectoryName(project.FilePath),
+                    AssemblyName = project.Name
+                };
+
+                AddDetails(project.FilePath, description);
+
+                WorkspaceCache.Instance.AddOrUpdateProject(description);
             }
         }
 
-        private static async Task AddToCacheAsync(Project project)
-        {
-            if (string.IsNullOrWhiteSpace(project.FilePath))
-            {
-                return;
-            }
+        private const string projectNamespace = "http://schemas.microsoft.com/developer/msbuild/2003";
 
-            var description = new ProjectDescription
-            {
-                Id = project.Id,
-                Path = Path.GetDirectoryName(project.FilePath),
-                AssemblyName = project.AssemblyName
-            };
-
-            await AddDetailsAsync(project.FilePath, description);
-
-            WorkspaceCache.Instance.AddOrUpdateProject(description);
-        }
-
-        private static readonly XName rootNamespace = XName.Get("RootNamespace", "http://schemas.microsoft.com/developer/msbuild/2003");
-        private static async Task AddDetailsAsync(string projectFile, ProjectDescription description)
+        private static void AddDetails(string projectFile, ProjectDescription description)
         {
             try
             {
-                using (var stream = File.OpenText(projectFile))
+                var doc = XDocument.Parse(File.ReadAllText(projectFile));
+
+                var targetFramework = doc.Descendants("TargetFramework").FirstOrDefault()?.Value;
+                if (!string.IsNullOrEmpty(targetFramework) && (targetFramework.StartsWith("netcoreapp") || targetFramework.StartsWith("netstandard")))
                 {
-                    var content = await stream.ReadToEndAsync();
-                    var doc = XDocument.Parse(content);
+                    description.IsDotNetCore = true;
+                }
 
-                    var targetFramework = doc.Descendants("TargetFramework").FirstOrDefault()?.Value;
-                    if (!string.IsNullOrEmpty(targetFramework) && (targetFramework.StartsWith("netcoreapp") || targetFramework.StartsWith("netstandard")))
-                    {
-                        description.IsDotNetCore = true;
+                var defaultNamespace = doc.Descendants(XName.Get("RootNamespace", description.IsDotNetCore ? string.Empty : projectNamespace)).FirstOrDefault()?.Value;
+                if (!string.IsNullOrWhiteSpace(defaultNamespace))
+                {
+                    description.DefaultNamespace = defaultNamespace;
+                }
 
-                        var defaultNamespace = doc.Descendants("RootNamespace").FirstOrDefault()?.Value;
-                        if (!string.IsNullOrWhiteSpace(defaultNamespace))
-                        {
-                            description.DefaultNamespace = defaultNamespace;
-                        }
-                    }
-                    else
-                    {
-                        var defaultNamespace = doc.Descendants(rootNamespace).FirstOrDefault()?.Value;
-                        if (!string.IsNullOrWhiteSpace(defaultNamespace))
-                        {
-                            description.DefaultNamespace = defaultNamespace;
-                        }
-                    } 
+                var assemblyName = doc.Descendants(XName.Get("AssemblyName", description.IsDotNetCore ? string.Empty : projectNamespace)).FirstOrDefault()?.Value;
+                if (!string.IsNullOrWhiteSpace(assemblyName))
+                {
+                    description.AssemblyName = assemblyName;
                 }
             }
             catch (Exception ex)
