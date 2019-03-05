@@ -525,6 +525,37 @@ namespace HelloWorld
                 },
                 new object[]
                 {
+                    "Generic type with type parameter constraints",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService<T> where T: class
+    {
+        public TestService(int @::@index)
+        {
+        }
+    }
+}",
+                    @"
+using System;
+
+namespace HelloWorld
+{
+    class TestService<T> where T: class
+    {
+        private readonly int index;
+
+        public TestService(int index)
+        {
+            this.index = index;
+        }
+    }
+}"
+                },
+                new object[]
+                {
                     "Attributed type",
                     @"
 using System;
