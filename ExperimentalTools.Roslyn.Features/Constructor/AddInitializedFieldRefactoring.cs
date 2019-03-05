@@ -136,9 +136,13 @@ namespace ExperimentalTools.Roslyn.Features.Constructor
                 }
                 else
                 {
-                    // skip parent/interface list, type parameter list and attribute list
+                    // skip parent/interface list, type parameter list, type parameter constraint list and attribute list
                     insertionPoint = trackedRoot.GetCurrentNode(typeDeclaration).ChildNodes()
-                        .First(node => !(node is BaseListSyntax) && !(node is TypeParameterListSyntax) && !(node is AttributeListSyntax));
+                        .First(node => 
+                        !(node is BaseListSyntax) && 
+                        !(node is TypeParameterListSyntax) &&
+                        !(node is TypeParameterConstraintClauseSyntax) &&
+                        !(node is AttributeListSyntax));
                     trackedRoot = trackedRoot.InsertNodesBefore(insertionPoint, SingletonList(field));
                 }
             }
