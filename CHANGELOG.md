@@ -17,7 +17,7 @@ on the official Visual Studio extension gallery.
 
 ## 1.3.1
 
-**2019-03-06**
+**2019-03-05**
 
 - [x] Fixed a crash in *Add initialized field* refactoring when a generic type has type parameter constraints
 
