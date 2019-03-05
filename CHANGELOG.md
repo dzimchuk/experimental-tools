@@ -15,12 +15,18 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
+## 1.3.1
+
+**2019-03-06**
+
+- [x] Fixed a crash in *Add initialized field* refactoring when a generic type has type parameter constraints
+
 ## 1.3.0
 
 **2018-10-05**
 
 - [x] Improved detection of the project's default namespace and assembly name
-- [x] Disabled 'Field can be made readonly' refactoring (VS 2017 version 15.7 and above)
+- [x] Disabled *Field can be made readonly* refactoring (VS 2017 version 15.7 and above)
 - [x] Enabled support for VS 2019
 
 ## 1.2

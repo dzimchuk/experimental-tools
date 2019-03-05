@@ -27,7 +27,7 @@ namespace ExperimentalTools.Options
             return new Dictionary<string, FeatureState>()
             {
                 { FeatureIdentifiers.AddConstructorParameterRefactoring, new FeatureState(vsVersion) },
-                { FeatureIdentifiers.AddInitializedFieldRefactoring, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.AddInitializedFieldRefactoring, new FeatureState(vsVersion, null, null) },
                 { FeatureIdentifiers.AddNewConstructorWithParameterRefactoring, new FeatureState(vsVersion) },
 
                 { FeatureIdentifiers.ChangeAccessModifierRefactoring, new FeatureState(vsVersion) },
@@ -51,7 +51,7 @@ namespace ExperimentalTools.Options
                 { FeatureIdentifiers.AddBraces, new FeatureState(vsVersion) },
                 { FeatureIdentifiers.RemoveBraces, new FeatureState(vsVersion) },
 
-                {FeatureIdentifiers.FieldCanBeMadeReadOnly, new FeatureState(vsVersion, null, new Version(15, 6)) }
+                { FeatureIdentifiers.FieldCanBeMadeReadOnly, new FeatureState(vsVersion, null, new Version(15, 6)) }
             };
         }
     }

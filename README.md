@@ -72,6 +72,8 @@ Ctrl+. on a constructor parameter and choose *Add initialized field*.
 
 ![Initialize field from constructor parameter](art/InitializeFieldFromConstructor.png)
 
+VS 2017 and above provide a similar refactoring out of the box.
+
 ### Initialize field in existing constructor
 
 Ctrl+. on a field and choose *Initialize field in existing constructor*.
