@@ -15,6 +15,12 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
+## 1.3.2
+
+**2019-03-06**
+
+- [x] Fixed a possible crash loading System.IO.FileSystem.Watcher assembly
+
 ## 1.3.1
 
 **2019-03-05**

@@ -3,7 +3,6 @@ using EnvDTE80;
 using ExperimentalTools.Options;
 using ExperimentalTools.Vsix.Features.LocateInSolutionExplorer;
 using ExperimentalTools.Vsix.Features.Options;
-using ExperimentalTools.Workspace;
 using Microsoft;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
