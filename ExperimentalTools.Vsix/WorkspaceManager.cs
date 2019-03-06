@@ -1,11 +1,12 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using ExperimentalTools.Workspace;
+using Microsoft.CodeAnalysis;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace ExperimentalTools.Workspace
+namespace ExperimentalTools.Vsix
 {
     internal class WorkspaceManager
     {
@@ -26,7 +27,9 @@ namespace ExperimentalTools.Workspace
             workspace.WorkspaceChanged += WorkspaceChanged;
             if (workspace.CurrentSolution != null)
             {
+#pragma warning disable VSTHRD110 // Observe result of async calls
                 Task.Run(() => AddToCache(workspace.CurrentSolution));
+#pragma warning restore VSTHRD110 // Observe result of async calls
             }
         }
         
@@ -62,7 +65,9 @@ namespace ExperimentalTools.Workspace
             switch (e.Kind)
             {
                 case WorkspaceChangeKind.SolutionAdded:
+#pragma warning disable VSTHRD110 // Observe result of async calls
                     Task.Run(() => AddToCache(e.NewSolution));
+#pragma warning restore VSTHRD110 // Observe result of async calls
                     break;
                 case WorkspaceChangeKind.SolutionRemoved:
                     StopWatcher();
@@ -72,7 +77,9 @@ namespace ExperimentalTools.Workspace
                     var addedProject = e.NewSolution.Projects.FirstOrDefault(p => p.Id == e.ProjectId);
                     if (addedProject != null)
                     {
+#pragma warning disable VSTHRD110 // Observe result of async calls
                         Task.Run(() => AddToCache(addedProject));
+#pragma warning restore VSTHRD110 // Observe result of async calls
                     }
                     break;
                 case WorkspaceChangeKind.ProjectRemoved:
