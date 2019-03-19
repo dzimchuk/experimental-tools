@@ -13,6 +13,10 @@ A bunch of quality refactorings and code fixes that are going to improve your C#
 
 See the [change log](CHANGELOG.md) for changes and road map.
 
+### Note
+
+As Visual Studio evolves more features get added to it and some of them start duplicating features from this extension. Duplicate features are disabled/removed from this extension to insure the best user experience possible with a given version of Visual Studio. A special note will be given in affected features' descriptions.
+
 ## Features
 
 - Add constructor and initialize field
@@ -72,6 +76,8 @@ Ctrl+. on a constructor parameter and choose *Add initialized field*.
 
 ![Initialize field from constructor parameter](art/InitializeFieldFromConstructor.png)
 
+When there is an existing `readonly` field with the same name as the parameter, the extension will offer to initialize it instead.
+
 VS 2017 and above provide a similar refactoring out of the box.
 
 ### Initialize field in existing constructor
@@ -101,6 +107,8 @@ Analyze if a top level namespace does not match the path of the file where it is
 ![Namespace and file path analyzer](art/NamespaceNormalizationAnalyzer.png)
 
 Note that the code fix currently does not update references.
+
+VS2019 and above provide a corresponding code refactoring out of the box, hence only the analyzer part will remain enabled in those versions.
 
 ### Scaffold xunit data driven tests
 

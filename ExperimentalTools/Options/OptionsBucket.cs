@@ -27,7 +27,7 @@ namespace ExperimentalTools.Options
             return new Dictionary<string, FeatureState>()
             {
                 { FeatureIdentifiers.AddConstructorParameterRefactoring, new FeatureState(vsVersion) },
-                { FeatureIdentifiers.AddInitializedFieldRefactoring, new FeatureState(vsVersion, null, null) },
+                { FeatureIdentifiers.AddInitializedFieldRefactoring, new FeatureState(vsVersion, null, new Version(15, 9)) },
                 { FeatureIdentifiers.AddNewConstructorWithParameterRefactoring, new FeatureState(vsVersion) },
 
                 { FeatureIdentifiers.ChangeAccessModifierRefactoring, new FeatureState(vsVersion) },
@@ -37,7 +37,7 @@ namespace ExperimentalTools.Options
                 { FeatureIdentifiers.RenameFileToMatchTypeNameCodeFix, new FeatureState(vsVersion, null, new Version(14, 9)) },
 
                 { FeatureIdentifiers.NamespaceNormalizationAnalyzer, new FeatureState(vsVersion) },
-                { FeatureIdentifiers.NamespaceNormalizationCodeFix, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.NamespaceNormalizationCodeFix, new FeatureState(vsVersion, null, new Version(15, 9)) },
 
                 { FeatureIdentifiers.FixConstructorNameCodeFix, new FeatureState(vsVersion) },
 

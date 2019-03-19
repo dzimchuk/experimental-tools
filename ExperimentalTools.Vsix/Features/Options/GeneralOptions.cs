@@ -16,7 +16,7 @@ namespace ExperimentalTools.Vsix.Features.Options
 
         [Category(category)]
         [DisplayName("Add initialized field")]
-        [Description("Declare a new field and initialize it from the constructor parameter.")]
+        [Description("Declare a new field and initialize it from the constructor parameter. VS2017 only.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool AddInitializedFieldRefactoring { get; set; }
 
@@ -66,7 +66,7 @@ namespace ExperimentalTools.Vsix.Features.Options
 
         [Category(category)]
         [DisplayName("Change namespace to match file path")]
-        [Description("Change namespace to match file path and default namespace.")]
+        [Description("Change namespace to match file path and default namespace. VS2017 only.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool NamespaceNormalizationCodeFix { get; set; }
 

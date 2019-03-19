@@ -15,6 +15,13 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
+## 1.3.3
+
+**2019-03-**
+
+- [x] Disabled *Add initialized field* refactoring for VS2019 and above.
+- [x] Disabled namespace normalization code fix for VS2019 and above.
+
 ## 1.3.2
 
 **2019-03-06**
