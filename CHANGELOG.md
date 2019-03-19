@@ -17,7 +17,7 @@ on the official Visual Studio extension gallery.
 
 ## 1.3.3
 
-**2019-03-**
+**2019-03-19
 
 - [x] Disabled *Add initialized field* refactoring for VS2019 and above.
 - [x] Disabled namespace normalization code fix for VS2019 and above.
