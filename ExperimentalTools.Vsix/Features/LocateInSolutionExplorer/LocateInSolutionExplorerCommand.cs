@@ -34,11 +34,11 @@ namespace ExperimentalTools.Vsix.Features.LocateInSolutionExplorer
         public static void Initialize(Package package)
         {
             var serviceProvider = (IServiceProvider)package;
-            var commandService = serviceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            var commandService = serviceProvider.GetService(typeof(IMenuCommandService)) as IMenuCommandService /*as OleMenuCommandService*/;
             var dte = serviceProvider.GetService(typeof(DTE)) as DTE2;
 
             var options = ServiceLocator.GetService<IOptions>();
-
+            
             Instance = new LocateInSolutionExplorerCommand(commandService, dte, options);
         }
 
