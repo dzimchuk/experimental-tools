@@ -126,7 +126,7 @@ namespace ExperimentalTools.Vsix
                 var doc = XDocument.Parse(File.ReadAllText(projectFile));
 
                 var targetFramework = doc.Descendants("TargetFramework").FirstOrDefault()?.Value;
-                if (!string.IsNullOrEmpty(targetFramework) && (targetFramework.StartsWith("netcoreapp") || targetFramework.StartsWith("netstandard")))
+                if (!string.IsNullOrEmpty(targetFramework) && (targetFramework.StartsWith("net")))
                 {
                     description.IsDotNetCore = true;
                 }
