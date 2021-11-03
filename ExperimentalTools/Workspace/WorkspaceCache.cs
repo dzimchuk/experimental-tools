@@ -16,6 +16,8 @@ namespace ExperimentalTools.Workspace
 
         public ProjectDescription FindProjectByPath(string path)
         {
+            //SimpleLogger.WriteLine($"Cache stats: By Id: {projectsById.Count}, By Path: {projectsByPath.Count}");
+
             ProjectDescription description;
             if (projectsByPath.TryGetValue(path, out description))
             {

@@ -23,23 +23,19 @@ namespace ExperimentalTools.Roslyn.Features.Namespace
 
         private static DiagnosticSeverity GetSeverity() => DiagnosticSeverity.Warning;
 
-        private readonly GeneratedCodeRecognitionService generatedCodeRecognitionService = new GeneratedCodeRecognitionService();
-
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
         
         public override void Initialize(AnalysisContext context)
         {
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
+            context.EnableConcurrentExecution();
+
             context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.NamespaceDeclaration);
         }
 
         private void AnalyzeNode(SyntaxNodeAnalysisContext context)
         {
             if (!ServiceLocator.GetService<IOptions>().IsFeatureEnabled(FeatureIdentifiers.NamespaceNormalizationAnalyzer))
-            {
-                return;
-            }
-
-            if (generatedCodeRecognitionService.IsGeneratedCode(context))
             {
                 return;
             }
@@ -66,6 +62,8 @@ namespace ExperimentalTools.Roslyn.Features.Namespace
             {
                 return;
             }
+
+            context.Options.InitializeWorkspaceService();
 
             var desiredName = ConstructDesiredName(documentPath, assemblyName);
             if (string.IsNullOrWhiteSpace(desiredName))

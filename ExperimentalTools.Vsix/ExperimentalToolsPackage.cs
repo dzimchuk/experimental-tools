@@ -6,7 +6,6 @@ using ExperimentalTools.Vsix.Features.Options;
 using Microsoft;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
-using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.Diagnostics;
@@ -25,17 +24,12 @@ namespace ExperimentalTools.Vsix
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class ExperimentalToolsPackage : AsyncPackage
     {
-        private WorkspaceManager workspaceManager;
-
         protected override async System.Threading.Tasks.Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             await base.InitializeAsync(cancellationToken, progress);
 
             var componentModel = await GetServiceAsync(typeof(SComponentModel)) as IComponentModel;
             Assumes.Present(componentModel);
-
-            var workspace = componentModel.GetService<VisualStudioWorkspace>();
-            workspaceManager = new WorkspaceManager(workspace);
 
             var dte = await GetServiceAsync(typeof(DTE)) as DTE2;
             Assumes.Present(dte);
