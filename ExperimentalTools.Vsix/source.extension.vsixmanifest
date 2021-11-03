@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="fe00c281-eed0-4c6e-901b-d8b845c82e35" Version="1.3.4" Language="en-US" Publisher="Andrei Dzimchuk" />
+        <Identity Id="fe00c281-eed0-4c6e-901b-d8b845c82e35" Version="1.4.0" Language="en-US" Publisher="Andrei Dzimchuk" />
         <DisplayName>Experimental Tools 2017/2019</DisplayName>
         <Description xml:space="preserve">A bunch of quality refactorings and code fixes that are going to improve your C# development experience in Visual Studio and remove some common pain.</Description>
         <MoreInfo>https://github.com/dzimchuk/experimental-tools</MoreInfo>
