@@ -19,23 +19,18 @@ namespace ExperimentalTools.Roslyn.Features.TypeDeclaration
 
         private static DiagnosticSeverity GetSeverity() => DiagnosticSeverity.Warning;
 
-        private readonly GeneratedCodeRecognitionService generatedCodeRecognitionService = new GeneratedCodeRecognitionService();
-
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
         public override void Initialize(AnalysisContext context)
         {
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
+
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.NamedType);
         }
 
         private void AnalyzeSymbol(SymbolAnalysisContext context)
         {
             if (!ServiceLocator.GetService<IOptions>().IsFeatureEnabled(FeatureIdentifiers.TypeAndDocumentNameAnalyzer))
-            {
-                return;
-            }
-
-            if (generatedCodeRecognitionService.IsGeneratedCode(context))
             {
                 return;
             }

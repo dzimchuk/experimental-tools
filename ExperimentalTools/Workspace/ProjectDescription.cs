@@ -8,6 +8,5 @@ namespace ExperimentalTools.Workspace
         public string Path { get; set; }
         public string AssemblyName { get; set; }
         public string DefaultNamespace { get; set; }
-        public bool IsDotNetCore { get; set; }
     }
 }

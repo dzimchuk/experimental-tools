@@ -98,7 +98,7 @@
     In this example we want to use the <Control><1> binding for the first command defined in
     the Buttons section above, so this is its definition:
     -->
-    <KeyBinding guid="guidExperimentalToolsPackageCmdSet" id="LocateInSolutionExplorerCommandId" editor="guidVSStd97" mod1="Shift Alt" key1="L" />
+    <KeyBinding guid="guidExperimentalToolsPackageCmdSet" id="LocateInSolutionExplorerCommandId" editor="guidVSStd97" mod1="Alt" key1="L" />
   </KeyBindings>
 
   <Symbols>

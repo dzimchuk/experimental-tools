@@ -8,12 +8,20 @@
 
 Features that have a checkmark are complete and available for
 download in the
-[CI build](http://vsixgallery.com/extension/fe00c281-eed0-4c6e-901b-d8b845c82e35/).
+[CI build](http://www.vsixgallery.com/extension/fe00c281-eed0-4c6e-901b-d8b845c82e35/).
 
 # Change log
 
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
+
+## 1.4.0
+
+**2021-11-03
+
+- [x] Updated namespace analyzer to support running in an external process.
+- [x] Changed key binding for *Locate In Solution Explorer* command to Alt+L.
+- [x] Migrated VSIX to [PackageReference](https://docs.microsoft.com/en-us/nuget/consume-packages/migrate-packages-config-to-package-reference) to streamline VS SDK referencing.
 
 ## 1.3.3
 
