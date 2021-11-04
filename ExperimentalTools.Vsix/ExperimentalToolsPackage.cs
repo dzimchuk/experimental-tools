@@ -50,7 +50,7 @@ namespace ExperimentalTools.Vsix
             {
                 var fileVersion = FileVersionInfo.GetVersionInfo(dte.FullName);
                 return new Version(
-                    fileVersion.FileMajorPart != 0 ? fileVersion.FileMajorPart : 17,
+                    fileVersion.FileMajorPart != 0 ? fileVersion.FileMajorPart : OptionsBucket.DefaultMajorVersionNumber,
                     fileVersion.FileMinorPart);
             }
             catch (Exception ex)
