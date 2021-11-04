@@ -8,7 +8,7 @@ namespace ExperimentalTools.Options
         private static Lazy<OptionsBucket> instance = new Lazy<OptionsBucket>(true);
         public static OptionsBucket Instance => instance.Value;
 
-        public static readonly Version DefaultVersion = new Version(15, 0);
+        public static readonly Version DefaultVersion = new Version(17, 0);
 
         public Dictionary<string, FeatureState> Features { get; private set; }
 

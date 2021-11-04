@@ -26,7 +26,7 @@ As Visual Studio evolves more features get added to it and some of them start du
 - Generate GUID (nguid)
 - Initialize field from constructor parameter
 - Initialize field in existing constructor
-- Locate in Solution Explorer (Shift+Alt+L)
+- Locate in Solution Explorer
 - Make it a constructor (when copied from another class)
 - Namespace vs file path analyzer and code fix
 - Scaffold xunit data driven tests
@@ -86,7 +86,7 @@ Ctrl+. on a field and choose *Initialize field in existing constructor*.
 
 ![Initialize field in existing constructor](art/InitializeFieldInExistingConstructor.png)
 
-### Locate in Solution Explorer (Alt+L)
+### Locate in Solution Explorer
 
 There is a standard command in Solution Explorer called 'Sync with Active Document'. People coming from ReSharper will appreciate its Shift+Alt+L equivalent. To avoid conflicts with some internal VS commands ALT+L key binding was chosen by default which can be changed in VS settings if needed.
 

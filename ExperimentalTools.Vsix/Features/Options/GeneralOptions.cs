@@ -18,6 +18,7 @@ namespace ExperimentalTools.Vsix.Features.Options
         [DisplayName("Add initialized field")]
         [Description("Declare a new field and initialize it from the constructor parameter. VS2017 only.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
+        [Browsable(false)]
         public bool AddInitializedFieldRefactoring { get; set; }
 
         [Category(category)]
@@ -68,11 +69,12 @@ namespace ExperimentalTools.Vsix.Features.Options
         [DisplayName("Change namespace to match file path")]
         [Description("Change namespace to match file path and default namespace. VS2017 only.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
+        [Browsable(false)]
         public bool NamespaceNormalizationCodeFix { get; set; }
 
         [Category(category)]
         [DisplayName("Locate in Solution Explorer")]
-        [Description("Provide a context menu command and the key shortcut (Shit+Alt+L) to locate the currently open document in Solution Explorer. It's essentially the same command as 'Sync with Active Document'.")]
+        [Description("Provide a context menu command and the key shortcut to locate the currently open document in Solution Explorer. It's essentially the same command as 'Sync with Active Document'.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool LocateInSolutionExplorerCommand { get; set; }
 
@@ -110,6 +112,7 @@ namespace ExperimentalTools.Vsix.Features.Options
         [DisplayName("Make field readonly")]
         [Description("Make field readonly. Up to VS2017 version 15.6.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
+        [Browsable(false)]
         public bool FieldCanBeMadeReadOnly { get; set; }
         
         public GeneralOptions()
