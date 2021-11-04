@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 using Microsoft.VisualStudio.TextManager.Interop;
-using System.Composition;
+using System.ComponentModel.Composition;
 
 namespace ExperimentalTools.Vsix.Features.GuidGenerator
 {
