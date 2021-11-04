@@ -5,7 +5,7 @@ namespace ExperimentalTools
 {
     public static class SimpleLogger
     {
-        private const string fileName = @"c:\Users\andre\temp\1\out.txt";
+        private const string fileName = @"";
 
         public static void WriteLine(string content, bool writeToDebug = false)
         {
