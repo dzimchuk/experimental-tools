@@ -72,7 +72,7 @@ namespace ExperimentalTools.Vsix.Features.Options
 
         [Category(category)]
         [DisplayName("Locate in Solution Explorer")]
-        [Description("Provide a context menu command and the key shortcut (Shit+Alt+L) to locate the currently open document in Solution Explorer. It's essentially the same command as 'Sync with Active Document'.")]
+        [Description("Provide a context menu command and the key shortcut to locate the currently open document in Solution Explorer. It's essentially the same command as 'Sync with Active Document'.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
         public bool LocateInSolutionExplorerCommand { get; set; }
 
