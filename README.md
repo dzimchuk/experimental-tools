@@ -11,7 +11,7 @@ or get the [CI build](http://www.vsixgallery.com/extension/fe00c281-eed0-4c6e-90
 
 A bunch of quality refactorings and code fixes that are going to improve your C# development experience in Visual Studio and remove some common pain.
 
-See the [change log](CHANGELOG.md) for changes and road map.
+See the [change log](https://github.com/dzimchuk/experimental-tools/blob/master/CHANGELOG.md) for changes and road map.
 
 ### Note
 
@@ -119,8 +119,8 @@ VS 2017 and above provide code refactorings to rename types and file names to ma
 - Type name vs file name code fix (VS 2017 and above provide code refactorings to rename types and file names to match each other out of the box)
 
 ## Contribute
-Check out the [contribution guidelines](CONTRIBUTING.md)
+Check out the [contribution guidelines](https://github.com/dzimchuk/experimental-tools/blob/master/CONTRIBUTING.md)
 if you want to contribute to this project.
 
 ## License
-[MIT](LICENSE)
+[MIT](https://github.com/dzimchuk/experimental-tools/blob/master/LICENSE)
