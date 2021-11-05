@@ -55,5 +55,14 @@ namespace ExperimentalTools.Options
                 { FeatureIdentifiers.FieldCanBeMadeReadOnly, new FeatureState(vsVersion, null, new Version(15, 6)) }
             };
         }
+
+        internal void EnableTestMode()
+        {
+            var features = Features;
+            foreach (var key in features.Keys)
+            {
+                features[key] = new FeatureState(DefaultVersion);
+            }
+        }
     }
 }
