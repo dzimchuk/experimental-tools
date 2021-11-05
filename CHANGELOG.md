@@ -15,6 +15,18 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
+## 1.4.2
+
+**2021-11-04
+
+- [x] Updated descriptions.
+
+## 1.4.1
+
+**2021-11-04
+
+- [x] Disabled debugging messages.
+
 ## 1.4.0
 
 **2021-11-03
