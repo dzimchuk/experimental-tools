@@ -25,6 +25,7 @@ namespace ExperimentalTools.Vsix.Features.Options
         [DisplayName("Add constructor and initialize field")]
         [Description("Add new constructor and initialize field.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
+        [Browsable(false)]
         public bool AddNewConstructorWithParameterRefactoring { get; set; }
 
         [Category(category)]

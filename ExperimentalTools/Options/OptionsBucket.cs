@@ -29,7 +29,7 @@ namespace ExperimentalTools.Options
             {
                 { FeatureIdentifiers.AddConstructorParameterRefactoring, new FeatureState(vsVersion) },
                 { FeatureIdentifiers.AddInitializedFieldRefactoring, new FeatureState(vsVersion, null, new Version(15, 9)) },
-                { FeatureIdentifiers.AddNewConstructorWithParameterRefactoring, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.AddNewConstructorWithParameterRefactoring, new FeatureState(vsVersion, null, new Version(16, 11)) },
 
                 { FeatureIdentifiers.ChangeAccessModifierRefactoring, new FeatureState(vsVersion) },
 
