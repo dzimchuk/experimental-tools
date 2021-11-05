@@ -4,7 +4,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/idvryqpirxbe39gt/branch/master?svg=true)](https://ci.appveyor.com/project/dzimchuk/experimental-tools)
 
 <!-- Update the VS Gallery link after you upload the VSIX-->
-Download this extension from the [VS Marketplace](https://marketplace.visualstudio.com/vsgallery/3c258fda-06c6-4740-b67c-a527a59c3f7b)
+Download this extension from the [VS Marketplace](https://marketplace.visualstudio.com/items?itemName=AndreiDzimchuk.ExperimentalTools64bit)
 or get the [CI build](http://www.vsixgallery.com/extension/fe00c281-eed0-4c6e-901b-d8b845c82e35/).
 
 ---------------------------------------
