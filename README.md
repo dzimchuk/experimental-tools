@@ -5,7 +5,7 @@
 
 <!-- Update the VS Gallery link after you upload the VSIX-->
 Download this extension from the [VS Marketplace](https://marketplace.visualstudio.com/items?itemName=AndreiDzimchuk.ExperimentalTools64bit)
-or get the [CI build](http://www.vsixgallery.com/extension/fe00c281-eed0-4c6e-901b-d8b845c82e35/).
+or get the [CI build](http://www.vsixgallery.com/extension/4ea21f37-c749-42cc-9e24-7dfc4d26fca5/).
 
 ---------------------------------------
 
