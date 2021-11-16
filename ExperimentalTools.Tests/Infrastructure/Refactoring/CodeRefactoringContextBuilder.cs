@@ -1,3 +1,4 @@
+using ExperimentalTools.Options;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.Text;
@@ -32,6 +33,8 @@ namespace ExperimentalTools.Tests.Infrastructure.Refactoring
                 var solution = document.Project.Solution.AddMetadataReferences(document.Project.Id, additionalReferences);
                 document = solution.GetDocument(document.Id);
             }
+
+            OptionsBucket.Instance.EnableTestMode();
 
             return new CodeRefactoringContext(document, GetTextSpan(sources[0]), acceptor.Accept, CancellationToken.None);
         }

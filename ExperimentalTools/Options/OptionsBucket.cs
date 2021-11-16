@@ -8,7 +8,8 @@ namespace ExperimentalTools.Options
         private static Lazy<OptionsBucket> instance = new Lazy<OptionsBucket>(true);
         public static OptionsBucket Instance => instance.Value;
 
-        public static readonly Version DefaultVersion = new Version(15, 0);
+        public const int DefaultMajorVersionNumber = 17;
+        public static readonly Version DefaultVersion = new Version(DefaultMajorVersionNumber, 0);
 
         public Dictionary<string, FeatureState> Features { get; private set; }
 
@@ -28,7 +29,7 @@ namespace ExperimentalTools.Options
             {
                 { FeatureIdentifiers.AddConstructorParameterRefactoring, new FeatureState(vsVersion) },
                 { FeatureIdentifiers.AddInitializedFieldRefactoring, new FeatureState(vsVersion, null, new Version(15, 9)) },
-                { FeatureIdentifiers.AddNewConstructorWithParameterRefactoring, new FeatureState(vsVersion) },
+                { FeatureIdentifiers.AddNewConstructorWithParameterRefactoring, new FeatureState(vsVersion, null, new Version(16, 11)) },
 
                 { FeatureIdentifiers.ChangeAccessModifierRefactoring, new FeatureState(vsVersion) },
 
@@ -53,6 +54,15 @@ namespace ExperimentalTools.Options
 
                 { FeatureIdentifiers.FieldCanBeMadeReadOnly, new FeatureState(vsVersion, null, new Version(15, 6)) }
             };
+        }
+
+        internal void EnableTestMode()
+        {
+            var features = Features;
+            foreach (var key in features.Keys)
+            {
+                features[key] = new FeatureState(DefaultVersion);
+            }
         }
     }
 }

@@ -103,7 +103,7 @@
 
   <Symbols>
     <!-- This is the package guid. -->
-    <GuidSymbol name="guidExperimentalToolsPackage" value="{fe00c281-eed0-4c6e-901b-d8b845c82e35}" />
+    <GuidSymbol name="guidExperimentalToolsPackage" value="{4ea21f37-c749-42cc-9e24-7dfc4d26fca5}" />
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidExperimentalToolsPackageCmdSet" value="{19e14031-1353-4195-87d9-e5657920db5c}">

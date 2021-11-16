@@ -15,6 +15,13 @@ download in the
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
+## 2.0.0
+
+**2021-11-05
+
+- [x] Retargeted to Visual Studio 2022.
+- [x] Deactivated features that duplicate built-in refactorings.
+
 ## 1.4.2
 
 **2021-11-04

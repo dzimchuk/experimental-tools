@@ -12,21 +12,21 @@ namespace ExperimentalTools.Vsix.Features.GuidGenerator
     internal class ViewCreationListener : IVsTextViewCreationListener
     {
         [Import]
-        internal IVsEditorAdaptersFactoryService adapterService = null;
+        internal IVsEditorAdaptersFactoryService AdapterService { get; set; } = null;
 
         [Import]
-        internal IOptions options = null;
+        internal IOptions Options { get; set; } = null;
 
         public void VsTextViewCreated(IVsTextView textViewAdapter)
         {
-            var textView = adapterService.GetWpfTextView(textViewAdapter);
+            var textView = AdapterService.GetWpfTextView(textViewAdapter);
             if (textView == null)
             {
                 return;
             }
 
             textView.Properties.GetOrCreateSingletonProperty(
-                () => new CommandHandler(textViewAdapter, textView, options));
+                () => new CommandHandler(textViewAdapter, textView, Options));
         }
     }
 }

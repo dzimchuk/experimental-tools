@@ -18,12 +18,14 @@ namespace ExperimentalTools.Vsix.Features.Options
         [DisplayName("Add initialized field")]
         [Description("Declare a new field and initialize it from the constructor parameter. VS2017 only.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
+        [Browsable(false)]
         public bool AddInitializedFieldRefactoring { get; set; }
 
         [Category(category)]
         [DisplayName("Add constructor and initialize field")]
         [Description("Add new constructor and initialize field.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
+        [Browsable(false)]
         public bool AddNewConstructorWithParameterRefactoring { get; set; }
 
         [Category(category)]
@@ -68,6 +70,7 @@ namespace ExperimentalTools.Vsix.Features.Options
         [DisplayName("Change namespace to match file path")]
         [Description("Change namespace to match file path and default namespace. VS2017 only.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
+        [Browsable(false)]
         public bool NamespaceNormalizationCodeFix { get; set; }
 
         [Category(category)]
@@ -110,6 +113,7 @@ namespace ExperimentalTools.Vsix.Features.Options
         [DisplayName("Make field readonly")]
         [Description("Make field readonly. Up to VS2017 version 15.6.")]
         [TypeConverter(typeof(EnabledDisabledConverter))]
+        [Browsable(false)]
         public bool FieldCanBeMadeReadOnly { get; set; }
         
         public GeneralOptions()
